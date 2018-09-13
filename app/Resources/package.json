@@ -1,0 +1,12 @@
+{
+  "name": "issuetracker",
+  "version": "1.0.0",
+  "description": "IssueTracker",
+  "author": "Autor <author@gmail.com>",
+  "dependencies": {
+    "uglify-js": "^2.7.5",
+    "uglifycss": "~0.0",
+    "less": "~2.4"
+  },
+  "engine": "node >= 0.4.1 < 0.12"
+}

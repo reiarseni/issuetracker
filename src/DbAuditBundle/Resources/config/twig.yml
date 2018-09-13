@@ -1,0 +1,14 @@
+parameters:
+  db_audit.twig_extension.class: DbAuditBundle\Twig\AuditExtension
+
+services:
+  db_audit.twig_extension:
+    class:  '%db_audit.twig_extension.class%'
+    arguments: ["@router"]
+    tags:
+      - { name: twig.extension }
+
+  db_audit_utils.twig_extension:
+    class:  DbAuditBundle\Twig\UtilsExtension
+    tags:
+     - { name: twig.extension }

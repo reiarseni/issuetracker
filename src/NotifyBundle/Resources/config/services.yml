@@ -1,0 +1,6 @@
+services:
+  notificacion.event_subscriber:
+    class: NotifyBundle\EventListener\NotifySubscriber
+    arguments: ["@doctrine.orm.entity_manager","@router"]
+    tags:
+      - { name: "kernel.event_subscriber" }

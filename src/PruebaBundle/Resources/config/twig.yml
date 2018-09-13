@@ -1,0 +1,9 @@
+parameters:
+  prueba.twig_extension.class: PruebaBundle\Twig\AuditExtension
+
+services:
+  prueba.twig_extension:
+    class:  '%prueba.twig_extension.class%'
+    arguments: ["@router"]
+    tags:
+      - { name: twig.extension }

@@ -1,0 +1,9 @@
+parameters:
+  pager.twig_extension.class: PagerBundle\Twig\PaginationExtension
+
+services:
+  pager.twig_extension:
+    class:  '%pager.twig_extension.class%'
+    arguments: ["@router"]
+    tags:
+      - { name: twig.extension }

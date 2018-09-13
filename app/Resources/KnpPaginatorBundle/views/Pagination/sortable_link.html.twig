@@ -1,0 +1,14 @@
+<a{% for attr, value in options %} {{ attr }}="{{ value }}"{% endfor %}>
+{% for attr, value in options %}
+    {% set class = 'sortable' %}
+    {% if attr == 'class' and value == 'asc' %}
+        <i class="fa fa-sort-amount-asc"></i>
+    {% elseif attr == 'class' and value == 'desc' %}
+        <i class="fa fa-sort-amount-desc"></i>
+    {% elseif attr == 'class' %}
+        <i class="fa fa-sort"></i>
+    {% endif %}
+
+{% endfor %}
+ {{ title }}
+</a>

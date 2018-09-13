@@ -1,0 +1,23 @@
+{% for entity in entities %}
+
+    <li>
+        <a href="{{ entity.url and entity.url.name is defined ? url(entity.url.name,entity.url.params) : '#' }}">
+            <div>
+                {{ entity.showText }}
+                <span class="pull-right text-muted small">{{ entity.createdAt | date('d/m/Y H:i:s') }}</span>
+            </div>
+        </a>
+    </li>
+    <li class="divider"></li>
+
+{% endfor %}
+
+    <li>
+        <div class="text-center link-block">
+            <a href="{{ path('notify_index') }}">
+                <strong>See All Activity</strong>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </div>
+    </li>
+

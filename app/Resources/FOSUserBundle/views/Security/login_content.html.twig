@@ -1,0 +1,38 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+        <div class="login-brand text-center">
+          <h3> Welcome to IssueTracker </h3>
+        </div>
+
+        {% if error %}
+            <div class="alert alert-danger fade in">
+                <button data-dismiss="alert" class="close">
+                    ×
+                </button>
+                <i class="fa-fw fa fa-times"></i>
+                {{ error.messageKey|trans(error.messageData, 'security') }}
+            </div>
+
+        {% endif %}
+
+        <form action="{{ path("fos_user_security_check") }}" method="post">
+
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}"/>
+            {% endif %}
+
+            <div class="form-group m-bottom-md">
+                <input type="text" class="form-control" id="username" name="_username"
+                       autocomplete="off" required="required" value="{{ last_username }}" placeholder="User"/>
+            </div>
+
+            <div class="form-group">
+                <input type="password" id="password" name="_password" required="required"
+                       class="form-control" autocomplete="off" placeholder="Password"/>
+            </div>
+
+            <div class="m-top-md p-top-sm">
+                <button class="btn btn-success block full-width" name="_submit" id="_submit" type="submit">Login</button>
+            </div>
+
+        </form>

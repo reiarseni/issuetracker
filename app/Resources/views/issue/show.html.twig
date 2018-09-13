@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IssueTracker | Show Issue{% endblock %}
+
+{% block headers %}Show Issue:<b> {{ issue }} </b> {% endblock %}
+
+{% block headers_links %}
+    <a class="btn btn-warning btn-xs" href="{{ path('issue_edit', {'id':issue.id}) }}"><i class="fa fa-edit"></i> Edit</a>
+    <a class="btn btn-info btn-xs" href="{{ path('issue_index') }}"><i class="fa fa-mail-reply-all"></i> Issues List</a>
+    <a class="btn btn-primary btn-xs" href="{{ path('issue_new') }}"><i class="fa fa-plus"></i> New Issue</a>
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+
+
+                        <div class="row">
+                        <div class="col-lg-3">Type: <b>{{ issue.type }}</b></div>
+                        <div class="col-lg-3">Category: <b>{{ issue.category }}</b></div>
+                        <div class="col-lg-3">Priority: <b>{{ issue.priority }}</b></div>
+                        <div class="col-lg-3">Status: <b>{{ issue.status }}</b></div>
+
+                        <div class="col-lg-3">Reportado por: <b>{{ issue.reportedBy }}</b></div>
+                        <div class="col-lg-3">Asignado a: <b>{{ issue.assignedTo }}</b></div>
+                        <div class="col-lg-3">Horas Estimadas: <b>{{ issue.estimatedHours }}</b></div>
+                        <div class="col-lg-3">Horas Reales: <b>{{ issue.actualHours }}</b></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                       {{ issue.content | raw }}
+                    </div>
+                </div>
+            </div>
+
+
+            {% for comment in issue.comments %}
+
+            <div class="col-md-12" style="margin-left: 6%; width: 94%">
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+
+                            <h4>
+                                {# <span class="label label-success">#}
+                                Author:  <strong>{{ comment.createdBy }}</strong>
+                                Type: <strong>{{ comment.commentType }}</strong>
+                                Date: <strong>{{ comment.createdAt | date('d/m/Y') }}</strong>
+                                {# </span>#}
+
+                                <div aria-label="..." role="group" class="btn-group  pull-right">
+
+                                    <a class="btn btn-warning  btn-sm" href="{{ path('issue_comment_edit', { 'issue': issue.id, 'id': comment.id }) }}"><i
+                                                class="fa fa-pencil"></i> Editar</a>
+
+                                </div>
+
+                            </h4>
+
+
+
+                    </div>
+                    <div class="ibox-content">
+
+                             <div  style="">
+                                 <a name="comment_{{ comment.id }}"></a>
+                                 {{ comment.content | raw }}
+                             </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+
+                <div class="post-comment">
+                    <p>No existen commentarios</p>
+                </div>
+
+            {% endfor %}
+
+            <div class="col-md-12" style="margin-left: 6%; width: 94%">
+            {{ render(controller('AppBundle:Issue:newComment', {'issue': issue.id})) }}
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+    {% block javascripts %}
+        {{ tinymce_init() }}
+    {% endblock %}

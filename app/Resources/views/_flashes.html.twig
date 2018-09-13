@@ -1,0 +1,82 @@
+{% macro flash(type, message, close, use_raw, class, domain) %}
+    <div class="alert {{ type ? ' alert-'~type : '' }} alert-dismissible fade in">
+        {% if close|default(false) %}
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        {% endif %}
+        {% spaceless %}
+            {% if type == 'danger' %}
+
+                <i class="icon fa fa-ban"></i>  <strong>Peligro!</strong>
+                {% if use_raw|default(false) %}
+                    {{ message|trans({}, domain|default('messages'))|raw }}
+                {% else %}
+                    {{ message|trans({}, domain|default('messages')) }}
+                {% endif %}
+
+            {% elseif type == 'warning' %}
+
+                <i class="icon fa fa-warning"></i>  <strong>Alerta!</strong>
+                {% if use_raw|default(false) %}
+                    {{ message|trans({}, domain|default('messages'))|raw }}
+                {% else %}
+                    {{ message|trans({}, domain|default('messages')) }}
+                {% endif %}
+
+
+            {% elseif type == 'info' %}
+
+                <i class="icon fa fa-info"></i>  <strong>Información!</strong>
+                {% if use_raw|default(false) %}
+                    {{ message|trans({}, domain|default('messages'))|raw }}
+                {% else %}
+                    {{ message|trans({}, domain|default('messages')) }}
+                {% endif %}
+
+            {% elseif type == 'success' %}
+
+                <i class="icon fa fa-check"></i>  <strong>OK!</strong>
+                {% if use_raw|default(false) %}
+                    {{ message|trans({}, domain|default('messages'))|raw }}
+                {% else %}
+                    {{ message|trans({}, domain|default('messages')) }}
+                {% endif %}
+
+            {% endif %}
+        {% endspaceless %}
+    </div>
+{% endmacro %}
+
+{% macro advanced_flash(type, heading, message, close_tag, use_raw, class, domain) %}
+    <div class="alert{{ type ? ' alert-'~type : '' }} fade in {{ class|default('') }} {% if close_tag|default(false) %}alert-dismissable{% endif %}">
+        {% if close_tag|default(false) %}
+            {% if close_tag == true %}
+                {% set close_tag = 'a' %}
+            {% endif %}
+            <{{ close_tag }} class="close" data-dismiss="alert" aria-hidden="true" {% if close_tag == 'a' %}href="#"{% elseif close_tag =='button' %}type="button"{% endif %}>&times;</{{ close_tag }}>
+        {% endif %}
+        {% if heading|default(false) %}
+            <h4 class="alert-heading">{{ heading }}</h4>
+        {% endif %}
+        {% if use_raw|default(false) %}
+            {{ message|trans({}, domain|default('messages'))|raw }}
+        {% else %}
+            {{ message|trans({}, domain|default('messages')) }}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro session_flash(close, use_raw, class, domain) %}
+    {% import _self as flash_messages %}
+
+    {% if app.session.flashbag.peekAll|length > 0 %}
+        {% for type, messages in app.session.flashbag.all %}
+            {% for message in messages %}
+                {% if type == 'fos_user_success' %}
+                    {% set type = 'success' %}
+                    {% set domain = 'FOSUserBundle' %}
+                {% endif %}
+                {{ flash_messages.flash(type, message, close, use_raw, class, domain) }}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}

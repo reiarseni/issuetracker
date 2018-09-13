@@ -1,0 +1,20 @@
+{% block stylesheets %}
+
+   {# <link href="{{ asset('assets_css_js_img/vendor/select2/css/select2.min.css') }}" rel="stylesheet" type="text/css" media="screen"/>#}
+    <link href="{{ asset('assets/vendor/DataTables/media/css/dataTables.bootstrap.css') }}" rel="stylesheet" type="text/css" media="screen"/>
+
+{% endblock %}
+
+{% block javascripts %}
+
+   {# <script type="text/javascript" src={{ asset('assets_css_js_img/vendor/select2/js/select2.min.js') }}></script>#}
+    <script type="text/javascript" src={{ asset('assets/vendor/DataTables/media/js/jquery.dataTables.min.js') }}></script>
+    <script type="text/javascript" src={{ asset('assets/vendor/DataTables/media/js/dataTables.bootstrap.js') }}></script>
+    <script type="text/javascript" src={{ asset('assets/table-advanced.js') }}></script>
+    <script type="text/javascript" src={{ asset('assets/delete.js') }}></script>
+
+    <!-- fos js routing -->
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+{% endblock %}

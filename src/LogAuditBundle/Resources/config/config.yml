@@ -1,0 +1,22 @@
+debug: false
+timezone: "Europe/Zurich"
+dateFormat: d.m.Y, H:i:s
+display_logger: true
+logs:
+    Demo:
+        Demo-Log-File:
+            type: local
+            path: /home/reinaldo/htdocs/www/monolog-viewer/tests/SyonixLogViewer/res/test.log
+        Planillas:
+            type: local
+            path: /home/reinaldo/htdocs/www/planillas.corpglez/app/logs/dev.log
+        IssueTracker:
+            type: local
+            path: /home/reinaldo/htdocs/www/issuetracker/var/logs/dev.log
+    Acme:
+        Acme App:
+            type: ftp
+            host: acme.com
+            username: logs
+            password: $upersecur3
+            path: app/logs/prod.log

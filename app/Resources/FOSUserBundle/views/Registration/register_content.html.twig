@@ -1,0 +1,9 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<h3 class="form-title">Inserte sus datos</h3>
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+{{ form_widget(form) }}
+
+<div class="form-actions">    
+    <button type="submit" id="_submit" class="btn green-haze pull-right" name="_submit" >{{ 'registration.submit'|trans }} +</button>
+</div><br>
+{{ form_end(form) }}

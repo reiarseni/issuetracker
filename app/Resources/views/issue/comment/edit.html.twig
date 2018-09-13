@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IssueTracker | Edit Comment{% endblock %}
+
+{% block headers %}Edit Comment{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Edit Comment</h5>
+
+                        <a class="btn btn-xs btn-primary btn-rounded pull-right"
+                           href="{{ path('issue_show',{'id':issue.id}) }}"><i class="fa fa-mail-reply-all"></i> Cancelar y volver
+                            al Issue</a>
+
+                    </div>
+                    <div id="ibox_form" class="ibox-content">
+                        <div id="emsg" class="alert alert-danger" style="display: none;">
+                            <span id="emsgbody"></span>
+                        </div>
+
+                        {% include 'issue/comment/_form.html.twig' with {'form': form, 'action_type' : 'button.edit'} %}
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ tinymce_init() }}
+{% endblock %}

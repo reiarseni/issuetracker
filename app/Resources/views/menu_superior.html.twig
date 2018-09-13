@@ -1,0 +1,62 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-fixed-top white-bg" role="navigation" style="margin-bottom: 0">
+
+
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary btn-flat" href="#"><i class="fa fa-dedent"></i> </a>
+
+        </div>
+
+        <ul class="nav navbar-top-links navbar-right hidden-xs">
+
+            <li>
+                <form class="navbar-form full-width" method="get" action="{{ path('issue_searchbynumber') }}">
+                    <div class="form-group">
+                        <input class="form-control" name="number" placeholder="Buscar Issues (Codigo)" type="text">
+                        <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
+                    </div>
+                </form>
+            </li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" id="get_activity" href="#" aria-expanded="true">
+                    <i class="fa fa-bell"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-alerts" id="activity_loaded">
+
+                    <li id="activity_wait">
+                        <div class="text-center link-block">
+                            <a href="javascript:void(0)">
+                                <strong>Por favor, espere...</strong> <br> <br>
+                                <img class="text-center" src="{{ asset('assets/imgs/download.gif') }}" alt="Loading....">
+
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li class="dropdown navbar-user">
+
+                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+
+                    <img src="{{ asset('assets/imgs/default-user-avatar.png') }}" class="img-circle" alt="Administrator">
+
+                    <span class="hidden-xs"> {{ app.user.username }} </span> <b class="caret"></b>
+                </a>
+
+                <ul class="dropdown-menu animated fadeIn">
+                    <li class="arrow"></li>
+                    <li><a href="#">Editar Perfil</a></li>
+                    <li><a href="{{ path('fos_user_change_password', {'id': app.user.id }) }}">Cambiar Contraseña</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ path('logout') }}">Desconectar</a></li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+    </nav>
+</div>

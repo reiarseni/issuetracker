@@ -1,0 +1,5 @@
+{% if blame %}
+  by {{ db_audit_assoc(blame) }}
+{% else %}
+  by <strong>power user or task runner.</strong>
+{% endif %}

@@ -1,0 +1,13 @@
+{{ form_start(form) }}
+
+<div class="row">
+
+    <div class="col-lg-12">{{ form_widget(form.commentType) }}</div>
+    <hr>
+    <div class="col-lg-12">{{ form_widget(form.content) }}</div>
+
+</div>
+
+<button class="btn btn-primary btn-sm btn-flat" type="submit">{{ action_type |trans }}</button>
+
+{{ form_end(form) }}

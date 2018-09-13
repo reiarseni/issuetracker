@@ -1,0 +1,80 @@
+/* @license
+ * MyFonts Webfont Build ID 2630986, 2013-08-27T10:37:15-0400
+ *
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s') entered into by the website owner. All other parties are
+ * explicitly restricted from using the Licensed Webfonts(s').
+ *
+ * You may obtain a valid license at the URLs below.
+ *
+ * Webfont: Flexo Light by Durotype
+ * URL: http://www.myfonts.com/fonts/durotype/flexo/light/
+ *
+ * Webfont: Flexo Light Italic by Durotype
+ * URL: http://www.myfonts.com/fonts/durotype/flexo/light-italic/
+ *
+ * Webfont: Flexo Bold by Durotype
+ * URL: http://www.myfonts.com/fonts/durotype/flexo/bold/
+ *
+ * Webfont: Flexo Bold Italic by Durotype
+ * URL: http://www.myfonts.com/fonts/durotype/flexo/bold-italic/
+ *
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=2630986
+ * Licensed pageviews: 500,000
+ * Webfonts copyright: Copyright &#x00A9; 2011-2012 Durotype, www.durotype.com. All rights reserved.
+ *
+ * Â© 2013 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work */
+@import (css) url('"//hello.myfonts.net/count/28254a"');
+
+
+@font-face
+{
+    font-family: 'FlexoWebfont';
+    src:url('webfonts/28254A_0_0.eot');
+    src:url('webfonts/28254A_0_0.eot?#iefix') format('embedded-opentype'),
+    url('webfonts/28254A_0_0.woff') format('woff'),
+    url('webfonts/28254A_0_0.ttf') format('truetype'),
+    url('webfonts/282578_0_0.svg') format('svg');
+    font-weight: bold; /* Bold */
+    font-style: italic;
+}
+
+@font-face
+{
+    font-family: 'FlexoWebfont';
+    src:url('webfonts/28254A_E_0.eot');
+    src:url('webfonts/28254A_E_0.eot?#iefix') format('embedded-opentype'),
+    url('webfonts/28254A_E_0.woff') format('woff'),
+    url('webfonts/28254A_E_0.ttf') format('truetype'),
+    url('webfonts/282578_E_0.svg') format('svg');
+    font-weight: bold; /* Bold */
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: 'FlexoWebfont';
+    src:url('webfonts/28254A_6_0.eot');
+    src:url('webfonts/28254A_6_0.eot?#iefix') format('embedded-opentype'),
+    url('webfonts/28254A_6_0.woff') format('woff'),
+    url('webfonts/28254A_6_0.ttf') format('truetype'),
+    url('webfonts/282578_6_0.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face
+{
+    font-family: 'FlexoWebfont';
+    src:url('webfonts/28254A_9_0.eot');
+    src:url('webfonts/28254A_9_0.eot?#iefix') format('embedded-opentype'),
+    url('webfonts/28254A_9_0.woff') format('woff'),
+    url('webfonts/28254A_9_0.ttf') format('truetype'),
+    url('webfonts/282578_9_0.svg') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}

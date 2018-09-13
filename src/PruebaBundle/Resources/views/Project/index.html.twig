@@ -1,0 +1,233 @@
+{% extends "PruebaBundle::layout.html.twig" %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h1>Paginated project list</h1>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{ sorter_link(projects, "p.code", "Code") }}</th>
+            <th>{{ sorter_link(projects, "p.name", "Name") }}</th>
+            <th>{{ sorter_link(projects, "p.hoursSpent", "Hours Spent") }}</th>
+            <th>{{ sorter_link(projects, "l.code", "Language") }}</th>
+            <th>{{ sorter_link(projects, "p.enabled", "Active") }}</th>
+        </tr>
+
+        <tr role="row" class="filter">
+            <td></td>
+            <td>{{ filter_search(projects, "p.code") }}</td>
+            <td>{{ filter_search(projects, "p.name") }}</td>
+            <td>{{ filter_select(projects, "p.hoursSpent", spentTimeGroups) }}</td>
+            <td>{{ filter_select(projects, "l.name", languages) }}</td>
+            <td>{{ filter_select(projects, "p.enabled", enableds) }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+            <tr>
+                <td class='id'>
+                    <i class="fa {% if project.enabled %}fa-check text-success{% else %}fa-times text-muted{% endif %}"></i>
+                    {{ project.id }}
+                </td>
+
+                <td class='editable' data-campo='code' data-type='input'>
+                    <span><a class='link'>{{ project.code }}</a></span>
+                </td>
+
+                <td>{{ project.name }}</td>
+                {% if project.isOverDeadline %}
+                    <td class='editable text-danger' data-campo='hoursSpent' data-type='input'>
+                        <span><a class='link'>{{ project.hoursSpent }}</a></span>
+                    </td>
+                {% else %}
+                    <td class='editable text-success' data-campo='hoursSpent' data-type='input'>
+                        <span><a class='link'>{{ project.hoursSpent }}</a></span>
+                    </td>
+                {% endif %}
+                <td class='editable' data-campo='language' data-type='select' data-clase='Language'
+                    data-id='{{ project.language.id }}'>
+                    <span><a class='link'>{{ project.language.name }}</a></span>
+                </td>
+                <td>
+                    <a href="{{ path("project_toggle", projects.query|merge({id: project.id})) }}"
+                       class="btn btn-xs btn-default">
+                        {% if project.enabled %}Disable{% else %}Enable{% endif %}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="panel-footer">
+        {{ pagination(projects) }}
+    </div>
+
+{% endblock %}
+
+
+{% block cs %}
+
+    <style type="text/css">
+
+
+        .editable span {
+            display: block;
+        }
+
+        .editable span:hover {
+            background: url({{asset('img/edit.png')}}) 30% 0 no-repeat;
+            cursor: pointer
+        }
+
+        a.link {
+            text-decoration: none;
+            border-bottom: thin dashed;
+        }
+
+        td input {
+            height: 24px;
+            width: 120px;
+            border: 1px solid #ddd;
+            padding: 0 5px;
+            margin: 0;
+            border-radius: 6px;
+            vertical-align: middle
+        }
+
+        td select {
+            height: 24px;
+            width: 120px;
+            border: 1px solid #ddd;
+            padding: 0 5px;
+            margin: 0;
+            border-radius: 6px;
+            vertical-align: middle
+        }
+
+        a.enlace {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin: 0 0 0 5px;
+            overflow: hidden;
+            text-indent: -999em;
+            vertical-align: middle
+        }
+
+        .guardar {
+            background: url({{asset('img/save.png')}}) 0 0 no-repeat
+        }
+
+        .cancelar {
+            background: url({{asset('img/cancel.png')}}) 0 0 no-repeat
+        }
+
+        .mensaje {
+            display: block;
+            text-align: center;
+            margin: 0 0 20px 0
+        }
+
+        .ok {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            background: green;
+            color: #fff
+        }
+
+        .ko {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            background: red;
+            color: #fff
+        }
+
+    </style>
+
+{% endblock %}
+
+
+{% block js %}
+    <script>
+
+        $(document).ready(function () {
+
+            var td, campo, valor, id;
+            $(document).on("click", "td.editable span", function (e) {
+
+                e.preventDefault();
+                $("td:not(.id)").removeClass("editable");
+                td = $(this).closest("td");
+                campo = $(this).closest("td").data("campo");
+                valor = $(this).text();
+                id = $(this).closest("tr").find(".id").text();
+
+                var type = $(this).closest("td").data("type");
+
+                if (type === 'select') {
+
+                    var clase = $(this).closest("td").data("clase");
+                    var selectedId = $(this).closest("td").data("id");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "projects/inlineedit/getselect",
+                        data: {clase: clase, selectedId: selectedId}
+                    })
+                        .done(function (response) {
+                            td.text("").html(response + "<a class='enlace guardar' href='#'>Guardar</a><a class='enlace cancelar' href='#'>Cancelar</a>");
+                        });
+
+                } else if (type === 'input') {
+                    td.text("").html("<input type='text' name='" + campo + "' value='" + valor + "'><a class='enlace guardar' href='#'>Guardar</a><a class='enlace cancelar' href='#'>Cancelar</a>");
+                }
+
+            });
+
+            $(document).on("click", ".cancelar", function (e) {
+                e.preventDefault();
+                td.html("<span><a class='link'>" + valor + "</a></span>");
+                $("td:not(.id)").addClass("editable");
+            });
+
+            $(document).on("click", ".guardar", function (e) {
+                $(".mensaje").html("<img src='{{ asset('img/loading.gif') }}'>");
+                e.preventDefault();
+
+                var type = $(this).closest("td").data("type");
+
+                if (type === 'select') {
+                    nuevovalor = $(this).closest("td").find("select option:selected").text();
+                    strValue = $(this).closest("td").find("select").val();
+                } else if (type === 'input') {
+                    nuevovalor = $(this).closest("td").find("input").val();
+                    strValue = nuevovalor;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "projects/inlineedit",
+                    data: {field: campo, value: strValue, id: id}
+                })
+                    .done(function (msg) {
+                        console.log(msg);
+                        $(".mensaje").html(msg);
+                        td.html("<span><a class='link'>" + nuevovalor + "</a></span>");
+                        $("td:not(.id)").addClass("editable");
+                        setTimeout(function () {
+                            $('.ok,.ko').fadeOut('fast');
+                        }, 100);
+                    });
+            });
+
+        });
+
+    </script>
+{% endblock %}

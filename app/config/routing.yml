@@ -1,0 +1,84 @@
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"
+
+dashboard:
+    resource: "@AppBundle/Controller/DashBoardController.php"
+    type: annotation
+    prefix: /
+
+user:
+    resource: "@AppBundle/Controller/UsersController.php"
+    type: annotation
+    prefix: /
+
+issue:
+    resource: "@AppBundle/Controller/IssueController.php"
+    type: annotation
+    prefix: /
+
+
+config:
+    resource: "@AppBundle/Controller/ConfigController.php"
+    type: annotation
+    prefix: /
+
+upload:
+    resource: "@AppBundle/Controller/UploaderController.php"
+    type: annotation
+    prefix: /
+
+download:
+    resource: "@AppBundle/Controller/DownloaderController.php"
+    type: annotation
+    prefix: /
+
+auditlog:
+    resource: "@LogAuditBundle/Controller/LogAuditController.php"
+    type: annotation
+    prefix: /
+
+#fos_user:
+#    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
+#fos_user_reg:
+#    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+
+fos_user_sec:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+
+fos_user_pas:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+
+fos_user_prof:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+
+db_audit:
+    resource: "@DbAuditBundle/Controller/AuditController.php"
+    type: annotation
+    prefix: /
+
+project:
+    resource: "@PruebaBundle/Controller/ProjectController.php"
+    type: annotation
+    prefix: /
+
+issues:
+    resource: "@PruebaBundle/Controller/IssueController.php"
+    type: annotation
+    prefix: /
+
+notify:
+    resource: "@NotifyBundle/Controller/NotifyController.php"
+    type: annotation
+    prefix: /
+
+login:
+    path: /login
+
+logout:
+    path: /logout
+
+easy_admin_bundle:
+    resource: "@EasyAdminBundle/Controller/AdminController.php"
+    type:     annotation
+    prefix:   /easyadmin

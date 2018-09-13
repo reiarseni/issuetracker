@@ -1,0 +1,249 @@
+{% extends "PruebaBundle::layout.html.twig" %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h1>Paginated project list</h1>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>{{ sorter_link(issues, "i.number", "Numero") }}</th>
+            <th>{{ sorter_link(issues, "i.title", "Titulo") }}</th>
+            <th>{{ sorter_link(issues, "c.name", "Category") }}</th>
+            <th>{{ sorter_link(issues, "s.name", "IssueStatus") }}</th>
+            <th>{{ sorter_link(issues, "p.name", "IssuePriority") }}</th>
+            <th>{{ sorter_link(issues, "t.name", "IssueType") }}</th>
+        </tr>
+
+        <tr role="row" class="filter">
+            <th></th>
+            <td>{{ filter_search(issues, "i.number") }}</td>
+            <td>{{ filter_search(issues, "i.title") }}</td>
+            <td>{{ filter_select(issues, "i.category", categories) }}</td>
+            <td>{{ filter_select(issues, "i.status", statuses) }}</td>
+            <td>{{ filter_select(issues, "i.priority", priorities) }}</td>
+            <td>{{ filter_select(issues, "i.type", types) }}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for issue in issues %}
+            <tr>
+
+                <td class='id' class="">
+                    {{ issue.id }}
+                </td>
+
+                <td class='editable' data-campo='number' data-type='input'>
+                    <span><a class='link'>{{ issue.number }}</a></span>
+                </td>
+
+                <td class='editable' data-campo='title' data-type='input'>
+                    <span><a class='link'>{{ issue.title }}</a></span>
+                </td>
+
+                <td class='editable' data-campo='category' data-type='select' data-clase='Category'
+                    data-id='{{ issue.category.id }}'>
+                    <span><a class='link'>{{ issue.category.name }}</a></span>
+                </td>
+
+                <td class='editable' data-campo='status' data-type='select' data-clase='IssueStatus'
+                    data-id='{{ issue.status.id }}'>
+                    <span><a class='link'>{{ issue.status.name }}</a></span>
+                </td>
+
+                <td class='editable' data-campo='priority' data-type='select' data-clase='IssuePriority'
+                    data-id='{{ issue.priority.id }}'>
+                    <span><a class='link'>{{ issue.priority.name }}</a></span>
+                </td>
+
+                <td class='editable' data-campo='type' data-type='select' data-clase='IssueType'
+                    data-id='{{ issue.type.id }}'>
+                    <span><a class='link'>{{ issue.type.name }}</a></span>
+                </td>
+
+               {# <td>
+                    <a href="{{ path("project_toggle", projects.query|merge({id: project.id})) }}"
+                       class="btn btn-xs btn-default"> Ver
+                    </a>
+                </td>#}
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="panel-footer">
+        {{ pagination(issues) }}
+    </div>
+
+{% endblock %}
+
+
+{% block cs %}
+
+    <style type="text/css">
+
+
+        .editable span {
+            display: block;
+        }
+
+        .editable span:hover {
+            background: url({{asset('img/edit.png')}}) 30% 0 no-repeat;
+            cursor: pointer
+        }
+
+        a.link {
+            text-decoration: none;
+            border-bottom: thin dashed;
+        }
+
+        td input {
+            height: 24px;
+           /* width: 120px;*/
+            border: 1px solid #ddd;
+            padding: 0 5px;
+            margin: 0;
+            border-radius: 6px;
+            vertical-align: middle
+        }
+
+        td select {
+            height: 24px;
+            width: 120px;
+            border: 1px solid #ddd;
+            padding: 0 5px;
+            margin: 0;
+            border-radius: 6px;
+            vertical-align: middle
+        }
+
+        a.enlace {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            margin: 0 0 0 5px;
+            overflow: hidden;
+            text-indent: -999em;
+            vertical-align: middle
+        }
+
+        .guardar {
+            background: url({{asset('img/save.png')}}) 0 0 no-repeat
+        }
+
+        .cancelar {
+            background: url({{asset('img/cancel.png')}}) 0 0 no-repeat
+        }
+
+        .mensaje {
+            display: block;
+            text-align: center;
+            margin: 0 0 20px 0
+        }
+
+        .ok {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            background: green;
+            color: #fff
+        }
+
+        .ko {
+            display: block;
+            padding: 10px;
+            text-align: center;
+            background: red;
+            color: #fff
+        }
+
+    </style>
+
+{% endblock %}
+
+
+{% block js %}
+    <script>
+
+        $(document).ready(function () {
+
+            var td, campo, valor, id;
+            $(document).on("click", "td.editable span", function (e) {
+
+                e.preventDefault();
+                $("td:not(.id)").removeClass("editable");
+                td = $(this).closest("td");
+                campo = $(this).closest("td").data("campo");
+                valor = $(this).text();
+                id = $(this).closest("tr").find(".id").text();
+
+                var type = $(this).closest("td").data("type");
+
+                if (type === 'select') {
+
+                    var clase = $(this).closest("td").data("clase");
+                    var selectedId = $(this).closest("td").data("id");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "issues/inlineedit/getselect",
+                        data: {clase: clase, selectedId: selectedId}
+                    })
+                        .done(function (response) {
+                            td.text("").html(response + "<a class='enlace guardar' href='#'>Guardar</a><a class='enlace cancelar' href='#'>Cancelar</a>");
+                        });
+
+                } else if (type === 'input') {
+                    $anchoCol = td.css('width');
+                    var data = $anchoCol.split('.');
+                    $anchoCol = data[0];
+                    $anchoCol= $anchoCol -60;
+                    td.text("").html("<input type='text' style='width: "+ $anchoCol +"px' name='" + campo + "' value='" + valor + "'><a class='enlace guardar' href='#'>Guardar</a><a class='enlace cancelar' href='#'>Cancelar</a>");
+                }
+
+            });
+
+            $(document).on("click", ".cancelar", function (e) {
+                e.preventDefault();
+                td.html("<span><a class='link'>" + valor + "</a></span>");
+                $("td:not(.id)").addClass("editable");
+            });
+
+            $(document).on("click", ".guardar", function (e) {
+                $(".mensaje").html("<img src='{{ asset('img/loading.gif') }}'>");
+                e.preventDefault();
+
+                var type = $(this).closest("td").data("type");
+
+                if (type === 'select') {
+                    nuevovalor = $(this).closest("td").find("select option:selected").text();
+                    strValue = $(this).closest("td").find("select").val();
+                } else if (type === 'input') {
+                    nuevovalor = $(this).closest("td").find("input").val();
+                    strValue = nuevovalor;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "issues/inlineedit",
+                    data: {field: campo, value: strValue, id: id}
+                })
+                    .done(function (msg) {
+                        console.log(msg);
+                        $(".mensaje").html(msg);
+                        td.html("<span><a class='link'>" + nuevovalor + "</a></span>");
+                        $("td:not(.id)").addClass("editable");
+                        setTimeout(function () {
+                            $('.ok,.ko').fadeOut('fast');
+                        }, 100);
+                    });
+            });
+
+        });
+
+    </script>
+{% endblock %}

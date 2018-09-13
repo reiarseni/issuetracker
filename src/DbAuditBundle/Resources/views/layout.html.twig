@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pager demo</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="{{ asset('assets_css_js_img/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('assets_css_js_img/vendor/font-awesome/css/font-awesome.min.css') }}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="header">
+        <nav>{{ knp_menu_render('DbAuditBundle:MenuBuilder:top', {currentClass: 'active'}) }}</nav>
+      </div>
+
+      {% block body %}{% endblock %}
+    </div>
+
+    <!-- jQuery 3 -->
+    <script src="{{ asset('assets_css_js_img/vendor/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="{{ asset('assets_css_js_img/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+    {% block js %}{% endblock %}
+  </body>
+</html>

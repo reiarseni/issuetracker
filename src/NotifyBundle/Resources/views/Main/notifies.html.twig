@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% use 'frontend/cargaselectiva/cargar_assets_01.html.twig' %}
+
+{% block title %} IssueTracker | Notificaciones{% endblock %}
+
+{% block headers %}Listado de Notificaciones{% endblock %}
+
+{% block content %}
+
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+
+
+
+
+
+
+
+
+                    <table class="table table-hover">
+                        <thead>
+
+                        <tr>
+                            <th>{{ sorter_link(notifies, "n.createdAt", "Fecha") }}</th>
+                            <th>{{ sorter_link(notifies, "n.userName", "Usuario") }}</th>
+                            <th>{{ sorter_link(notifies, "n.showText", "Mensaje") }}</th>
+                            <th>{{ sorter_link(notifies, "n.operation", "Operacion") }}</th>
+                            <th>{{ sorter_link(notifies, "n.ipAddress", "IpAddress") }}</th>
+                            <th>{{  "Navegador" }}</th>
+                            <th>{{ sorter_link(notifies, "n.url", "Url") }}</th>
+                        </tr>
+
+                        <tr role="row" class="filter">
+                            <td>{{ filter_search(notifies, "n.createdAt") }}</td>
+                            <td>{{ filter_search(notifies, "n.userName") }}</td>
+                            <td>{{ filter_search(notifies, "n.showText") }}</td>
+                            <td>{{ filter_search(notifies, "n.operation") }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        {% for notify in notifies %}
+                            <tr>
+                                {#<td class='id' class="">{{ notify.id }}</td>#}
+                                <td>{{ notify.createdAt | date('d/m/Y H:i:s') }}</td>
+                                <td>{{ notify.userName }}</td>
+                                <td>{{ notify.showText }}</td>
+                                <td>{{ notify.operation }}</td>
+                                <td>{{ notify.ipAddress }}</td>
+                                <td>{{ notify.userAgent }}</td>
+
+                                {%  set url =  notify.url and notify.url.name is defined ? url(notify.url.name,notify.url.params) : '#'  %}
+                                <td>
+                                    <a href={{ url }}> Ver</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div class="panel-footer">
+                        {{ pagination(notifies) }}
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

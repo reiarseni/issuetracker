@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" target-language="es" datatype="plaintext"
+          original="file.ext">
+        <body>
+            <!--VALIDATION MESSAGES-->
+            <trans-unit id="1">
+                <source>validation.only_numbers</source>
+                <target>Este campo solo admite números</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>validation.email.recurrent</source>
+                <target>La dirección de correo {{ value }} ya está en uso</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>validation.product.recurrent</source>
+                <target>El nombre de producto {{ value }} ya está en uso</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>validation.category.recurrent</source>
+                <target>El nombre de categoría {{ value }} ya está en uso</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>validation.user.recurrent</source>
+                <target>El nombre de usuario {{ value }} ya está en uso</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>validation.email.wrong.format</source>
+                <target>El correo ingresado {{ value }} no tiene el formato correcto</target>
+            </trans-unit>
+            <!--END VALIDATION MESSAGES-->
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,259 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: es
+    app.path.imagenes:
+
+framework:
+    #esi:             ~
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
+    http_method_override: true
+    assets: ~
+    php_errors:
+        log: true
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form_themes:
+        - 'bootstrap_3_layout.html.twig'
+        - 'form/fields.html.twig'
+
+assetic:
+    debug: '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    node: /usr/bin/nodejs
+    filters:
+        cssrewrite: ~
+        uglifyjs2:
+            bin: "%kernel.root_dir%/Resources/node_modules/.bin/uglifyjs"
+        uglifycss:
+            bin: "%kernel.root_dir%/Resources/node_modules/.bin/uglifycss"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        types:
+            uuid:  AppBundle\Doctrine\UuidType
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+fos_user:
+        db_driver:              orm
+        firewall_name:          main
+        user_class:             AppBundle\Entity\User
+        use_listener:           true
+        use_flash_notifications: true
+        use_authentication_listener: true
+        use_username_form_type: true
+        model_manager_name:     null  # change it to the name of your entity/document manager if you don't want to use the default one.
+        from_email:
+            address:        webmaster@example.com
+            sender_name:    webmaster
+        profile:
+            form:
+                type:               FOS\UserBundle\Form\Type\ProfileFormType # or 'fos_user_profile' on Symfony < 2.8
+                name:               fos_user_profile_form
+                validation_groups:  [Profile, Default]
+        change_password:
+            form:
+                type:               FOS\UserBundle\Form\Type\ChangePasswordFormType # or 'fos_user_change_password' on Symfony < 2.8
+                name:               fos_user_change_password_form
+                validation_groups:  [ChangePassword, Default]
+        registration:
+            confirmation:
+                from_email: # Use this node only if you don't want the global email address for the confirmation email
+                    address:        ...
+                    sender_name:    ...
+                enabled:    false # change to true for required email confirmation
+                template:   '@FOSUser/Registration/email.txt.twig'
+            form:
+                type:               AppBundle\Form\Type\RegistrationFormType # or 'fos_user_registration' on Symfony < 2.8
+                name:               fos_user_registration_form
+                validation_groups:  [Registration, Default]
+        resetting:
+            retry_ttl: 7200 # Value in seconds, logic will use as hours
+            token_ttl: 86400
+            email:
+                from_email: # Use this node only if you don't want the global email address for the resetting email
+                    address:        ...
+                    sender_name:    ...
+                template:   '@FOSUser/Resetting/email.txt.twig'
+            form:
+                type:               FOS\UserBundle\Form\Type\ResettingFormType # or 'fos_user_resetting' on Symfony < 2.8
+                name:               fos_user_resetting_form
+                validation_groups:  [ResetPassword, Default]
+        service:
+            mailer:                 fos_user.mailer.default
+            email_canonicalizer:    fos_user.util.canonicalizer.default
+            username_canonicalizer: fos_user.util.canonicalizer.default
+            token_generator:        fos_user.util.token_generator.default
+            user_manager:           fos_user.user_manager.default
+#        group:
+#            group_class:    AppBundle\Entity\Groups
+#            group_manager:  fos_user.group_manager.default
+#            form:
+#                type:               FOS\UserBundle\Form\Type\GroupFormType
+#                name:               fos_user_group_form
+#                validation_groups:  [Registration, Default]
+
+
+stof_doctrine_extensions:
+    default_locale: en_US
+    orm:
+        default:
+            timestampable: true # not needed: listeners are not enabled by default
+            sluggable: true
+            blameable: true
+            softdeleteable : true
+            loggable : true
+#        entity_managers:
+#            mappings:
+#                gedmo_loggable:
+#                    type: annotation
+#                    prefix: Gedmo\Loggable\Entity
+#                    dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+#                    alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+#                    is_bundle: false
+
+
+vich_uploader:
+    db_driver:  orm
+    mappings:
+        imagenes:
+            uri_prefix:         %app.path.imagenes%
+            upload_destination: %kernel.root_dir%/../web/uploads/images
+
+easy_admin:
+    site_name: '<em style="font-size: 81%; color: yellow">Backend</em>'
+    design:
+        menu:
+            - { label: 'Volver a la Portada', icon: 'arrow-left' , route: 'dashboard' }
+            - { label: 'Users', icon: 'users', entity: 'User' }
+            - { label: 'Log de Login de Usuarios', icon: 'flag', entity: 'UserLoginLog' }
+            - { label: 'Category', icon: 'flag', entity: 'Category' }
+            - { label: 'Config', icon: 'flag', entity: 'Config' }
+            - { label: 'IssueStatus', icon: 'flag', entity: 'IssueStatus' }
+            - { label: 'IssueType', icon: 'flag', entity: 'IssueType' }
+            - { label: 'IssuePriority', icon: 'flag', entity: 'IssuePriority' }
+            - { label: 'IssueTag', icon: 'flag', entity: 'IssueTag' }
+            - { label: 'Issue', icon: 'flag', entity: 'Issue' }
+            - { label: 'Comment', icon: 'flag', entity: 'Comment' }
+            - { label: 'Ejemplo', icon: 'flag', entity: 'Ejemplo' }
+            - { label: 'Ejemplo2', icon: 'flag', entity: 'Ejemplo2' }
+            - { label: 'Association', icon: 'flag', entity: 'Association' }
+            - { label: 'AuditLog', icon: 'flag', entity: 'AuditLog' }
+            - { label: 'Project', icon: 'flag', entity: 'Project' }
+    entities:
+        User:
+           class: AppBundle\Entity\User
+           label: 'Users'
+        UserLoginLog:
+           class: NotifyBundle\Entity\UserLoginLog
+           label: 'UserLoginLog'
+        Category:
+           class: AppBundle\Entity\Category
+           label: 'Category'
+        Config:
+           class: AppBundle\Entity\Config
+           label: 'Config'
+        IssueStatus:
+           class: AppBundle\Entity\IssueStatus
+           label: 'IssueStatus'
+        IssueType:
+           class: AppBundle\Entity\IssueType
+           label: 'IssueType'
+        IssuePriority:
+           class: AppBundle\Entity\IssuePriority
+           label: 'IssuePriority'
+        IssueTag:
+           class: AppBundle\Entity\IssueTag
+           label: 'IssueTag'
+        Issue:
+           class: AppBundle\Entity\Issue
+           label: 'Issue'
+        Comment:
+           class: AppBundle\Entity\Comment
+           label: 'Comment'
+        Ejemplo:
+           class: AppBundle\Entity\Ejemplo
+           label: 'Ejemplo'
+        Ejemplo2:
+           class: AppBundle\Entity\Ejemplo2
+           label: 'Ejemplo2'
+        Association:
+           class: DbAuditBundle\Entity\Association
+           label: 'Association'
+        AuditLog:
+           class: DbAuditBundle\Entity\AuditLog
+           label: 'AuditLog'
+        Project:
+           class: PruebaBundle\Entity\Project
+           label: 'Project'
+
+#Descomentar para usar el KNP_MENU
+# app/config/config.yml
+#knp_menu:
+     # use "twig: false" to disable the Twig extension and the TwigRenderer
+#    twig:
+#        template: KnpMenuBundle::menu.html.twig
+     #  if true, enables the helper for PHP templates
+#    templating: false
+     # the renderer to use, list is also available by default
+#    default_renderer: twig
+#
+db_audit:
+    unaudited_entities:
+       - AppBundle\Entity\IssuePriority
+
+knp_paginator:
+   page_range: 10                     # default page range used in pagination control
+   default_options:
+       page_name: page                # page query parameter name
+       sort_field_name: sort          # sort field query parameter name
+       sort_direction_name: direction # sort direction query parameter name
+       distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+   template:
+       #pagination: PlanillasCoreBundle:Pagination:twitter_bootstrap_pagination.html.twig     # sliding pagination controls template
+       #pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig

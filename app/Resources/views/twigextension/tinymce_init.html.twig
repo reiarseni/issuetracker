@@ -1,0 +1,149 @@
+<script src="{{ asset('assets/vendor/tinymce/tinymce.min.js') }}"></script>
+
+<form id="tinymce_file_uploader" action="{{  path('files_upload')  }}" method="post"  enctype="multipart/form-data">
+    <input type="file" id="tiny_inner_image" name="tiny_inner_image" accept="file/*" style="display:none">
+</form>
+
+<script type="text/javascript">
+
+
+    var table = '<p>This table uses features of the non-editable plugin to make the text in the<br /><strong>top row</strong> and <strong>left column</strong> uneditable.</p>' +
+        '    <table style="width: 60%; border-collapse: collapse;" border="1"> ' +
+        '        <caption class="mceNonEditable">Ephox Sales Analysis</caption> ' +
+        '       <tbody> ' +
+        '          <tr class="mceNonEditable"> ' +
+        '                <th style="width: 40%;">&nbsp;</th><th style="width: 15%;">Q1</th> ' +
+        '                <th style="width: 15%;">Q2</th><th style="width: 15%;">Q3</th> ' +
+        '                <th style="width: 15%;">Q4</th> ' +
+        '            </tr> ' +
+        '            <tr> ' +
+        '                <td class="mceNonEditable">East Region</td> ' +
+        '                <td>100</td> <td>110</td> <td>115</td> <td>130</td> ' +
+        '            </tr> ' +
+        '            <tr> ' +
+        '                <td class="mceNonEditable">Central Region</td> ' +
+        '                <td>100</td> <td>110</td> <td>115</td> <td>130</td> ' +
+        '            </tr> ' +
+        '            <tr> ' +
+        '                <td class="mceNonEditable">West Region</td> ' +
+        '                <td>100</td> <td>110</td> <td>115</td> <td>130</td> ' +
+        '            </tr> ' +
+        '        </tbody> ' +
+        '    </table>';
+
+    var table2 = '<div> ' +
+        '        <p>' +
+        '            Templates are a great way to help content authors get started creating content.  You can define the HTML for the template and ' +
+        '            then when the author inserts the template they have a great start towards creating content! ' +
+        '        </p> ' +
+        '        <p> ' +
+        '            In this example we create a simple table for providing product details for a product page on your web site.  The headings are ' +
+        '            made non-editable by loading the non-editable plugin and placing the correct class on the appropriate table cells. ' +
+        '        </p> ' +
+        '        <table style="width:90%; border-collapse: collapse;" border="1"> ' +
+        '        <tbody> ' +
+        '        <tr style="height: 30px;"> ' +
+        '            <th class="mceNonEditable" style="width:40%; text-align: left;">Product Name:</td><td style="width:60%;">{insert name here}</td> ' +
+        '        </tr> ' +
+        '        <tr style="height: 30px;"> ' +
+        '            <th class="mceNonEditable" style="width:40%; text-align: left;">Product Description:</td><td style="width:60%;">{insert description here}</td> ' +
+        '        </tr> ' +
+        '        <tr style="height: 30px;"> ' +
+        '            <th class="mceNonEditable" style="width:40%; text-align: left;">Product Price:</td><td style="width:60%;">{insert price here}</td> ' +
+        '        </tr> ' +
+        '        </tbody> ' +
+        '        </table> ' +
+        '    </div> ';
+
+
+    tinymce.init({
+        buttons: {
+            image_uploader: { title: 'Subir Imagen' }
+        },
+        theme: "modern",
+        // width: 500,
+        // height: 300,
+        selector: 'textarea',
+        plugins: ' paste print preview fullpage searchreplace autolink directionality  visualblocks visualchars fullscreen emoticons image imagetools link media template code codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help tabfocus',
+       // toolbar1: 'insertfile | imageupload undo redo | formatselect | underline bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat',
+       // toolbar2: "insertfile  colorpicker  | link unlink anchor | image media | table insertdatetime codesample emoticons | searchreplace template | print preview code ",
+        toolbar1: 'undo redo | formatselect | underline bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | link unlink anchor | image media table | searchreplace preview code ',
+        image_advtab: true ,
+        //external_filemanager_path:"/filemanager/",
+        //filemanager_title:"Responsive Filemanager" ,
+        external_plugins: { "filemanager" : "{{ asset('assets/vendor/tinymce/externalplugins/filemanager/plugin.min.js') }}"},
+        language: 'es',
+        templates: [
+            {
+                title: "Non-editable Example",
+                description: "Non-editable example.",
+                content: table
+            },
+            {
+                title: "Simple Table Example",
+                description: "Simple Table example.",
+                content: table2
+            }
+        ],
+        images_upload_url: "{{ path('images_upload') }}",
+        imagetools_proxy: "{{ path('imagetools_proxy') }}",
+        imagetools_toolbar: "rotateleft rotateright | flipv fliph | editimage imageoptions",
+        content_css: [   "{{ asset('assets/vendor/tinymce/css/codepen.min.css') }}"  ],
+        style_formats: [
+            {title: 'Bold text', inline: 'b'},
+            {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}},
+            {title: 'Red header', block: 'h1', styles: {color: '#ff0000'}},
+            {title: 'Example 1', inline: 'span', classes: 'example1'},
+            {title: 'Example 2', inline: 'span', classes: 'example2'},
+            {title: 'Table boostrap' , selector: 'table', classes: 'table table-striped table-bordered table-hover' },
+            {title: 'Table row 1', selector: 'tr', classes: 'tablerow1'}
+        ]
+    });
+
+    function initImageUpload(editor) {
+        // create input and insert in the DOM
+        var inp = $('<input id="tinymce-uploader" type="file" name="pic" accept="file/*" style="display:none">');
+        $(editor.getElement()).parent().append(inp);
+        console.log('Adicione el boton');
+        // add the image upload button to the editor toolbar
+        editor.addButton('mybutton2', {
+            text: 'XXXX',
+            icon: false,
+            onclick: function () { // when toolbar button is clicked, open file select modal
+                inp.trigger('click');
+            }
+        });
+        console.log('Adicione el boton2');
+
+        // when a file is selected, upload it to the server
+        inp.on("change", function(e){
+            uploadFile($(this), editor);
+        });
+        console.log('Adicione el boton3');
+    }
+
+    function uploadFile(inp, editor) {
+        var input = inp.get(0);
+        var data = new FormData();
+        data.append('image[file]', input.files[0]);
+
+        $.ajax({
+            url: "{{ path('images_upload2') }}",
+            type: 'POST',
+            data: data,
+            processData: false, // Don't process the files
+            contentType: false, // Set content type to false as jQuery will tell the server its a query string request
+            success: function(data, textStatus, jqXHR) {
+                console.log(data);
+                editor.insertContent('<img class="content-img" src="/files/' + data + '"/>');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if(jqXHR.responseText) {
+                    errors = JSON.parse(jqXHR.responseText).errors
+                    alert('Error uploading image: ' + errors.join(", ") + '. Make sure the file is an image and has extension jpg/jpeg/png.');
+                }
+            }
+        });
+    }
+
+</script>
