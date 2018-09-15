@@ -1698,8 +1698,9 @@ ol.unstyled {
     bottom: 0;
     left: 0;
     padding: 10px 20px;
-    position: absolute;
+   /* position: absolute;*/
     right: 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 
 .footer.fixed_full {
@@ -2946,8 +2947,8 @@ white theme  //Razib
 }
 
 .alert {
-    margin-bottom: 20px;
-    margin-top: 0;
+    margin-bottom: 5px;
+    margin-top: 6px;
     color: #fff;
     border-width: 0;
 
