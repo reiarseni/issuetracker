@@ -29,10 +29,12 @@ class IssueController extends Controller
     {
         $em = $this->get('doctrine.orm.entity_manager');
 
-        $users = $em->getRepository('AppBundle:Issue')->findAll();
+        $qb = $em->createQueryBuilder()
+            ->select('i')
+            ->from('AppBundle:Issue','i')->orderBy('i.createdAt', 'DESC');
 
         return $this->render('issue/index.html.twig', array(
-            'users' => $users,
+            'entities' => $qb->getQuery()->getResult(),
         ));
     }
 

@@ -39,6 +39,8 @@ created on September 1, 2018, 8:50 pm.
 
         php bin/console doctrine:database:create
         php bin/console doctrine:schema:create
+        php bin/console doctrine:schema:update --dump-sql
+        php bin/console doctrine:schema:update --force 
 
    This should create your database schema from the entities in the bundles located in the `src` folder. If there are any problems ensure that your database privileges and credentials are okay.
 
@@ -105,7 +107,12 @@ created on September 1, 2018, 8:50 pm.
         
         php bin/console security:check
         
-18. Troubleshooting, If something goes wrong, errors & exceptions are logged at the application level:
+18. Clean development and production cache
+        
+        php bin/console ca:cl --env=dev
+        php bin/console ca:cl --env=prod      
+        
+19. Troubleshooting, If something goes wrong, errors & exceptions are logged at the application level:
     
     
         tail -f var/logs/prod.log
