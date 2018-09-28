@@ -53,7 +53,7 @@ class RequirementController extends Controller
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
                 $this->get('requirement_manager')->crear($requirement);
-                $this->get('session')->getFlashBag()->add('success', sprintf('Se adiciono el ISSUE satisfactoriamente.'));
+                $this->get('session')->getFlashBag()->add('success', sprintf('Se adiciono el Requirement satisfactoriamente.'));
                 return $this->redirectToRoute('requirement_index');
             }
         }
@@ -78,7 +78,7 @@ class RequirementController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->get('requirement_manager')->editar($requirement);
-            $this->get('session')->getFlashBag()->add('success', sprintf('Se modifico el ISSUE satisfactoriamente.'));
+            $this->get('session')->getFlashBag()->add('success', sprintf('Se modifico el Requirement satisfactoriamente.'));
             return $this->redirectToRoute('requirement_show', array('id'=>$requirement->getId()));
         }
 

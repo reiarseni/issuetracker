@@ -82,6 +82,14 @@ class IssueType extends AbstractType
                 'attr' => array(
                     'class' => 'select2personal',
                 ),
+            ))->add('requirement', EntityType::class, array(
+                'class' => 'AppBundle\Entity\Requirement',
+                'label' => 'Requirement',
+                'required' => true,
+                'placeholder' => '---Seleccione---',
+                'attr' => array(
+                    'class' => 'select2personal',
+                ),
             ))->add('assignedTo', EntityType::class, array(
                 'class' => 'AppBundle\Entity\User',
                 'label' => 'Asignado a',

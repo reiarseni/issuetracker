@@ -35,6 +35,10 @@
                         <div class="col-lg-3">Asignado a: <b>{{ issue.assignedTo }}</b></div>
                         <div class="col-lg-3">Horas Estimadas: <b>{{ issue.estimatedHours }}</b></div>
                         <div class="col-lg-3">Horas Reales: <b>{{ issue.actualHours }}</b></div>
+
+                            <div class="col-lg-6">Requirement: <b> {% if issue.requirement is not null %}  <a href="{{ path('requirement_show',{ 'id' : issue.requirement.id }) }}">{{ issue.requirement }}</a>{% endif %}</b></div>
+                        <div class="col-lg-3">Fecha Recibido: <b>{{ issue.receivedAt | date('d/m/Y') }}</b></div>
+                        <div class="col-lg-3">Fecha Plan de Entrega: <b>{{ issue.deadlineAt | date('d/m/Y') }}</b></div>
                         </div>
 
                     </div>

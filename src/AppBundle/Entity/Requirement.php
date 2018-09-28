@@ -134,7 +134,6 @@ class Requirement
     {
         $this->createdAt = new \DateTime();
         $this->comments = new ArrayCollection();
-        $this->tags = new ArrayCollection();
         $this->progress = 0;
     }
 

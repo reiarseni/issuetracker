@@ -206,9 +206,15 @@ class Issue
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\IssueTag", cascade={"persist"})
      * @ORM\JoinTable(name="issue_tag_issue_rel")
      * @ORM\OrderBy({"name": "ASC"})
-     * @Assert\Count(max="4", maxMessage="post.too_many_tags")
+     * @Assert\Count(max="5", maxMessage="post.too_many_tags")
      */
     private $tags;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Requirement")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $requirement;
 
     public function __construct()
     {
@@ -737,5 +743,29 @@ class Issue
     public function getProgress()
     {
         return $this->progress;
+    }
+
+    /**
+     * Set requirement
+     *
+     * @param \AppBundle\Entity\Requirement $requirement
+     *
+     * @return Issue
+     */
+    public function setRequirement(\AppBundle\Entity\Requirement $requirement)
+    {
+        $this->requirement = $requirement;
+
+        return $this;
+    }
+
+    /**
+     * Get requirement
+     *
+     * @return \AppBundle\Entity\Requirement
+     */
+    public function getRequirement()
+    {
+        return $this->requirement;
     }
 }

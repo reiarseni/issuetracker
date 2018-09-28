@@ -25,7 +25,8 @@
                     <div class="ibox-content">
 
                         <div class="row">
-                        <div class="col-lg-3">Reportado por: <b>{{ requirement.reportedBy }}</b></div>
+                            <div class="col-lg-3">Fecha Recibido: <b>{{ requirement.receivedAt | date('d/m/Y') }}</b></div>
+                            <div class="col-lg-3">Reportado por: <b>{{ requirement.reportedBy }}</b></div>
                         </div>
 
                     </div>
