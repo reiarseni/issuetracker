@@ -58,7 +58,7 @@
                         <tbody>
 
 
-                                    {% for entity in users %}
+                                    {% for entity in entities %}
 
                                                         <tr class="{{ statusStyle[entity.status.name].class }}">
                                                             <td><a href="{{ path('issue_show', { 'id': entity.id }) }}">{{ entity.number }}</td>

@@ -69,13 +69,15 @@ class IssueController extends Controller
             ->leftJoin('i.category', 'c')
             ->leftJoin('i.status', 's')
             ->leftJoin('i.priority', 'p')
-            ->leftJoin('i.type', 't');
+            ->leftJoin('i.type', 't')
+            ->orderBy('i.createdAt', 'DESC');
+
 
         $options = [
             'sorters' => ['i.number' => 'DESC'], // sorted by language code by default
             //'filters' => ['p.hoursSpent' => 'overDeadline'], // we can apply a filter option by default
             'applyFilter' => [$this, 'issueFilters'], // custom filter handling
-            'limit' => 10
+            'limit' => 50
         ];
 
         $categories =  $this->repo("AppBundle:Category")
@@ -236,12 +238,8 @@ class IssueController extends Controller
      */
     public function searchByNumberAction(Request $request)
     {
-        //dump($request); die;
-
-
         $number = trim( $request->get('number', '') );
 
-       // return $this->redirect();
         $param= array();
         $param['sorters[i.number]'] = 'DESC'; // = sorters[i.number]=DESC&filters[i.number]=259&page=1;
         $param['filters[i.number]'] = $number;
