@@ -19,4 +19,7 @@ final class Events
 
     /*** @var string */
     const ISSUE_STATUS_CHANGED = 'issue.status.changed';
+
+    /*** @var string */
+    const REQUIREMENT_CREATED = 'requirement.created';
 }

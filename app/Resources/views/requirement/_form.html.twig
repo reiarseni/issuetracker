@@ -1,0 +1,35 @@
+
+{{ form_start(form) }}
+
+<div class="row">
+
+    <div class="col-lg-3">{{ form_row(form.number) }}</div>
+    <div class="col-lg-9">{{ form_row(form.title) }}</div>
+
+    <div class="col-lg-3">{{ form_row(form.receivedAt) }}</div>
+    <div class="col-lg-3">{{ form_row(form.reportedBy) }}</div>
+
+    <div class="col-lg-3">{{ form_row(form.progress) }}</div>
+
+    <div class="col-lg-12">{{ form_widget(form.content) }}</div>
+</div>
+
+<hr>
+
+    {#<div class="col-lg-12">{{ form_row(form.tags) }}</div>#}
+
+    {#<input type="text" value="Amsterdam,Washington,Sydney,Beijing,Cairo" data-role="tagsinput" id="taginput1" placeholder="Add tags" />#}
+
+
+
+<button class="btn btn-primary btn-sm btn-flat" type="submit">{{ action_type |trans }}</button>
+
+      &nbsp;  &nbsp;     <a class="" href="{{  path('requirement_index') }}">List Requirements</a>
+
+
+{{ form_end(form) }}
+
+{{ include('requirement/_delete_form.html.twig', {requirement: requirement}, with_context = false) }}
+
+<hr>
+

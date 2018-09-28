@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} IssueTracker | New Requirement{% endblock %}
+
+{% block headers %}New Requirement{% endblock %}
+
+{% block headers_links %}
+    <a class="btn btn-info btn-xs" href="{{ path('requirement_index') }}"><i class="fa fa-mail-reply-all"></i> Requirements List</a>
+{% endblock %}
+
+
+{% block content %}
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="ibox float-e-margins">
+                    <div id="ibox_form" class="ibox-content">
+                        <div id="emsg" class="alert alert-danger" style="display: none;">
+                            <span id="emsgbody"></span>
+                        </div>
+
+                        {% include 'requirement/_form.html.twig' with {'form': form, 'action_type' : 'button.create'} %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css') }}" />
+{% endblock %}
+
+
+{% block javascripts %}
+
+    {{ tinymce_init() }}
+
+    <script src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/select2/js/i18n/spanish.js') }}"></script>
+    <script src="{{ asset('assets/vendor/moment/min/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/moment/locale/es.js') }}"></script>
+    <script src="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $(function () {
+
+            $('.select2personal').select2({
+                theme: "bootstrap"
+            });
+
+            $('.datetimepicker').datetimepicker({
+                locale: 'es',
+                format: 'DD/MM/YYYY',
+                widgetPositioning: {
+                    horizontal: 'left',
+                    vertical: 'bottom'
+                },
+                useCurrent: false
+            });
+
+            var mySlider = $("input#appbundle_requirement_type_progress").bootstrapSlider({max:100});
+
+
+            $('#appbundle_requirement_type_receivedAt').datetimepicker({
+                locale: 'es',
+                format: 'DD/MM/YYYY HH:mm',
+                widgetPositioning: {
+                    horizontal: 'auto',
+                    vertical: 'auto'
+                },
+                useCurrent: true
+            });
+
+
+        });
+
+
+    </script>
+{% endblock %}

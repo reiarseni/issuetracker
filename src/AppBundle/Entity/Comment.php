@@ -37,6 +37,16 @@ class Comment
     private $commentType;
 
     /**
+     * Si esta establecido es un comentario de un Requerimiento
+     *
+     * @var Requirement
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Requirement", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $requirement;
+
+    /**
      * Si esta establecido es un comentario de un Issue
      *
      * @var Issue
@@ -250,5 +260,29 @@ class Comment
     public function __toString()
     {
         return  $this->getId() . ' - ' . $this->getCommentType();
+    }
+
+    /**
+     * Set requirement
+     *
+     * @param \AppBundle\Entity\Requirement $requirement
+     *
+     * @return Comment
+     */
+    public function setRequirement(\AppBundle\Entity\Requirement $requirement = null)
+    {
+        $this->requirement = $requirement;
+
+        return $this;
+    }
+
+    /**
+     * Get requirement
+     *
+     * @return \AppBundle\Entity\Requirement
+     */
+    public function getRequirement()
+    {
+        return $this->requirement;
     }
 }

@@ -8,9 +8,11 @@
 
             <li class="{% if route== 'easyadmin' %}active{% endif %}"><a href="{{ path('easyadmin') }}"><i class="fa fa-th-large"></i> <span class="nav-label">Nomencladores</span></a></li>
 
-            <li class="{% if route=='user_index' %}active{% endif %}"><a href="{{ path('user_index') }}"><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span></a></li>
+            <li class="{% if route=='user_index' %}active{% endif %}"><a href="{{ path('user_index') }}"><i class="fa fa-user"></i> <span class="nav-label">Usuarios</span></a></li>
 
             <li class="{% if route=='issue_index' %}active{% endif %}"><a href="{{ path('issue_index') }}"><i class="fa fa-tags"></i> <span class="nav-label">Issues</span></a></li>
+
+            <li class="{% if route=='requirement_index' %}active{% endif %}"><a href="{{ path('requirement_index') }}"><i class="fa fa-star"></i> <span class="nav-label">Requerimientos</span></a></li>
 
             <li>
                 <a href="#"><i class="fa fa-bell"></i> <span class="nav-label">Auditoria</span><span class="fa arrow"></span></a>

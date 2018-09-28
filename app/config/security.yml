@@ -42,6 +42,7 @@ security:
         #ROL SUPER_ADMIN
         - { path: ^/easyadmin/, roles: [ROLE_SUPER_ADMIN] }
         - { path: ^/issue/, roles: [ROLE_SUPER_ADMIN] }
+        - { path: ^/requirement/, roles: [ROLE_SUPER_ADMIN] }
         - { path: ^/user/, roles: [ROLE_SUPER_ADMIN] }
         - { path: ^/change-password/*, role: [ROLE_USER] }
         - { path: ^/, roles: [ROLE_USER] }

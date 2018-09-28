@@ -36,8 +36,8 @@ services:
         class: AppBundle\Manager\IssueManager
         arguments: ['@service_container']
 
-    proveedor_manager:
-       class: AppBundle\Manager\ProveedorManager
+    requirement_manager:
+       class: AppBundle\Manager\RequirementManager
        arguments: ['@service_container']
 
     config_manager:

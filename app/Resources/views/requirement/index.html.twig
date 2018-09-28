@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% use 'frontend/cargaselectiva/cargar_assets_01.html.twig' %}
+
+{% block title %} IssueTracker | Requirements{% endblock %}
+
+{% block headers %}Requirements List{% endblock %}
+
+{% block headers_links %}
+    <a class="btn btn-info btn-xs" href="{{ path('requirement_new') }}"><i class="fa fa-plus-square"></i> Add Requirement</a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover sys_table" id="datatable_2">
+                        <thead>
+                        <tr>
+                                <th>Number</th>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th class="col-md-2"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                                    {% for entity in entities %}
+
+                                                        <tr>
+                                                            <td><a href="{{ path('requirement_show', { 'id': entity.id }) }}">{{ entity.number }}</td>
+                                                            <td>{{ entity.title }}</td>
+                                                            <td>{{ entity.receivedAt ? entity.receivedAt | date('d/m/Y') : '-' }}</td>
+                                                            <td align="center">
+                                                                <div>
+                                                                        <a href="{{ path('requirement_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-xs" title="{{'button.edit'|trans}}" style="margin-right: 1%; margin-bottom: 1%">
+                                                                            <i class="fa fa-edit"></i> Edit
+                                                                        </a>
+                                                                </div>
+                                                            </td>
+                                    </tr>
+
+                                    {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
