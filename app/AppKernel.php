@@ -28,8 +28,8 @@ class AppKernel extends Kernel {
             new PagerBundle\PagerBundle(),
             new DbAuditBundle\DbAuditBundle(),
             new LogAuditBundle\LogAuditBundle(),
-
             new NotifyBundle\NotifyBundle(),
+            new SyncBundle\SyncBundle(),
 
             new PruebaBundle\PruebaBundle(),
 

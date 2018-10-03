@@ -4,12 +4,16 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Issue;
+use AppBundle\Entity\IssueStatus;
 use AppBundle\Form\CommentType;
+use AppBundle\Manager\CurlRequestResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Issue controller.
@@ -194,6 +198,115 @@ class IssueController extends Controller
         $this->addFlash('success', 'Eliminacion con exito');
 
         return $this->redirectToRoute('issue_index');
+    }
+
+    /**
+     *
+     * @Route("issue/newrest", name="issue_new_rest")
+     * @Method({"POST"})
+     */
+    public function newRESTAction(Request $request)
+    {
+
+       try {
+
+        $issueArray =  json_decode( $request->get('issue') );
+
+        $em = $this->get('doctrine.orm.entity_manager');
+
+        $issue = new Issue();
+        $issue->setId('XXX');
+        $issue->setNumber($issueArray->number);
+        $issue->setTitle($issueArray->title);
+        $issue->setContent($issueArray->content);
+
+        $category = $em->getRepository('AppBundle:Category')->find($issueArray->category);
+        $issue->setCategory($category);
+        $status = $em->getRepository('AppBundle:IssueStatus')->find($issueArray->status);
+        $issue->setStatus($status);
+        $priority = $em->getRepository('AppBundle:IssuePriority')->find($issueArray->priority);
+        $issue->setPriority($priority);
+        $type = $em->getRepository('AppBundle:IssueType')->find($issueArray->type);
+        $issue->setType($type);
+
+
+        $reportedBy = $em->getRepository('AppBundle:User')->find($issueArray->reportedBy);
+        $issue->setReportedBy($reportedBy);
+        $assignedTo = $em->getRepository('AppBundle:User')->find($issueArray->assignedTo);
+        $issue->setAssignedTo($assignedTo);
+
+        $issue->setUpdatedAt($issueArray->updatedAt ? new \DateTime($issueArray->updatedAt) : null);
+        $issue->setReceivedAt($issueArray->receivedAt ? new \DateTime($issueArray->receivedAt) : null);
+        $issue->setDeadlineAt($issueArray->deadlineAt ? new \DateTime($issueArray->deadlineAt) : null);
+        $issue->setCreatedAt($issueArray->createdAt ? new \DateTime($issueArray->createdAt) : null);
+
+        if ($issueArray->createdBy){
+            $createdBy = $em->getRepository('AppBundle:User')->find($issueArray->createdBy);
+        } else {
+            $createdBy = null;
+        }
+
+        $issue->setCreatedBy($createdBy);
+
+         /*  if ($issueArray->createdBy){
+               $updatedBy = $em->getRepository('AppBundle:User')->find($issueArray->updatedBy);
+           } else {
+               $updatedBy = null;
+           }*/
+
+
+        //$issue->setUpdatedBy($updatedBy);
+
+        $issue->setProgress($issueArray->progress);
+        $issue->setEstimatedHours($issueArray->estimatedHours);
+        $issue->setActualHours($issueArray->actualHours);
+
+        if ($issueArray->requirement)
+            $requirement = $em->getRepository('AppBundle:Requirement')->find($issueArray->requirement);
+        else $requirement = null;
+
+        $issue->setRequirement($requirement);
+
+           $em->persist($issue);
+
+           $em->flush();
+
+           $issue->setId('XXX');
+
+           $em->persist($issue);
+
+           $em->flush();
+
+       } catch(\Exception $e) {
+
+           dump($e->getTraceAsString()); die;
+       }
+    }
+
+    /**
+     *
+     * @Route("issue/resttest", name="issue_resttest")
+     * @Method({"GET"})
+     */
+    public function newRESTTESTAction(Request $request)
+    {
+        $e = new CurlRequestResponse();
+        $e->login('http://issuetracker/app_dev.php/login_check', 'rei','123');
+
+        /**
+         * @var  Issue $issue
+         */
+        $issue = $this->get('doctrine.orm.entity_manager')->getRepository('AppBundle:Issue')->find('20180922-034233-356910-5575C2E');
+
+
+        $response = $e->navigate(
+            'http://issuetracker/app_dev.php/issue/newrest', 'POST',
+            array('issue' =>  json_encode( $issue->serialize()    ) )
+        );
+
+        // $e->exampleNavigate();
+        return  new Response(($response['content'])) ;
+       // return new JsonResponse($request);
     }
 
 //    /**

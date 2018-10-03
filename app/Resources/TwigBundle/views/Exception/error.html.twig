@@ -1,2 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="{{ _charset }}" />
+    <title>Ocurrio un error: {{ status_text }}</title>
+</head>
+<body>
+<h1>Oops! Ocurrio un error</h1>
+<h2>El serrvidor encontro un error "{{ status_code }} {{ status_text }}".</h2>
 
-                Error Desconocido Detectado
+<div>
+    Something is broken. Please let us know what you were doing when this error occurred.
+    We will fix it as soon as possible. Sorry for any inconvenience caused.
+</div>
+</body>
+</html>

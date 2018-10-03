@@ -84,6 +84,15 @@ class User extends BaseUser
     private $lastActivity;
 
     /**
+     * Apikey que se genera para el usuario, los administradores son los que generan/regeneran apikey para los demas usuarios
+     *
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $apiKey;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -324,5 +333,29 @@ class User extends BaseUser
         }
 
         return $rol;
+    }
+
+    /**
+     * Set apiKey
+     *
+     * @param string $apiKey
+     *
+     * @return User
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+
+        return $this;
+    }
+
+    /**
+     * Get apiKey
+     *
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
     }
 }

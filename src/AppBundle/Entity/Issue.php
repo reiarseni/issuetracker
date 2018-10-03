@@ -234,6 +234,11 @@ class Issue
         return $this->id;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * Set number.
      *
@@ -704,7 +709,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setUpdatedBy(\AppBundle\Entity\User $updatedBy)
+    public function setUpdatedBy(\AppBundle\Entity\User $updatedBy=null)
     {
         $this->updatedBy = $updatedBy;
 
@@ -768,4 +773,40 @@ class Issue
     {
         return $this->requirement;
     }
+
+    public function serialize()
+    {
+        $issue = array();
+        $issue['id'] = $this->getId();
+        $issue['number'] = $this->getNumber();
+        $issue['title'] = $this->getTitle();
+        $issue['content'] = $this->getContent();
+
+        $issue['category'] = $this->getCategory()? $this->getCategory()->getId():null;
+        $issue['status'] = $this->getStatus()? $this->getStatus()->getId():null;
+        $issue['priority'] = $this->getPriority()? $this->getPriority()->getId():null;
+
+        $issue['type'] = $this->getType() ? $this->getType()->getId():null;
+        $issue['reportedBy'] = $this->getReportedBy()? $this->getReportedBy()->getId():null;
+        $issue['assignedTo'] = $this->getAssignedTo()? $this->getAssignedTo()->getId():null;
+
+        $issue['updatedAt'] = $this->getUpdatedAt()? $this->getUpdatedAt()->format('Y-m-d') : null ;
+
+        $issue['receivedAt'] = $this->getReceivedAt() ? $this->getReceivedAt()->format('Y-m-d') : null ;
+        $issue['deadlineAt'] = $this->getDeadlineAt()? $this->getDeadlineAt()->format('Y-m-d') : null ;
+
+        $issue['createdAt'] = $this->getCreatedAt()? $this->getCreatedAt()->format('Y-m-d') : null ;
+        $issue['createdBy'] = $this->getCreatedBy() ? $this->getCreatedBy()->getId() : null;
+
+        $issue['updatedBy'] = $this->getUpdatedBy() ? $this->getUpdatedBy()->getId() : null;
+        $issue['progress'] = $this->getProgress();
+
+        $issue['estimatedHours'] = $this->getEstimatedHours();
+        $issue['actualHours'] = $this->getActualHours();
+        $issue['requirement'] = $this->getRequirement() ? $this->getRequirement()->getId() : null;
+
+        return $issue;
+    }
+
+
 }
