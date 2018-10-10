@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
+  <file date="2018-10-10T09:13:14Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+    <header>
+      <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
+      <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
+    </header>
+    <body>
+      <trans-unit id="da39a3ee5e6b4b0d3255bfef95601890afd80709" resname="">
+        <source></source>
+        <target></target>
+        <jms:reference-file line="42">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="35">/../src/AppBundle/Form/RequirementType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b279d7448c1ba59a6e14601b02cdcdc46f42378e" resname="---Seleccione---">
+        <source>---Seleccione---</source>
+        <target><![CDATA[<--Seleccione-->]]></target>
+        <jms:reference-file line="49">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="57">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="65">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="73">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="81">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="89">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="97">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="41">/../src/AppBundle/Form/RequirementType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d97f1097b8f366a61015ee2b590dc5d910d58279" resname="Anterior">
+        <source>Anterior</source>
+        <target state="new">Anterior</target>
+        <jms:reference-file line="22">/Resources/KnpPaginatorBundle/views/Pagination/twitter_bootstrap_v3_pagination.html.twig</jms:reference-file>
+        <jms:reference-file line="26">/Resources/KnpPaginatorBundle/views/Pagination/twitter_bootstrap_v3_pagination.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a0673d59a4db026f937a7da768e2600ca39e1a58" resname="Asignado a">
+        <source>Asignado a</source>
+        <target state="new">Asignado a</target>
+        <jms:reference-file line="95">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5966b0ce8b7e106cb11ea5da9f4c44709e949ef2" resname="Categoria">
+        <source>Categoria</source>
+        <target state="new">Categoria</target>
+        <jms:reference-file line="47">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="54e140f9f07354c67d82e4715c8ae1a311398525" resname="Eliminar">
+        <source>Eliminar</source>
+        <target state="new">Eliminar</target>
+        <jms:reference-file line="6">/Resources/views/issue/_delete_issue_confirmation.html.twig</jms:reference-file>
+        <jms:reference-file line="6">/Resources/views/requirement/_delete_requirement_confirmation.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="84add5b2952787581cb9a8851eef63d1ec75d22b" resname="Email">
+        <source>Email</source>
+        <target state="new">Email</target>
+        <jms:reference-file line="25">/../src/AppBundle/Form/ConfigType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="87cf2a843e2e43a05edc326327fca7e1388bc196" resname="Estado">
+        <source>Estado</source>
+        <target state="new">Estado</target>
+        <jms:reference-file line="55">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="0b95e8d7ce01a2c95a5ca82c436d02fca0c9f6c6" resname="Fecha Plan de Entrega">
+        <source>Fecha Plan de Entrega</source>
+        <target state="new">Fecha Plan de Entrega</target>
+        <jms:reference-file line="127">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="faa3c7144ceebe8cac2a4b51e1ab69b941255eae" resname="Fecha Recibido">
+        <source>Fecha Recibido</source>
+        <target state="new">Fecha Recibido</target>
+        <jms:reference-file line="119">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="55">/../src/AppBundle/Form/RequirementType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ea96b9d5c6db26f3ae59b4b6560026760628ff21" resname="Horas Estimadas">
+        <source>Horas Estimadas</source>
+        <target state="new">Horas Estimadas</target>
+        <jms:reference-file line="31">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="33da79f45edfd935fa7d4c1e2aef4a568a541cdf" resname="Horas Reales">
+        <source>Horas Reales</source>
+        <target state="new">Horas Reales</target>
+        <jms:reference-file line="35">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4f70d8c37e6a4b516c042b4ec0334f57006fd8f4" resname="Inicio">
+        <source>Inicio</source>
+        <target state="new">Inicio</target>
+        <jms:reference-file line="29">/../src/AppBundle/Menu/Builder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="59169bfca21244673da8be18e186dbbea8a051e7" resname="Mostrar Informacion de Contacto">
+        <source>Mostrar Informacion de Contacto</source>
+        <target state="new">Mostrar Informacion de Contacto</target>
+        <jms:reference-file line="40">/../src/AppBundle/Form/ConfigType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="49d90c8885b3ec42d7e45f7621e3184acb983ad4" resname="Nombre del Sitio">
+        <source>Nombre del Sitio</source>
+        <target state="new">Nombre del Sitio</target>
+        <jms:reference-file line="22">/../src/AppBundle/Form/ConfigType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6d069f6973197103a3696e3bd537cb2eedb17fc5" resname="Numero">
+        <source>Numero</source>
+        <target state="new">Numero</target>
+        <jms:reference-file line="25">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="25">/../src/AppBundle/Form/RequirementType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="48f9c9750a53cc8f910fa331f141f80f025af271" resname="Prioridad">
+        <source>Prioridad</source>
+        <target state="new">Prioridad</target>
+        <jms:reference-file line="63">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="5ac06179560c284d994a8763bfcfd006ee2512ef" resname="Progreso">
+        <source>Progreso</source>
+        <target state="new">Progreso</target>
+        <jms:reference-file line="110">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="46">/../src/AppBundle/Form/RequirementType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b4ef42d6b392ede88b807468e85769fad42b10e0" resname="Proveedor">
+        <source>Proveedor</source>
+        <target state="new">Proveedor</target>
+        <jms:reference-file line="44">/../src/AppBundle/Menu/Builder.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="bf042ca5f46f0971aae8be608d4b82ebdd853815" resname="ROLE_ADMIN">
+        <source>ROLE_ADMIN</source>
+        <target state="new">ROLE_ADMIN</target>
+        <jms:reference-file line="39">/../src/AppBundle/Form/UserType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="7afdd26fa85188312fda15c64a14c067ef7c723e" resname="ROLE_SUPER_ADMIN">
+        <source>ROLE_SUPER_ADMIN</source>
+        <target state="new">ROLE_SUPER_ADMIN</target>
+        <jms:reference-file line="38">/../src/AppBundle/Form/UserType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="26762c2c26c1409c8bc0c9d017fe812ff799d6bc" resname="Reportado por">
+        <source>Reportado por</source>
+        <target state="new">Reportado por</target>
+        <jms:reference-file line="79">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="39">/../src/AppBundle/Form/RequirementType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="e9c366b4f3c3a1bf3449c6872aaeae5a0c5ecdf4" resname="Requirement">
+        <source>Requirement</source>
+        <target state="new">Requirement</target>
+        <jms:reference-file line="87">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a73f1345df69647021f401499146a518864ef87a" resname="Rol">
+        <source>Rol</source>
+        <target state="new">Rol</target>
+        <jms:reference-file line="42">/../src/AppBundle/Form/UserType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c4d83a3b6d12896f8eb567195ae8f6b651d39cbe" resname="Siguiente">
+        <source>Siguiente</source>
+        <target state="new">Siguiente</target>
+        <jms:reference-file line="71">/Resources/KnpPaginatorBundle/views/Pagination/twitter_bootstrap_v3_pagination.html.twig</jms:reference-file>
+        <jms:reference-file line="75">/Resources/KnpPaginatorBundle/views/Pagination/twitter_bootstrap_v3_pagination.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="848eed0fbd5429f556b2982dec3ea87136e33e44" resname="Tags">
+        <source>Tags</source>
+        <target state="new">Tags</target>
+        <jms:reference-file line="102">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6eeba656c0f3cafd6e0af4fcd90468390e8ee571" resname="Texto">
+        <source>Texto</source>
+        <target state="new">Texto</target>
+        <jms:reference-file line="27">/../src/AppBundle/Form/CommentType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="b04de83178e45e974333be3e4aacd9c914a16397" resname="Tienda en Mantenimiento">
+        <source>Tienda en Mantenimiento</source>
+        <target state="new">Tienda en Mantenimiento</target>
+        <jms:reference-file line="34">/../src/AppBundle/Form/ConfigType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6cc6198d9e75aea14a631c0ff44c00c5c58b7853" resname="Tipo">
+        <source>Tipo</source>
+        <target state="new">Tipo</target>
+        <jms:reference-file line="20">/../src/AppBundle/Form/CommentType.php</jms:reference-file>
+        <jms:reference-file line="71">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3e699561ba3fa56a3f1e93117a24ceba9c305889" resname="Titulo">
+        <source>Titulo</source>
+        <target state="new">Titulo</target>
+        <jms:reference-file line="28">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+        <jms:reference-file line="28">/../src/AppBundle/Form/RequirementType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="3f92273249086de295419ffe1337b2c41d8274d8" resname="Url de Facebook">
+        <source>Url de Facebook</source>
+        <target state="new">Url de Facebook</target>
+        <jms:reference-file line="31">/../src/AppBundle/Form/ConfigType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="2da600bf9404843107a9531694f654e5662959e0" resname="Version">
+        <source>Version</source>
+        <target state="new">Version</target>
+        <jms:reference-file line="28">/../src/AppBundle/Form/ConfigType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="ecc5c5c848432fa8f2aecf982ad9645206af1689" resname="button.edit">
+        <source>button.edit</source>
+        <target>Modificar</target>
+        <jms:reference-file line="73">/Resources/views/issue/index.html.twig</jms:reference-file>
+        <jms:reference-file line="41">/Resources/views/requirement/index.html.twig</jms:reference-file>
+        <jms:reference-file line="51">/Resources/views/user/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="d11e2f181eb1cb911038b794c5117a1c97bed612" resname="button.new">
+        <source>button.new</source>
+        <target>Adicionar</target>
+        <jms:reference-file line="10">/Resources/views/user/index.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="6d384fb8ef3ca9318f0f9d983868842a211770f8" resname="form.password">
+        <source>form.password</source>
+        <target>form.password</target>
+        <jms:reference-file line="66">/../src/AppBundle/Form/UserType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="30de94712c8550862006ed6a664870c398c9482d" resname="form.password_confirmation">
+        <source>form.password_confirmation</source>
+        <target>form.password_confirmation</target>
+        <jms:reference-file line="72">/../src/AppBundle/Form/UserType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="955fc9c311d54c35e3ba4d20a384e42531400a91" resname="global.active">
+        <source>global.active</source>
+        <target>Activo?</target>
+        <jms:reference-file line="48">/../src/AppBundle/Form/UserType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="532023d8d3092a280d754feaef0b2207948d7471" resname="issue.label.deadlineAt">
+        <source>issue.label.deadlineAt</source>
+        <target>Fecha Plan de Entrega</target>
+        <jms:reference-file line="127">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="a8ef22564e682f2db6e54020ec25bfe8d87546a0" resname="label.areyousure">
+        <source>label.areyousure</source>
+        <target>?Esta Seguro?</target>
+        <jms:reference-file line="7">/Resources/views/issue/_delete_issue_confirmation.html.twig</jms:reference-file>
+        <jms:reference-file line="7">/Resources/views/requirement/_delete_requirement_confirmation.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="4dc1c435d4fd7d5d81029e66e75d7f9bf920be3e" resname="label.cancel">
+        <source>label.cancel</source>
+        <target state="new">Cancelar</target>
+        <jms:reference-file line="11">/Resources/views/issue/_delete_issue_confirmation.html.twig</jms:reference-file>
+        <jms:reference-file line="11">/Resources/views/requirement/_delete_requirement_confirmation.html.twig</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="c500bdec2fd007fbd60019bbe93b39f0c063f1a3" resname="label.delete">
+        <source>label.delete</source>
+        <target>Eliminar</target>
+        <jms:reference-file line="14">/Resources/views/issue/_delete_issue_confirmation.html.twig</jms:reference-file>
+        <jms:reference-file line="14">/Resources/views/requirement/_delete_requirement_confirmation.html.twig</jms:reference-file>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

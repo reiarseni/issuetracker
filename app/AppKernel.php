@@ -25,6 +25,8 @@ class AppKernel extends Kernel {
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
 
+            new JMS\TranslationBundle\JMSTranslationBundle(),
+
             new PagerBundle\PagerBundle(),
             new DbAuditBundle\DbAuditBundle(),
             new LogAuditBundle\LogAuditBundle(),

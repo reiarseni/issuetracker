@@ -64,7 +64,8 @@
         "symfony/phpunit-bridge": "^3.0",
         "phpunit/phpunit": "~5.7",
         "elao/web-profiler-extra-bundle": "~2.3",
-        "fzaninotto/faker": "^1.6"
+        "fzaninotto/faker": "^1.6",
+        "dama/doctrine-test-bundle": "^4.0"
     },
     "scripts": {
         "symfony-scripts": [

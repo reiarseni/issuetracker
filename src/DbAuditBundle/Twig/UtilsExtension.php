@@ -73,7 +73,8 @@ class UtilsExtension extends \Twig_Extension
         if ($this->translator) {
             $id = sprintf('diff.%s.%s', $invert ? 'in' : 'ago', $unit);
 
-            return $this->translator->transChoice($id, $count, array('%count%' => $count), 'date');
+            /** @Ignore */
+            return $this->translator->transChoice($id, $count, array('%count%' => $count) );
         }
 
         if (1 !== $count) {

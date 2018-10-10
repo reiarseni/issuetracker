@@ -85,7 +85,7 @@ class IssueType extends AbstractType
             ))->add('requirement', EntityType::class, array(
                 'class' => 'AppBundle\Entity\Requirement',
                 'label' => 'Requirement',
-                'required' => true,
+                'required' => false,
                 'placeholder' => '---Seleccione---',
                 'attr' => array(
                     'class' => 'select2personal',
@@ -124,7 +124,7 @@ class IssueType extends AbstractType
         ));
         $builder->add('deadlineAt', DateTimeType::class, array(
             'widget' => 'single_text',
-            'label' => 'Fecha Plan de Entrega',
+            'label' => 'issue.form.deadlineAt',
             'format' => 'dd/MM/yyyy',
             'attr' => array(
                 'class' => 'datetimepicker',
