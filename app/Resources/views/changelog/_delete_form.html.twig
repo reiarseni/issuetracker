@@ -1,0 +1,14 @@
+
+{% if changelog.id is not null %}
+
+<form action="{{ url('changelog_delete', {id: changelog.id}) }}" method="post" data-confirmation="true" id="delete-form">
+
+    <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+
+    <button class="btn-flat btn btn-danger btn-sm pull-right" type="submit"><i class="fa fa-trash" aria-hidden="true"></i> Eliminar</button>
+
+</form>
+
+{{ include('changelog/_delete_changelog_confirmation.html.twig') }}
+
+{% endif %}

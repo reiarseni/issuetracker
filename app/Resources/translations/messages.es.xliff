@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:jms="urn:jms:translation" version="1.2">
-  <file date="2018-10-10T09:13:14Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
+  <file date="2018-10-17T22:17:20Z" source-language="en" target-language="es" datatype="plaintext" original="not.available">
     <header>
       <tool tool-id="JMSTranslationBundle" tool-name="JMSTranslationBundle" tool-version="1.1.0-DEV"/>
       <note>The source node in most cases contains the sample message as written by the developer. If it looks like a dot-delimitted string such as "form.label.firstname", then the developer has not provided a default message.</note>
@@ -14,7 +14,7 @@
       </trans-unit>
       <trans-unit id="b279d7448c1ba59a6e14601b02cdcdc46f42378e" resname="---Seleccione---">
         <source>---Seleccione---</source>
-        <target><![CDATA[<--Seleccione-->]]></target>
+        <target>---Seleccione---</target>
         <jms:reference-file line="49">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
         <jms:reference-file line="57">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
         <jms:reference-file line="65">/../src/AppBundle/Form/IssueType.php</jms:reference-file>
@@ -182,6 +182,10 @@
         <source>Version</source>
         <target state="new">Version</target>
         <jms:reference-file line="28">/../src/AppBundle/Form/ConfigType.php</jms:reference-file>
+      </trans-unit>
+      <trans-unit id="df90443eda5fa6e0ec474957d9b99bd6cc42ae85" resname="button.create">
+        <source>button.create</source>
+        <target>Adicionar</target>
       </trans-unit>
       <trans-unit id="ecc5c5c848432fa8f2aecf982ad9645206af1689" resname="button.edit">
         <source>button.edit</source>

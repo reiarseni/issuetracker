@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * un changelog va desde una fecha a otra en cuanto a development
  * tiene un dia de actualizado en produccion o testing
  * tiene un grupo de solutions
- * antes de actualizar puede que se ponga un Tagname al ultimo commit en git
+ * antes de actualizar puede que se ponga un Tagname al ultimo commit en git de este changelog
  *
  * @ORM\Entity()
  * @ORM\Table(name="changelog")
@@ -29,6 +30,24 @@ class Changelog
     private $id;
 
     /**
+     * Como titulo se puede poner Fecha de Inicio hasta fecha de Fin
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank
+     */
+    private $title;
+
+    /**
+     * Numero consecutivo del changelog
+     *
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $number;
+
+    /**
      * @var string
      *
      * @ORM\Column(type="text")
@@ -42,8 +61,7 @@ class Changelog
      *
      * @var string
      *
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank
+     * @ORM\Column(type="string", nullable=true)
      */
     private $tagName;
 
@@ -94,11 +112,27 @@ class Changelog
      */
     private $createdBy;
 
+    /**
+     * Los comentarios van a ser (Comentarios de Issues) or (Requirement's Comment) or (Changelogs's Comment)
+     *
+     * @var Comment[]|ArrayCollection
+     *
+     * @ORM\OneToMany(
+     *      targetEntity="Comment",
+     *      mappedBy="changelog",
+     *      orphanRemoval=true,
+     *      cascade={"persist"}
+     * )
+     * @ORM\OrderBy({"createdAt": "DESC"})
+     */
+    private $comments;
+
+    //Deberiamos poner los issues resueltos, aunque por ahora se puede poner un enlace al issue al lado de cada punto del changelog
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
     }
-
 
     /**
      * Get id.
@@ -277,5 +311,92 @@ class Changelog
     public function getCreatedBy()
     {
         return $this->createdBy;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Changelog
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set number
+     *
+     * @param string $number
+     *
+     * @return Changelog
+     */
+    public function setNumber($number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get number
+     *
+     * @return string
+     */
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Changelog
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    public function __toString()
+    {
+        return  $this->getNumber() . ' - ' . $this->getTitle();
     }
 }

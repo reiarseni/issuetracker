@@ -1,0 +1,22 @@
+
+
+
+                <div class="ibox-title">
+
+                    <h2>
+                       Nuevo Comentario
+                    </h2>
+
+                </div>
+
+                <div class="ibox float-e-margins">
+                    <div id="ibox_form" class="ibox-content">
+                        <div id="emsg" class="alert alert-danger" style="display: none;">
+                            <span id="emsgbody"></span>
+                        </div>
+
+                        {% include 'changelog/comment/_form.html.twig' with {'form': form, 'action_type' : 'button.create'} %}
+
+                    </div>
+                </div>
+

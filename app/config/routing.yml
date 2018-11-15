@@ -21,6 +21,11 @@ requirement:
     type: annotation
     prefix: /
 
+changelog:
+    resource: "@AppBundle/Controller/ChangelogController.php"
+    type: annotation
+    prefix: /
+
 config:
     resource: "@AppBundle/Controller/ConfigController.php"
     type: annotation

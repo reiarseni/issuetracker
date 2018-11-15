@@ -57,6 +57,16 @@ class Comment
     private $issue;
 
     /**
+     * Si esta establecido es un comentario de un Changelog
+     *
+     * @var Changelog
+     *
+     * @ORM\ManyToOne(targetEntity="Changelog", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $changelog;
+
+    /**
      * Si esta establecido es un comentario de una Solution
      *
      * @var Solution
@@ -284,5 +294,29 @@ class Comment
     public function getRequirement()
     {
         return $this->requirement;
+    }
+
+    /**
+     * Set changelog
+     *
+     * @param \AppBundle\Entity\Changelog $changelog
+     *
+     * @return Comment
+     */
+    public function setChangelog(\AppBundle\Entity\Changelog $changelog = null)
+    {
+        $this->changelog = $changelog;
+
+        return $this;
+    }
+
+    /**
+     * Get changelog
+     *
+     * @return \AppBundle\Entity\Changelog
+     */
+    public function getChangelog()
+    {
+        return $this->changelog;
     }
 }

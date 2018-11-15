@@ -22,4 +22,7 @@ final class Events
 
     /*** @var string */
     const REQUIREMENT_CREATED = 'requirement.created';
+
+    /*** @var string */
+    const CHANGELOG_CREATED = 'changelog.created';
 }

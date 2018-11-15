@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% use 'frontend/cargaselectiva/cargar_assets_01.html.twig' %}
+
+{% block title %} IssueTracker | Changelogs{% endblock %}
+
+{% block headers %}Changelogs List{% endblock %}
+
+{% block headers_links %}
+    <a class="btn btn-info btn-xs" href="{{ path('changelog_new') }}"><i class="fa fa-plus-square"></i> Add Changelog</a>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover sys_table" id="datatable_2">
+                        <thead>
+                        <tr>
+                                <th>Number</th>
+                                <th>Title</th>
+                                <th>Begin</th>
+                                <th>End</th>
+                                <th>Deployed</th>
+                                <th class="col-md-2"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                                    {% for entity in entities %}
+
+                                                        <tr>
+                                                            <td><a href="{{ path('changelog_show', { 'id': entity.id }) }}">{{ entity.number }}</td>
+                                                            <td>{{ entity.title }}</td>
+                                                            <td>{{ entity.dateStart | date('d/m/Y') }}</td>
+                                                            <td>{{ entity.dateEnd | date('d/m/Y') }}</td>
+                                                            <td>{{ entity.dateDeployed | date('d/m/Y') }}</td>
+                                                            <td align="center">
+                                                                <div>
+                                                                        <a href="{{ path('changelog_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-xs" title="{{'button.edit'|trans}}" style="margin-right: 1%; margin-bottom: 1%">
+                                                                            <i class="fa fa-edit"></i> Edit
+                                                                        </a>
+                                                                </div>
+                                                            </td>
+                                    </tr>
+
+                                    {% endfor %}
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

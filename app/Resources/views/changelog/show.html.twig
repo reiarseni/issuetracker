@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IssueTracker | Show Changelog{% endblock %}
+
+{% block headers %}Show Changelog:<b> {{ changelog }} </b> {% endblock %}
+
+{% block headers_links %}
+    <a class="btn btn-warning btn-xs" href="{{ path('changelog_edit', {'id':changelog.id}) }}"><i class="fa fa-edit"></i> Edit</a>
+    <a class="btn btn-info btn-xs" href="{{ path('changelog_index') }}"><i class="fa fa-mail-reply-all"></i> Changelogs List</a>
+    <a class="btn btn-primary btn-xs" href="{{ path('changelog_new') }}"><i class="fa fa-plus"></i> New Changelog</a>
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="ibox float-e-margins">
+
+                    <div class="ibox-content">
+
+                        <div class="row">
+                            <div class="col-lg-3">Fecha Inicio: <b>{{ changelog.dateStart | date('d/m/Y') }}</b></div>
+                            <div class="col-lg-3">Fecha Fin: <b>{{ changelog.dateEnd | date('d/m/Y') }}</b></div>
+                            <div class="col-lg-3">Fecha Despliegue: <b>{{ changelog.dateDeployed | date('d/m/Y') }}</b></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                       {{ changelog.content | raw }}
+                    </div>
+                </div>
+            </div>
+
+
+            {% for comment in changelog.comments %}
+
+            <div class="col-md-12" style="margin-left: 6%; width: 94%">
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+
+                            <h4>
+                                {# <span class="label label-success">#}
+                                Author:  <strong>{{ comment.createdBy }}</strong>
+                                Type: <strong>{{ comment.commentType }}</strong>
+                                Date: <strong>{{ comment.createdAt | date('d/m/Y') }}</strong>
+                                {# </span>#}
+
+                                <div aria-label="..." role="group" class="btn-group  pull-right">
+
+                                    <a class="btn btn-warning  btn-sm" href="{{ path('changelog_comment_edit', { 'changelog': changelog.id, 'id': comment.id }) }}"><i
+                                                class="fa fa-pencil"></i> Editar</a>
+
+                                </div>
+
+                            </h4>
+
+
+
+                    </div>
+                    <div class="ibox-content">
+
+                             <div  style="">
+                                 <a name="comment_{{ comment.id }}"></a>
+                                 {{ comment.content | raw }}
+                             </div>
+
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+
+                <div class="col-md-12" style="margin-left: 6%; width: 94%">
+                    <p>No existen commentarios</p>
+                </div>
+
+            {% endfor %}
+
+            <div class="col-md-12" style="margin-left: 6%; width: 94%">
+            {{ render(controller('AppBundle:Changelog:newComment', {'changelog': changelog.id})) }}
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+    {% block javascripts %}
+        {{ tinymce_init() }}
+    {% endblock %}

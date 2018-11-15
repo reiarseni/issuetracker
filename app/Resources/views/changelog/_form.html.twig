@@ -1,0 +1,27 @@
+
+{{ form_start(form) }}
+
+<div class="row">
+
+    <div class="col-lg-3">{{ form_row(form.number) }}</div>
+    <div class="col-lg-9">{{ form_row(form.title) }}</div>
+
+    <div class="col-lg-3">{{ form_row(form.dateStart) }}</div>
+    <div class="col-lg-3">{{ form_row(form.dateEnd) }}</div>
+    <div class="col-lg-3">{{ form_row(form.dateDeployed) }}</div>
+
+    <div class="col-lg-12">{{ form_widget(form.content) }}</div>
+</div>
+
+<hr>
+
+<button class="btn btn-primary btn-sm btn-flat" type="submit">{{ action_type |trans }}</button>
+
+      &nbsp;  &nbsp;     <a class="" href="{{  path('changelog_index') }}">List Changelogs</a>
+
+{{ form_end(form) }}
+
+{{ include('changelog/_delete_form.html.twig', {changelog: changelog}, with_context = false) }}
+
+<hr>
+

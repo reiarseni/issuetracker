@@ -40,6 +40,10 @@ services:
        class: AppBundle\Manager\RequirementManager
        arguments: ['@service_container']
 
+    changelog_manager:
+       class: AppBundle\Manager\ChangelogManager
+       arguments: ['@service_container']
+
     config_manager:
        class: AppBundle\Manager\ConfigManager
        arguments: ['@service_container']
