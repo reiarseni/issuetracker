@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LogAuditBundle\Audit;
 
 class LocalFilesystem
@@ -9,7 +11,7 @@ class LocalFilesystem
         $location = $path;
         $contents = file_get_contents($location);
 
-        if ($contents === false) {
+        if (false === $contents) {
             return false;
         }
 

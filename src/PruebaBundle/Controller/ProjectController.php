@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Util\StringUtil;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\QueryBuilder;
 use PagerBundle\Pagination;
 use PruebaBundle\Entity\Project;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProjectController extends Controller
 {
@@ -51,14 +52,14 @@ class ProjectController extends Controller
                 $qb->setParameter('code', $val);
                 break;
             case 'p.enabled':
-                if ($val != 'any') {
+                if ('any' != $val) {
                     $qb->andWhere($qb->expr()->eq('p.enabled', ':enabled'));
                     $qb->setParameter('enabled', $val);
                 }
                 break;
             default:
                 // if user attemps to filter by other fields, we restrict it
-                throw new \Exception("filter not allowed");
+                throw new \Exception('filter not allowed');
         }
     }
 
@@ -69,7 +70,7 @@ class ProjectController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $qb = $this->repo("PruebaBundle:Project")
+        $qb = $this->repo('PruebaBundle:Project')
             ->createQueryBuilder('p')
             ->addSelect('l')
             ->innerJoin('p.language', 'l');
@@ -78,7 +79,7 @@ class ProjectController extends Controller
             'sorters' => ['p.id' => 'ASC'], // sorted by language code by default
             'filters' => ['p.hoursSpent' => 'overDeadline'], // we can apply a filter option by default
             'applyFilter' => [$this, 'projectFilters'], // custom filter handling
-            'limit' => 10
+            'limit' => 10,
         ];
 
         $languages = [
@@ -91,7 +92,7 @@ class ProjectController extends Controller
         $enableds = [
             Pagination::$filterAny => 'Any',
             1 => 'Enabled',
-            0 => 'Disabled'
+            0 => 'Disabled',
         ];
 
         $spentTimeGroups = [
@@ -131,10 +132,8 @@ class ProjectController extends Controller
      */
     public function inlineEditAction(Request $request)
     {
-
         try {
-
-            $entityClass = 'PruebaBundle:' . 'Project';
+            $entityClass = 'PruebaBundle:'.'Project';
 
             $params['id'] = trim($request->get('id')) ? trim($request->get('id')) : null;
             $params['field'] = trim($request->get('field')) ? trim($request->get('field')) : null;
@@ -144,11 +143,10 @@ class ProjectController extends Controller
             $mainRepo = $em->getRepository($entityClass);
 
             if ($params['id'] && $params['field']) {
-
                 $meta = $em->getClassMetadata($entityClass);
 
                 if (!$meta->hasField($params['field']) && !$meta->hasAssociation($params['field'])) {
-                    return new JsonResponse(array('message' => 'El campo no existe'));
+                    return new JsonResponse(['message' => 'El campo no existe']);
                 }
 
                 if ($meta->hasField($params['field'])) {
@@ -156,7 +154,8 @@ class ProjectController extends Controller
                     $meta->getReflectionProperty($params['field'])->setValue($mainObject, $params['value']);
                     $em->persist($mainObject);
                     $em->flush();
-                    return new JsonResponse(array('message' => 'ok'));
+
+                    return new JsonResponse(['message' => 'ok']);
                 }
 
                 if ($meta->hasAssociation($params['field'])) {
@@ -167,19 +166,17 @@ class ProjectController extends Controller
                     $meta->getReflectionProperty($params['field'])->setValue($mainObject, $assocObject);
                     $em->persist($mainObject);
                     $em->flush();
-                    return new JsonResponse(array('message' => 'ok'));
+
+                    return new JsonResponse(['message' => 'ok']);
                 }
 
-                return new JsonResponse(array('message' => 'ok'));
-
-            } else {
-                return new JsonResponse(array('message' => 'No se paso el ID'), 500);
+                return new JsonResponse(['message' => 'ok']);
             }
 
+            return new JsonResponse(['message' => 'No se paso el ID'], 500);
         } catch (\Exception $e) {
-            return new JsonResponse(array('message' => $e->getMessage()), 500);
+            return new JsonResponse(['message' => $e->getMessage()], 500);
         }
-
     }
 
     /**
@@ -189,34 +186,26 @@ class ProjectController extends Controller
      */
     public function getSelectAction(Request $request)
     {
-
         try {
-
             $params['clase'] = trim($request->get('clase')) ? trim($request->get('clase')) : null;
 
             $params['selectedId'] = trim($request->get('selectedId')) ? trim($request->get('selectedId')) : null;
 
             if ($params['clase']) {
-
-                $entityClass = 'PruebaBundle:' . $params['clase'];
+                $entityClass = 'PruebaBundle:'.$params['clase'];
 
                 $em = $this->get('doctrine.orm.entity_manager');
                 $entities = $repo = $em->getRepository($entityClass)->findAll();
 
-                return $this->render('@Prueba/Project/select.html.twig', array(
+                return $this->render('@Prueba/Project/select.html.twig', [
                     'entities' => $entities,
-                    'selected_value' => $params['selectedId']
-                ));
-
-            } else {
-
-                return new JsonResponse(array('message' => 'No se paso el parametro clase'), 500);
-
+                    'selected_value' => $params['selectedId'],
+                ]);
             }
 
+            return new JsonResponse(['message' => 'No se paso el parametro clase'], 500);
         } catch (\Exception $e) {
-            return new JsonResponse(array('message' => $e->getMessage()), 500);
+            return new JsonResponse(['message' => $e->getMessage()], 500);
         }
-
     }
 }

@@ -1,13 +1,16 @@
 <?php
+
+declare(strict_types=1);
+
 namespace LogAuditBundle\Util;
 
 class StringUtil
 {
-    public static function toAscii($str, $replace=array(), $delimiter='-')
+    public static function toAscii($str, $replace = [], $delimiter = '-')
     {
         // Courtesy of Cubiq http://cubiq.org/the-perfect-php-clean-url-generator
-        if( !empty($replace) ) {
-            $str = str_replace((array)$replace, ' ', $str);
+        if (!empty($replace)) {
+            $str = str_replace((array) $replace, ' ', $str);
         }
 
         $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);

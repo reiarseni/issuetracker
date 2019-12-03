@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace AppBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
@@ -14,37 +17,37 @@ class Builder implements ContainerAwareInterface
     {
         $menu = $factory->createItem('main');
 
-        $menu->setChildrenAttributes(array(
+        $menu->setChildrenAttributes([
             'class' => 'sidebar-menu tree',
-            'data-widget' => 'tree'
-        ));
+            'data-widget' => 'tree',
+        ]);
 
         //Menu Inicio
 
-        $inicio = $menu->addChild('dashboard', array(
+        $inicio = $menu->addChild('dashboard', [
             'route' => 'dashboard',
-        ));
+        ]);
 
-        $inicio->setExtras(array(
+        $inicio->setExtras([
             'label' => 'Inicio',
             'icon' => 'fa fa-dashboard',
             'info' => '<small class="label pull-right bg-green">Inicio</small>',
             'safe_label' => true,
-        ));
+        ]);
 
         $this->buildLabel($inicio);
 
         //Menu Proveedor
 
-        $proveedor = $menu->addChild('Proveedor', array(
+        $proveedor = $menu->addChild('Proveedor', [
             'route' => 'proveedor_index',
-        ));
+        ]);
 
-        $proveedor->setExtras(array(
+        $proveedor->setExtras([
             'label' => 'Proveedor',
             'icon' => 'fa fa-barcode',
             'safe_label' => true,
-        ));
+        ]);
 
         $this->buildLabel($proveedor);
 
@@ -52,20 +55,18 @@ class Builder implements ContainerAwareInterface
     }
 
     /**
-     * Construye el texto HTML del label
+     * Construye el texto HTML del label.
+     *
      * @param ItemInterface $item
      */
     public function buildLabel(ItemInterface $item)
     {
         $options = $item->getExtras();
 
-        $icon = isset($options['icon']) ? '<i class="' . $options['icon'] . '"></i>' : '';
-        $label = isset($options['label']) ? '<span>' . $options['label'] . '</span>' : '';
-        $info = isset($options['info']) ? '<span class="pull-right-container">' . $options['info'] . '</span>' : '';
+        $icon = isset($options['icon']) ? '<i class="'.$options['icon'].'"></i>' : '';
+        $label = isset($options['label']) ? '<span>'.$options['label'].'</span>' : '';
+        $info = isset($options['info']) ? '<span class="pull-right-container">'.$options['info'].'</span>' : '';
 
-        $item->setLabel($icon . $label . $info);
+        $item->setLabel($icon.$label.$info);
     }
-
-
-
 }

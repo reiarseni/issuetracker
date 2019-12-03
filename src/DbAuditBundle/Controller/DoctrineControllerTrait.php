@@ -1,18 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\Controller;
 
 use Doctrine\ORM\EntityManager;
 
 /**
- * Trait DoctrineControllerTrait
- * @package DbAuditBundle\Controller
+ * Trait DoctrineControllerTrait.
  *
  * @method \Doctrine\Bundle\DoctrineBundle\Registry getDoctrine()
  */
 trait DoctrineControllerTrait
 {
-
     private function persist(...$entities)
     {
         foreach ($entities as $entity) {
@@ -34,6 +34,7 @@ trait DoctrineControllerTrait
 
     /**
      * @param $class
+     *
      * @return \Doctrine\Common\Persistence\ObjectRepository|EntityManager
      */
     private function repo($class)

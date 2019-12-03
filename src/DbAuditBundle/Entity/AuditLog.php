@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -53,6 +55,11 @@ class AuditLog
      */
     private $loggedAt;
 
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -91,10 +98,5 @@ class AuditLog
     public function getLoggedAt()
     {
         return $this->loggedAt;
-    }
-
-    public function __toString()
-    {
-        return (string)$this->id;
     }
 }

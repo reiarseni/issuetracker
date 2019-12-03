@@ -1,7 +1,7 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
         <div class="login-brand text-center">
-          <h3> Welcome to IssueTracker </h3>
+          <h3> Autenticación en Planillas </h3>
         </div>
 
         {% if error %}
@@ -22,17 +22,25 @@
             {% endif %}
 
             <div class="form-group m-bottom-md">
+                <div class="form-group"><label class="control-label required" for="username">Nombre de usuario:</label>
                 <input type="text" class="form-control" id="username" name="_username"
-                       autocomplete="off" required="required" value="{{ last_username }}" placeholder="User"/>
+                       autocomplete="off" required="required" value="{{ last_username }}"/>
+                </div>
             </div>
 
             <div class="form-group">
+                <div class="form-group"><label class="control-label required" for="password">Contraseña:</label>
                 <input type="password" id="password" name="_password" required="required"
-                       class="form-control" autocomplete="off" placeholder="Password"/>
+                       class="form-control" autocomplete="off"/>
+            </div>
             </div>
 
             <div class="m-top-md p-top-sm">
-                <button class="btn btn-success block full-width" name="_submit" id="_submit" type="submit">Login</button>
+
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on">
+                    <label for="remember_me">Recordar</label>
+
+                <button class="btn btn-primary block full-width" name="_submit" id="_submit" type="submit">Entrar</button>
             </div>
 
         </form>

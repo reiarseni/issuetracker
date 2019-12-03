@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Manager;
 
-use AppBundle\Entity\Comment;
 use AppBundle\Entity\Changelog;
+use AppBundle\Entity\Comment;
+use Doctrine\ORM\EntityManager;
 use NotifyBundle\Events;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Class ChangelogManager
+ * Class ChangelogManager.
  */
 class ChangelogManager
 {
-    /*** @var  ContainerInterface */
+    // @var  ContainerInterface
     private $container;
 
-    /*** @var  EntityManager */
+    // @var  EntityManager
     private $em;
 
     public function __construct(ContainerInterface $container)
@@ -29,15 +31,16 @@ class ChangelogManager
 
     /**
      * @param Changelog $changelog
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function crear(Changelog $changelog)
     {
         $this->em->beginTransaction();
 
         try {
-
             $changelog->setCreatedBy($this->container->get('util_manager')->getUsuarioLogeado());
             $changelog->setCreatedAt(new \DateTime());
 
@@ -63,10 +66,8 @@ class ChangelogManager
             $eventDispatcher->dispatch(Events::REQUIREMENT_CREATED, $event);
 
             return true;
-
         } catch (\Exception $e) {
-
-            $this->container->get('logger')->error(sprintf('Ocurrio error creando el changelog: Detalles %s',$e->getMessage()));
+            $this->container->get('logger')->error(sprintf('Ocurrio error creando el changelog: Detalles %s', $e->getMessage()));
 
             $this->em->rollback();
             throw $e;
@@ -75,15 +76,16 @@ class ChangelogManager
 
     /**
      * @param Changelog $changelog
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function editar(Changelog $changelog)
     {
         $this->em->beginTransaction();
 
         try {
-
             $this->em->persist($changelog);
             $this->em->flush();
             $this->em->commit();
@@ -91,7 +93,6 @@ class ChangelogManager
             $this->container->get('logger')->info(sprintf('El changelog fue guardado satisfactoriamente'));
 
             return true;
-
         } catch (\Exception $e) {
             $this->em->rollback();
             throw $e;
@@ -99,15 +100,17 @@ class ChangelogManager
     }
 
     /**
-     * @return bool
+     * @param Comment $comment
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function crearChangelogComment(Comment $comment)
     {
         $this->em->beginTransaction();
 
         try {
-
             $comment->setCreatedBy($this->container->get('util_manager')->getUsuarioLogeado());
             $comment->setCreatedAt(new \DateTime());
 
@@ -121,7 +124,6 @@ class ChangelogManager
             $eventDispatcher->dispatch(Events::COMMENT_CREATED, $event);
 
             return true;
-
         } catch (\Exception $e) {
             $this->em->rollback();
             throw $e;
@@ -129,26 +131,26 @@ class ChangelogManager
     }
 
     /**
-     * @return bool
+     * @param Comment $comment
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function editarChangelogComment(Comment $comment)
     {
         $this->em->beginTransaction();
 
         try {
-
             $this->em->persist($comment);
             $this->em->flush();
 
             $this->em->commit();
 
             return true;
-
         } catch (\Exception $e) {
             $this->em->rollback();
             throw $e;
         }
     }
-
 }

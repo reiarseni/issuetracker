@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IssueTracker | Editar Usuario{% endblock %}
+
+{% block headers %}Adicionar Usuario{% endblock %}
+
+{% block stylesheets %}
+    {#<link href="{{ asset('assets/vendor/select2/dist/css/select2.css') }}" rel="stylesheet" type="text/css" media="screen"/>#}
+{% endblock %}
+
+{% block content %}
+
+    <div class="wrapper wrapper-content">
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="ibox float-e-margins">
+                    <div id="ibox_form" class="ibox-content">
+                        <div id="emsg" class="alert alert-danger" style="display: none;">
+                            <span id="emsgbody"></span>
+                        </div>
+
+                        {% include 'user/_form.html.twig' with {'form': form, 'action_type' : 'button.create'} %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        $('#appbundle_person_city').change(function () {
+            var citySelector = $(this);
+
+            // Request the neighborhoods of the selected city.
+            $.ajax({
+                url: "{{ path('person_list_neighborhoods') }}",
+                type: "GET",
+                dataType: "JSON",
+                data: {
+                    cityid: citySelector.val()
+                },
+                success: function (neighborhoods) {
+                    var neighborhoodSelect = $("#appbundle_person_neighborhood");
+
+                    // Remove current options
+                    neighborhoodSelect.html('');
+
+                    // Empty value ...
+                    neighborhoodSelect.append('<option value> Select a neighborhood of ' + citySelector.find("option:selected").text() + ' ...</option>');
+
+
+
+                    $.each(neighborhoods, function (key, neighborhood) {
+                        neighborhoodSelect.append('<option value="' + neighborhood.id + '">' + neighborhood.name + '</option>');
+                    });
+                },
+                error: function (err) {
+                    alert("An error ocurred while loading data ...");
+                }
+            });
+        });
+    </script>
+{% endblock %}

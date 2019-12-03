@@ -116,6 +116,13 @@ created on September 1, 2018, 8:50 pm.
     
     
         tail -f var/logs/prod.log
-        tail -f var/logs/dev.log        
+        tail -f var/logs/dev.log    
+        
+        
+20. Generate a new bundle
+
+       php app/console generate:bundle
+       # and write in wizard:
+       Acme/DemoBundle           
         
 [1]:  http://getcomposer.org/        

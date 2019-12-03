@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace AppBundle\Form\DataTransformer;
 
@@ -29,7 +30,7 @@ class IssueTagArrayToStringTransformer implements DataTransformerInterface
         // Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer::transform()
         // The value returned is a string that concatenates the string representation of those objects
 
-        /* @var IssueTag[] $tags */
+        // @var IssueTag[] $tags
         return implode(',', $tags);
     }
 
@@ -49,7 +50,7 @@ class IssueTagArrayToStringTransformer implements DataTransformerInterface
             'name' => $names,
         ]);
         $newNames = array_diff($names, $tags);
-        $tags = array();
+        $tags = [];
         foreach ($newNames as $name) {
             $tag = new IssueTag();
             $tag->setName($name);

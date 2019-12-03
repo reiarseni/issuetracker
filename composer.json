@@ -56,7 +56,8 @@
         "easycorp/easyadmin-bundle": "^1.17",
         "apy/breadcrumbtrail-bundle": "^1.5",
         "ninsuo/symfony-collection": "^2.1",
-        "kijho/kijho-chat": "dev-master"
+        "kijho/kijho-chat": "dev-master",
+        "hhxsv5/php-sse": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

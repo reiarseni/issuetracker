@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -65,9 +67,10 @@ class Project
         return $this->id;
     }
 
-    public function setName($name)
+    public function setName(?string $name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -79,6 +82,7 @@ class Project
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -90,6 +94,7 @@ class Project
     public function setHoursSpent($hoursSpent)
     {
         $this->hoursSpent = $hoursSpent;
+
         return $this;
     }
 
@@ -101,6 +106,7 @@ class Project
     public function setLanguage(Language $language)
     {
         $this->language = $language;
+
         return $this;
     }
 
@@ -112,6 +118,7 @@ class Project
     public function setDeadline($deadline)
     {
         $this->deadline = $deadline;
+
         return $this;
     }
 
@@ -128,6 +135,7 @@ class Project
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+
         return $this;
     }
 
@@ -141,6 +149,7 @@ class Project
         if (!$this->tags->contains($tag)) {
             $this->tags->add($tag);
         }
+
         return $this;
     }
 
@@ -149,6 +158,7 @@ class Project
         if ($this->tags->contains($tag)) {
             $this->tags->removeElement($tag);
         }
+
         return $this;
     }
 

@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\User;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class UsuarioManager
+ * Class UsuarioManager.
  */
 class UtilManager
 {
-    /*** @var  ContainerInterface */
+    // @var  ContainerInterface
     private $container;
 
-    /*** @var  EntityManager */
+    // @var  EntityManager
     private $em;
 
     public function __construct(ContainerInterface $container)
@@ -25,7 +27,7 @@ class UtilManager
     }
 
     /**
-     * @return null|User|string
+     * @return string|User|null
      */
     public function getUsuarioLogeado()
     {
@@ -33,7 +35,7 @@ class UtilManager
 
         $usuario = null;
 
-        if ($tokenStorage != null) {
+        if (null != $tokenStorage) {
             $usuario = $tokenStorage->getUser();
         }
 
@@ -48,7 +50,7 @@ class UtilManager
         $roles = $usuario->getRoles();
 
         foreach ($roles as $rolRaw) {
-            $rol = UtilManager::getRolTraducido($rolRaw);
+            $rol = self::getRolTraducido($rolRaw);
             if ($rol) {
                 break;
             }
@@ -59,11 +61,10 @@ class UtilManager
 
     public static function getRolTraducido($rol)
     {
-
-        if ($rol == 'ROLE_SUPER_ADMIN') {
+        if ('ROLE_SUPER_ADMIN' == $rol) {
             $rol = 'SuperAdmin';
         }
-        if ($rol == 'ROLE_ADMIN') {
+        if ('ROLE_ADMIN' == $rol) {
             $rol = 'Admin';
         }
 

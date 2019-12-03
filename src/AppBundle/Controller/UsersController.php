@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -15,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UsersController extends Controller
 {
-
     /**
      * Lists all user entities.
      *
@@ -28,9 +29,9 @@ class UsersController extends Controller
 
         $users = $em->getRepository('AppBundle:User')->findAll();
 
-        return $this->render('user/index.html.twig', array(
+        return $this->render('user/index.html.twig', [
             'users' => $users,
-        ));
+        ]);
     }
 
     /**
@@ -38,6 +39,8 @@ class UsersController extends Controller
      *
      * @Route("/new", name="user_new")
      * @Method({"GET", "POST"})
+     *
+     * @param Request $request
      */
     public function newAction(Request $request)
     {
@@ -49,14 +52,15 @@ class UsersController extends Controller
             if ($form->isValid()) {
                 $this->get('usuario_manager')->crear($user);
                 $this->get('session')->getFlashBag()->add('success', sprintf('Se adiciono el Usuario satisfactoriamente.'));
+
                 return $this->redirectToRoute('user_index');
             }
         }
 
-        return $this->render('user/new.html.twig', array(
+        return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
@@ -64,6 +68,9 @@ class UsersController extends Controller
      *
      * @Route("/{id}/edit", name="user_edit")
      * @Method({"GET", "POST"})
+     *
+     * @param Request $request
+     * @param User    $user
      */
     public function editAction(Request $request, User $user)
     {
@@ -73,13 +80,13 @@ class UsersController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->get('usuario_manager')->editar($user);
             $this->get('session')->getFlashBag()->add('success', sprintf('Se modifico el USUARIO satisfactoriamente.'));
+
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/edit.html.twig', array(
+        return $this->render('user/edit.html.twig', [
             'user' => $user,
-            'edit_form' => $editForm->createView()
-        ));
+            'edit_form' => $editForm->createView(),
+        ]);
     }
-
 }

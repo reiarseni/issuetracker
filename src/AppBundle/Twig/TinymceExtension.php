@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace AppBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -9,12 +12,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class TinymceExtension extends \Twig_Extension
 {
     /**
-     * @var ContainerInterface $container Container interface
+     * @var ContainerInterface Container interface
      */
     protected $container;
 
     /**
-     * Initialize tinymce helper
+     * Initialize tinymce helper.
      *
      * @param ContainerInterface $container
      */
@@ -36,7 +39,7 @@ class TinymceExtension extends \Twig_Extension
     }
 
     /**
-     * Get parameters from the service container
+     * Get parameters from the service container.
      *
      * @param string $name
      *
@@ -54,26 +57,26 @@ class TinymceExtension extends \Twig_Extension
      */
     public function getFunctions()
     {
-        return array(
+        return [
             'tinymce_init' => new \Twig_SimpleFunction(
                 'tinymce_init',
-                array($this, 'tinymceInit'),
-                array('is_safe' => array('html'))
+                [$this, 'tinymceInit'],
+                ['is_safe' => ['html']]
             ),
-        );
+        ];
     }
 
     /**
-     * TinyMce initializations
+     * TinyMce initializations.
      *
      * @param array $options
      *
      * @return string
      */
-    public function tinymceInit($options = array())
+    public function tinymceInit($options = [])
     {
-        return $this->getService('twig')->render('twigextension/tinymce_init.html.twig', array(
-        ));
+        return $this->getService('twig')->render('twigextension/tinymce_init.html.twig', [
+        ]);
     }
 
     /**

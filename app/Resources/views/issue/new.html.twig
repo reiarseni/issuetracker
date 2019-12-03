@@ -6,10 +6,14 @@
 
 {% block headers_links %}
     <a class="btn btn-info btn-xs" href="{{ path('issue_index') }}"><i class="fa fa-mail-reply-all"></i> Issues List</a>
+    <p id="checkOnline"></p>
+
 {% endblock %}
 
 
 {% block content %}
+
+    <div id="result"></div>
 
     <div class="wrapper wrapper-content">
         <div class="row">
@@ -39,6 +43,22 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css') }}" />
+
+   <!-- <script src="{{ asset('assets/vendor/offline/js/offline.js') }}"></script>
+    <script>
+        var run = function(){
+            var req = new XMLHttpRequest();
+            req.timeout = 5000;
+            req.open('GET', 'http://localhost:8888/walter/0', true);
+            req.send();
+        }
+        setInterval(run, 3000);
+    </script>
+
+    <link rel="stylesheet" href="{#{{ asset('assets/vendor/offline/themes/offline-theme-chrome.css') }}#}" />
+    <link rel="stylesheet" href="{#{{ asset('assets/vendor/offline/themes/offline-language-english.css') }}#}" />  --->
+
+
 {% endblock %}
 
 
@@ -52,8 +72,175 @@
     <script src="{{ asset('assets/vendor/moment/locale/es.js') }}"></script>
     <script src="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
+    <script src="{{ asset('assets/offline.min.js') }}"></script>
+
+    <script>
+        if (typeof (EventSource) !== 'undefined') {
+            var source = new EventSource(Routing.generate('newMsgs'), {withCredentials:true});
+            source.onopen = function (event) {
+                console.log('onopen', event);
+            };
+
+            source.onerror = function (event) {
+                if ( source.readyState == EventSource.CONNECTING) {
+                    // Server down
+                    console.log('El server esta caido');
+                }
+                else if (source.readyState == EventSource.CLOSED) {
+                    // Server error
+                    console.log('Error en el server');
+                }
+            };
+
+            source.addEventListener("new-msgs", function(event){
+                console.log(event.data);//get data
+            }, false);
+
+        } else {
+            document.getElementById("result").innerHTML = 'Sorry, your browser does not support server-sent events...';
+        }
+
+        /*var ifConnected = window.navigator.onLine;
+        if (ifConnected) {
+            document.getElementById("checkOnline").innerHTML = "Online";
+            document.getElementById("checkOnline").style.color = "green";
+        } else {
+            document.getElementById("checkOnline").innerHTML = "Offline";
+            document.getElementById("checkOnline").style.color = "red";
+        }*/
+
+
+
+
+
+            /*var ifConnected = window.navigator.onLine;
+            if (ifConnected) {
+                document.getElementById("checkOnline").innerHTML = "Online";
+                document.getElementById("checkOnline").style.color = "green";
+            } else {
+                document.getElementById("checkOnline").innerHTML = "Offline";
+                document.getElementById("checkOnline").style.color = "red";
+            }*/
+
+            /*$.ajax({
+                url:      'https://www.bing.com/aJyfYidjSlA' + new Date().getTime() + '.html',
+                dataType: 'jsonp',
+                timeout:  5000,
+                error: function(xhr) {
+
+                    console.log(xhr);
+
+                    if (xhr.status == 404) {
+                        //internet connection working
+                        document.getElementById("checkOnline").innerHTML = "Online";
+                        document.getElementById("checkOnline").style.color = "green";
+                    }
+                    else {
+                        //internet is down (xhr.status == 0)
+                        document.getElementById("checkOnline").innerHTML = "Offline";
+                        document.getElementById("checkOnline").style.color = "red";
+                    }
+                }
+            });*/
+
+        document.getElementById("checkOnline").innerHTML = "Online";
+        document.getElementById("checkOnline").style.color = "green";
+
+        setInterval(function(){
+            if( window.navigator.onLine ) {
+                $.ajax({
+                    url:/* Routing.generate('dashboard') + */'http://issuetracker/favicon.ico' /*'https://www.bing.com/aJyfYidjSlA' + new Date().getTime() + '.html'*/,
+                    //dataType: 'jsonp',
+                    timeout: 5000,
+                    done : function ( status, nativeStatusText, responses, headers ) {
+                        document.getElementById("checkOnline").innerHTML = "Online";
+                        document.getElementById("checkOnline").style.color = "green";
+                    },
+                    error: function (xhr) {
+                        console.log(xhr);
+                        if (xhr.status == 404) {
+                            //internet connection working
+                            document.getElementById("checkOnline").innerHTML = "Servidor caido";
+                            document.getElementById("checkOnline").style.color = "yellow";
+                        }
+                        else {
+                            //internet is down (xhr.status == 0)
+                            document.getElementById("checkOnline").innerHTML = "Offline";
+                            document.getElementById("checkOnline").style.color = "red";
+                        }
+                    }
+                });
+            } else {
+                document.getElementById("checkOnline").innerHTML = "Offline";
+                document.getElementById("checkOnline").style.color = "red";
+            }
+        }, 3000/*3000*/);
+
+
+            // Sólo hacer el fetch si navigator.onLine es true
+           /* if( navitagor.onLine ) {
+                fetch('favicon.ico')
+                    .then(function(response) {
+
+                        if(!response.ok) {
+                            // Parece que hay acceso a Internet,
+                            // pero la respuesta no ha sido ok
+                            // También se puede comprobar el código de estado con response.status
+                            // Y hacer algo específico según el estado exacto recibido
+                            throw Error(response.statusText);
+                        }
+
+                        return response;
+
+                    }).then(function(response) {
+                    // response.ok fue true
+                    console.log('ok');
+                    resolve(response);
+                }).catch(function(error) {
+                    console.log('Problema al realizar la solicitud: ' + error.message);
+                    reject(error);
+                });
+            }*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
 
     <script type="text/javascript">
+
+        //withCredentials=true: pass the cross-domain cookies to server-side
+       /* var source = new EventSource(Routing.generate('newMsgs'), {withCredentials:true});
+        source.addEventListener("new-msgs", function(event){
+            console.log(event.data);//get data
+        }, false);
+
+
+        source.addEventListener('open', function(e) {
+            console.log('connection opened');//get data
+        }, false);
+
+        source.addEventListener('error', function(e) {
+           // if (e.readyState == EventSource.CLOSED) {
+                console.log('connection lost');//get data
+           // }
+        }, false);*/
+
         $(function () {
 
             $('.select2personal').select2({
@@ -91,6 +278,6 @@
 
         });
 
-
     </script>
+
 {% endblock %}

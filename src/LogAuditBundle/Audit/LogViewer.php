@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LogAuditBundle\Audit;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -15,10 +17,9 @@ class LogViewer
 
         $this->logs = new ArrayCollection();
 
-        if ($log != null) {
+        if (null != $log) {
             $this->addLog($log);
         }
-
     }
 
     public function addLog($log)
@@ -38,13 +39,17 @@ class LogViewer
 
     /**
      * @param $logSlug
+     *
      * @return LogFile|null
      */
     public function getLog($logSlug)
     {
         foreach ($this->logs as $log) {
-            if ($log->getSlug() == $logSlug) return $log;
+            if ($log->getSlug() == $logSlug) {
+                return $log;
+            }
         }
+
         return null;
     }
 

@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Form;
 
-use AppBundle\Form\Type\TagsInputType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,44 +21,43 @@ class RequirementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number', TextType::class, array(
+            ->add('number', TextType::class, [
                 'label' => 'Numero',
                 'required' => true,
-            ))->add('title', TextType::class, array(
+            ])->add('title', TextType::class, [
                 'label' => 'Titulo',
                 'required' => true,
-            ))->add('content', TextareaType::class, array(
-                'attr' => array(
+            ])->add('content', TextareaType::class, [
+                'attr' => [
                     'rows' => 20,
-                    'class' => 'tinymce'
-                ),
+                    'class' => 'tinymce',
+                ],
                 'label' => '',
-                'required' => false
-            ))->add('reportedBy', EntityType::class, array(
+                'required' => false,
+            ])->add('reportedBy', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'label' => 'Reportado por',
                 'required' => true,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                )
-            ))->add('progress', NumberType::class, array(
+                ],
+            ])->add('progress', NumberType::class, [
                 'label' => 'Progreso',
                 'required' => false,
-                'attr' => array(
-                    'data-slider-value' => $options['data'] ? $options['data']->getProgress() : 0
-                ),
-            ));
+                'attr' => [
+                    'data-slider-value' => $options['data'] ? $options['data']->getProgress() : 0,
+                ],
+            ]);
 
-        $builder->add('receivedAt', DateTimeType::class, array(
+        $builder->add('receivedAt', DateTimeType::class, [
             'widget' => 'single_text',
             'label' => 'Fecha Recibido',
             'format' => 'dd/MM/yyyy',
-            'attr' => array(
+            'attr' => [
                 'class' => 'datetimepicker',
-            ),
-        ));
-
+            ],
+        ]);
     }
 
     /**
@@ -66,10 +65,10 @@ class RequirementType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Requirement',
             'translation_domain' => 'messages',
-        ));
+        ]);
     }
 
     /**

@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * DashBoard controller.
  *
- * @Route()
+ * @Route
  */
 class DashBoardController extends Controller
 {

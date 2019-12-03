@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Config
+ * Config.
  *
  * @ORM\Table(name="config")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\ConfigRepository")
@@ -36,16 +38,21 @@ class Config
      */
     private $theValue;
 
-
-    public function __construct($theKey='', $theValue='') {
+    public function __construct($theKey = '', $theValue = '')
+    {
         $this->theKey = $theKey;
         $this->theValue = $theValue;
     }
 
+    public function __toString()
+    {
+        return $this->getTheKey();
+    }
+
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -53,9 +60,10 @@ class Config
     }
 
     /**
-     * Set theKey
+     * Set theKey.
      *
      * @param string $theKey
+     *
      * @return Config
      */
     public function setTheKey($theKey)
@@ -66,7 +74,7 @@ class Config
     }
 
     /**
-     * Get theKey
+     * Get theKey.
      *
      * @return string
      */
@@ -76,9 +84,10 @@ class Config
     }
 
     /**
-     * Set theValue
+     * Set theValue.
      *
      * @param string $theValue
+     *
      * @return Config
      */
     public function setTheValue($theValue)
@@ -89,17 +98,12 @@ class Config
     }
 
     /**
-     * Get theValue
+     * Get theValue.
      *
      * @return string
      */
     public function getTheValue()
     {
         return $this->theValue;
-    }
-
-    public function __toString()
-    {
-         return $this->getTheKey();
     }
 }

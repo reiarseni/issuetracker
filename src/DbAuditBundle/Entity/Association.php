@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -42,6 +44,11 @@ class Association
      */
     private $class;
 
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -55,6 +62,7 @@ class Association
     public function getTypLabel()
     {
         $words = explode('.', $this->getTyp());
+
         return implode(' ', array_map('ucfirst', explode('_', end($words))));
     }
 
@@ -76,10 +84,5 @@ class Association
     public function getClass()
     {
         return $this->class;
-    }
-
-    public function __toString()
-    {
-        return (string)$this->id;
     }
 }

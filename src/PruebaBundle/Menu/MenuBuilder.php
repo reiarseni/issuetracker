@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
@@ -14,6 +16,7 @@ class MenuBuilder implements ContainerAwareInterface
 
     /**
      * @param FactoryInterface $factory
+     *
      * @return \Knp\Menu\ItemInterface
      */
     public function top(FactoryInterface $factory)
@@ -21,7 +24,7 @@ class MenuBuilder implements ContainerAwareInterface
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav pull-right');
 
-        $child = function($label, $route) use($menu) {
+        $child = function ($label, $route) use ($menu) {
             $attributes = ['role' => 'presentation'];
             $menu->addChild($label, compact('route', 'attributes'));
         };

@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="issue_priority")
  */
 class IssuePriority
 {
-
     /**
      * @var string
      *
@@ -40,6 +41,11 @@ class IssuePriority
 
     public function __construct()
     {
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -98,10 +104,5 @@ class IssuePriority
     public function getColour()
     {
         return $this->colour;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

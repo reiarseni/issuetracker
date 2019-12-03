@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Twig;
 
 use AppBundle\Entity\Config;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class UtilExtension extends \Twig_Extension {
-
-    /*** @var ContainerInterface */
+class UtilExtension extends \Twig_Extension
+{
+    // @var ContainerInterface
     protected $container;
 
-    /*** @var EntityManager */
+    // @var EntityManager
     protected $em;
 
     public function __construct(ContainerInterface $container)
@@ -25,27 +27,28 @@ class UtilExtension extends \Twig_Extension {
      */
     public function getFunctions()
     {
-        return array(
-            new \Twig_SimpleFunction('util', array($this, 'getUtil')),
-            new \Twig_SimpleFunction('config', array($this, 'getConfig'))
-        );
+        return [
+            new \Twig_SimpleFunction('util', [$this, 'getUtil']),
+            new \Twig_SimpleFunction('config', [$this, 'getConfig']),
+        ];
     }
 
     public function getUtil($clave = null)
     {
-        if ($clave=='usuario.rol') {
-           return $this->container->get('util_manager')->getRol();
+        if ('usuario.rol' == $clave) {
+            return $this->container->get('util_manager')->getRol();
         }
     }
 
     public function getConfig($clave = null)
     {
         $config = $this->em->getRepository('AppBundle:Config')->findAll();
-        $result= [];
+        $result = [];
         foreach ($config as $cf) {
-            /*** @var Config $cf */
+            // @var Config $cf
             $result[$cf->getTheKey()] = $cf->getTheValue();
         }
+
         return  $result[$clave];
     }
 
@@ -54,9 +57,8 @@ class UtilExtension extends \Twig_Extension {
      *
      * @return string The extension name
      */
-    public function getName() {
+    public function getName()
+    {
         return 'util_extension';
     }
-
-
 }

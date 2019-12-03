@@ -1,19 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Lleva el historial de cambios de los estados de los issues
+ * Lleva el historial de cambios de los estados de los issues.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="issue_status_history")
  */
 class IssueStatusHistory
 {
-
     /**
      * @var string
      *
@@ -25,21 +26,19 @@ class IssueStatusHistory
     private $id;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Issue")
      * @ORM\JoinColumn(nullable=false)
      */
     private $issue;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\IssueStatus")
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
 
     /**
-     * Fecha en la que se hizo el cambio de estado
+     * Fecha en la que se hizo el cambio de estado.
      *
      * @var \DateTime
      *
@@ -49,7 +48,7 @@ class IssueStatusHistory
     private $changedAt;
 
     /**
-     * Usuario quien hizo el cambio de estado
+     * Usuario quien hizo el cambio de estado.
      *
      * @var User
      *

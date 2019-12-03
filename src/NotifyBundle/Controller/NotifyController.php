@@ -1,14 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotifyBundle\Controller;
 
 use Doctrine\ORM\QueryBuilder;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use PagerBundle\Pagination;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use PagerBundle\Pagination;
 
 /**
  * Notify controller.
@@ -27,31 +28,31 @@ class NotifyController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $qb = $this->repo("NotifyBundle:UserLoginLog")
+        $qb = $this->repo('NotifyBundle:UserLoginLog')
             ->createQueryBuilder('n');
 
         $options = [
             'sorters' => ['n.createdAt' => 'DESC'], // sorted by language code by default
             'applyFilter' => [$this, 'notifyFilters'], // custom filter handling
-            'limit' => 10
+            'limit' => 10,
         ];
 
         $notifies = new Pagination($qb, $request, $options);
 
         Pagination::$defaults = array_merge(Pagination::$defaults, ['limit' => 10]);
 
-        return $this->render('@Notify/Main/notifies.html.twig', array(
+        return $this->render('@Notify/Main/notifies.html.twig', [
             'notifies' => $notifies,
-        ));
+        ]);
     }
 
     /**
-     * @Route("/menu", name="notify_menu", options={"expose":true})
+     * @Route("/menu", name="notify_menu", options={"expose" = true})
      * @Method({"GET"})
      */
     public function menuAction(Request $request)
     {
-        $qb = $this->get('doctrine.orm.entity_manager')->getRepository("NotifyBundle:UserLoginLog")
+        $qb = $this->get('doctrine.orm.entity_manager')->getRepository('NotifyBundle:UserLoginLog')
             ->createQueryBuilder('ull')
             ->orderBy('ull.createdAt', 'DESC');
 
@@ -60,9 +61,9 @@ class NotifyController extends Controller
 
         $entities = $qb->getQuery()->getResult();
 
-        return $this->render('@Notify/Menu/notify.html.twig', array(
-            'entities' => $entities
-        ));
+        return $this->render('@Notify/Menu/notify.html.twig', [
+            'entities' => $entities,
+        ]);
     }
 
     public function notifyFilters(QueryBuilder $qb, $key, $val)
@@ -72,7 +73,7 @@ class NotifyController extends Controller
         switch ($key) {
             case 'n.createdAt':
                 if ($val) {
-                    $qb->andWhere($qb->expr()->eq('n.createdAt', ":createdAt"));
+                    $qb->andWhere($qb->expr()->eq('n.createdAt', ':createdAt'));
                     $qb->setParameter('createdAt', $val);
                 }
                 break;
@@ -93,8 +94,7 @@ class NotifyController extends Controller
                 break;
             default:
                 // if user attemps to filter by other fields, we restrict it
-                throw new \Exception("filter not allowed");
+                throw new \Exception('filter not allowed');
         }
     }
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
@@ -7,8 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Security\Core\SecurityContextInterface;
 
 class MenuBuilder implements ContainerAwareInterface
 {
@@ -16,6 +16,7 @@ class MenuBuilder implements ContainerAwareInterface
 
     /**
      * @param FactoryInterface $factory
+     *
      * @return \Knp\Menu\ItemInterface
      */
     public function top(FactoryInterface $factory)
@@ -23,7 +24,7 @@ class MenuBuilder implements ContainerAwareInterface
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav pull-right');
 
-        $child = function($label, $route) use($menu) {
+        $child = function ($label, $route) use ($menu) {
             $attributes = ['role' => 'presentation'];
             $menu->addChild($label, compact('route', 'attributes'));
         };
@@ -31,13 +32,13 @@ class MenuBuilder implements ContainerAwareInterface
         $child('Return to Main Page', 'issue_index');
 
         $child('Audit Log List', 'databaseaudit');
-       /* $child('Projects', 'projects');*/
-       /* $user = $this->getUser();
-        if ($user instanceof UserInterface) {
-            $child('Logout ' . $user, 'logout');
-        } else {
-            $child('Login', 'users');
-        }*/
+        // $child('Projects', 'projects');
+        /* $user = $this->getUser();
+         if ($user instanceof UserInterface) {
+             $child('Logout ' . $user, 'logout');
+         } else {
+             $child('Login', 'users');
+         }*/
 
         return $menu;
     }

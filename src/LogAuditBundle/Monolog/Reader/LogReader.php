@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LogAuditBundle\Monolog\Reader;
 
 /**
- *
- * Esta clase no se esta usando por ahora
+ * Esta clase no se esta usando por ahora.
  *
  * Class LogReader
- * @package Dubture\Monolog\Reader
  */
 class LogReader extends AbstractReader implements \Iterator, \ArrayAccess, \Countable
 {
+    public $days;
+    public $pattern;
     /**
      * @var \SplFileObject
      */
     protected $file;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $lineCount;
 
@@ -25,10 +27,6 @@ class LogReader extends AbstractReader implements \Iterator, \ArrayAccess, \Coun
      * @var \LogAuditBundle\Monolog\Parser\LogParserInterface
      */
     protected $parser;
-
-    public $days;
-    public $pattern;
-
 
     /**
      * @param        $file
@@ -38,18 +36,18 @@ class LogReader extends AbstractReader implements \Iterator, \ArrayAccess, \Coun
     public function __construct($file, $days = 1, $pattern = 'default')
     {
         $this->file = new \SplFileObject($file, 'r');
-        $i          = 0;
+        $i = 0;
         while (!$this->file->eof()) {
             $this->file->current();
             $this->file->next();
-            $i++;
+            ++$i;
         }
 
         $this->days = $days;
         $this->pattern = $pattern;
 
         $this->lineCount = $i;
-        $this->parser    = $this->getDefaultParser($days, $pattern);
+        $this->parser = $this->getDefaultParser($days, $pattern);
     }
 
     /**
@@ -57,14 +55,15 @@ class LogReader extends AbstractReader implements \Iterator, \ArrayAccess, \Coun
      */
     public function getParser()
     {
-        $p =  & $this->parser;
+        $p = &$this->parser;
+
         return $p;
     }
 
     /**
      * @param string $pattern
      */
-    public function setPattern( $pattern = 'default' )
+    public function setPattern($pattern = 'default')
     {
         $this->pattern = $pattern;
     }
@@ -96,7 +95,7 @@ class LogReader extends AbstractReader implements \Iterator, \ArrayAccess, \Coun
      */
     public function offsetSet($offset, $value)
     {
-        throw new \RuntimeException("LogReader is read-only.");
+        throw new \RuntimeException('LogReader is read-only.');
     }
 
     /**
@@ -104,7 +103,7 @@ class LogReader extends AbstractReader implements \Iterator, \ArrayAccess, \Coun
      */
     public function offsetUnset($offset)
     {
-        throw new \RuntimeException("LogReader is read-only.");
+        throw new \RuntimeException('LogReader is read-only.');
     }
 
     /**

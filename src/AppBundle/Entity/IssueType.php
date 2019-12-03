@@ -1,19 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Tipos de Issue, Hot Fix, Bug Fix , New Feature, Improvement
+ * Tipos de Issue, Hot Fix, Bug Fix , New Feature, Improvement.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="issue_type")
  */
 class IssueType
 {
-
     /**
      * @var string
      *
@@ -42,6 +43,11 @@ class IssueType
 
     public function __construct()
     {
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -100,10 +106,5 @@ class IssueType
     public function getColour()
     {
         return $this->colour;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

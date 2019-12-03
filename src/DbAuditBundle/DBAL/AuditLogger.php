@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\DBAL;
 
 use Doctrine\DBAL\Logging\SQLLogger;
@@ -22,8 +24,8 @@ class AuditLogger implements SQLLogger
     public function startQuery($sql, array $params = null, array $types = null)
     {
         // right before commit insert all audit entries
-        if ($sql === '"COMMIT"') {
-            call_user_func($this->flusher);
+        if ('"COMMIT"' === $sql) {
+            \call_user_func($this->flusher);
         }
     }
 

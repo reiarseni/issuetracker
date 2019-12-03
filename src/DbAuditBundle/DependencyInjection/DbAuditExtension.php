@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class DbAuditExtension extends Extension
 {
@@ -24,9 +26,9 @@ class DbAuditExtension extends Extension
         $auditSubscriber = $container->getDefinition('db_audit.event_subscriber');
 
         if (isset($config['audited_entities']) && !empty($config['audited_entities'])) {
-            $auditSubscriber->addMethodCall('addAuditedEntities', array($config['audited_entities']));
-        } else if (isset($config['unaudited_entities'])) {
-            $auditSubscriber->addMethodCall('addUnauditedEntities', array($config['unaudited_entities']));
+            $auditSubscriber->addMethodCall('addAuditedEntities', [$config['audited_entities']]);
+        } elseif (isset($config['unaudited_entities'])) {
+            $auditSubscriber->addMethodCall('addUnauditedEntities', [$config['unaudited_entities']]);
         }
     }
 }

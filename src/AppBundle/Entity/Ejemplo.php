@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="ejemplo")
  */
 class Ejemplo
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(name="id", type="guid")
@@ -36,7 +37,6 @@ class Ejemplo
     private $colour;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Ejemplo2")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -44,6 +44,11 @@ class Ejemplo
 
     public function __construct()
     {
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -104,19 +109,14 @@ class Ejemplo
         return $this->colour;
     }
 
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
     /**
-     * Set ejemplo2
+     * Set ejemplo2.
      *
      * @param \AppBundle\Entity\Ejemplo2 $ejemplo2
      *
      * @return Ejemplo
      */
-    public function setEjemplo2(\AppBundle\Entity\Ejemplo2 $ejemplo2 = null)
+    public function setEjemplo2(Ejemplo2 $ejemplo2 = null)
     {
         $this->ejemplo2 = $ejemplo2;
 
@@ -124,7 +124,7 @@ class Ejemplo
     }
 
     /**
-     * Get ejemplo2
+     * Get ejemplo2.
      *
      * @return \AppBundle\Entity\Ejemplo2
      */

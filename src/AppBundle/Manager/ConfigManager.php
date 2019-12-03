@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Manager;
 
 use AppBundle\Form\Model\ConfigModel;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
- * Class ConfigManager
+ * Class ConfigManager.
  */
 class ConfigManager
 {
-    /*** @var  ContainerInterface */
+    // @var  ContainerInterface
     private $container;
 
-    /*** @var  EntityManager */
+    // @var  EntityManager
     private $em;
 
     public function __construct(ContainerInterface $container)
@@ -25,33 +28,32 @@ class ConfigManager
 
     /**
      * @param ConfigModel $configModel
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function editar(ConfigModel $configModel)
     {
         $this->em->beginTransaction();
 
         try {
-
             $repoConfig = $this->em->getRepository('AppBundle:Config');
 
-            $repoConfig->updateValue('app.nombre',$configModel->getNombre());
-            $repoConfig->updateValue('app.email',$configModel->getEmail());
-            $repoConfig->updateValue('social.facebook',$configModel->getFacebookUrl());
-            $repoConfig->updateValue('app.mostrar_contacto',$configModel->isMostrarContacto());
-            $repoConfig->updateValue('app.en_mantenimiento',$configModel->isEnMantenimiento());
+            $repoConfig->updateValue('app.nombre', $configModel->getNombre());
+            $repoConfig->updateValue('app.email', $configModel->getEmail());
+            $repoConfig->updateValue('social.facebook', $configModel->getFacebookUrl());
+            $repoConfig->updateValue('app.mostrar_contacto', $configModel->isMostrarContacto());
+            $repoConfig->updateValue('app.en_mantenimiento', $configModel->isEnMantenimiento());
 
             $this->em->flush();
 
             $this->em->commit();
 
             return true;
-
         } catch (\Exception $e) {
             $this->em->rollback();
             throw $e;
         }
     }
-
 }

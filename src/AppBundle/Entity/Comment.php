@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -8,12 +10,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * los comments enriquecen los issues y las solutions
  * pueden ser de tipo NORMAL, ACLARACION o tipo PREGUNTA
- * siempre relacionados con el issue padre o la solution padre
+ * siempre relacionados con el issue padre o la solution padre.
  *
  * Class Comment
- * @package AppBundle\Entity
+ *
  * @ORM\Table(name="comment")
- * @ORM\Entity()
+ * @ORM\Entity
  */
 class Comment
 {
@@ -28,7 +30,7 @@ class Comment
     private $id;
 
     /**
-     * Tipo de commentario pueden ser de tipo OBSERVACION, ACLARACION o tipo PREGUNTA
+     * Tipo de commentario pueden ser de tipo OBSERVACION, ACLARACION o tipo PREGUNTA.
      *
      * @var string
      *
@@ -37,7 +39,7 @@ class Comment
     private $commentType;
 
     /**
-     * Si esta establecido es un comentario de un Requerimiento
+     * Si esta establecido es un comentario de un Requerimiento.
      *
      * @var Requirement
      *
@@ -47,7 +49,7 @@ class Comment
     private $requirement;
 
     /**
-     * Si esta establecido es un comentario de un Issue
+     * Si esta establecido es un comentario de un Issue.
      *
      * @var Issue
      *
@@ -57,7 +59,7 @@ class Comment
     private $issue;
 
     /**
-     * Si esta establecido es un comentario de un Changelog
+     * Si esta establecido es un comentario de un Changelog.
      *
      * @var Changelog
      *
@@ -67,7 +69,7 @@ class Comment
     private $changelog;
 
     /**
-     * Si esta establecido es un comentario de una Solution
+     * Si esta establecido es un comentario de una Solution.
      *
      * @var Solution
      *
@@ -109,9 +111,13 @@ class Comment
 
     public function __construct()
     {
-        $this->commentType ='OBSERVACION';
+        $this->commentType = 'OBSERVACION';
     }
 
+    public function __toString()
+    {
+        return  $this->getId().' - '.$this->getCommentType();
+    }
 
     /**
      * Get id.
@@ -178,7 +184,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setIssue(\AppBundle\Entity\Issue $issue)
+    public function setIssue(Issue $issue)
     {
         $this->issue = $issue;
 
@@ -202,7 +208,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setSolution(\AppBundle\Entity\Solution $solution)
+    public function setSolution(Solution $solution)
     {
         $this->solution = $solution;
 
@@ -250,7 +256,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setCreatedBy(\AppBundle\Entity\User $createdBy)
+    public function setCreatedBy(User $createdBy)
     {
         $this->createdBy = $createdBy;
 
@@ -267,19 +273,14 @@ class Comment
         return $this->createdBy;
     }
 
-    public function __toString()
-    {
-        return  $this->getId() . ' - ' . $this->getCommentType();
-    }
-
     /**
-     * Set requirement
+     * Set requirement.
      *
      * @param \AppBundle\Entity\Requirement $requirement
      *
      * @return Comment
      */
-    public function setRequirement(\AppBundle\Entity\Requirement $requirement = null)
+    public function setRequirement(Requirement $requirement = null)
     {
         $this->requirement = $requirement;
 
@@ -287,7 +288,7 @@ class Comment
     }
 
     /**
-     * Get requirement
+     * Get requirement.
      *
      * @return \AppBundle\Entity\Requirement
      */
@@ -297,13 +298,13 @@ class Comment
     }
 
     /**
-     * Set changelog
+     * Set changelog.
      *
      * @param \AppBundle\Entity\Changelog $changelog
      *
      * @return Comment
      */
-    public function setChangelog(\AppBundle\Entity\Changelog $changelog = null)
+    public function setChangelog(Changelog $changelog = null)
     {
         $this->changelog = $changelog;
 
@@ -311,7 +312,7 @@ class Comment
     }
 
     /**
-     * Get changelog
+     * Get changelog.
      *
      * @return \AppBundle\Entity\Changelog
      */

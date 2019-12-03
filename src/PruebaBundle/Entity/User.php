@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -38,6 +40,11 @@ class User implements UserInterface
      */
     private $password;
 
+    public function __toString()
+    {
+        return $this->firstname ? trim($this->firstname.' '.$this->lastname) : $this->username;
+    }
+
     public function getId()
     {
         return $this->id;
@@ -46,6 +53,7 @@ class User implements UserInterface
     public function setUsername($username)
     {
         $this->username = $username;
+
         return $this;
     }
 
@@ -62,6 +70,7 @@ class User implements UserInterface
     public function setPassword($password)
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -101,10 +110,5 @@ class User implements UserInterface
 
     public function eraseCredentials()
     {
-    }
-
-    public function __toString()
-    {
-        return $this->firstname ? trim($this->firstname . ' ' . $this->lastname) : $this->username;
     }
 }

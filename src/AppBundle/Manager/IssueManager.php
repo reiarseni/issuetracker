@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Issue;
 use AppBundle\Entity\IssueStatus;
+use Doctrine\ORM\EntityManager;
 use NotifyBundle\Events;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Class IssueManager
+ * Class IssueManager.
  */
 class IssueManager
 {
-    /*** @var  ContainerInterface */
+    // @var  ContainerInterface
     private $container;
 
-    /*** @var  EntityManager */
+    // @var  EntityManager
     private $em;
 
     public function __construct(ContainerInterface $container)
@@ -30,15 +32,16 @@ class IssueManager
 
     /**
      * @param Issue $issue
-     * @return bool
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function crear(Issue $issue)
     {
         $this->em->beginTransaction();
 
         try {
-
             $issue->setCreatedBy($this->container->get('util_manager')->getUsuarioLogeado());
             $issue->setCreatedAt(new \DateTime());
 
@@ -66,10 +69,8 @@ class IssueManager
             $eventDispatcher->dispatch(Events::ISSUE_CREATED, $event);
 
             return true;
-
         } catch (\Exception $e) {
-
-            $this->container->get('logger')->error(sprintf('Ocurrio error creando el issue: Detalles %s',$e->getMessage()));
+            $this->container->get('logger')->error(sprintf('Ocurrio error creando el issue: Detalles %s', $e->getMessage()));
 
             $this->em->rollback();
             throw $e;
@@ -78,21 +79,23 @@ class IssueManager
 
     /**
      * @param Issue $issue
-     * @return bool
+     * @param mixed $statusOld
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function editar(Issue $issue, $statusOld)
     {
         $this->em->beginTransaction();
 
         try {
-
             $this->em->persist($issue);
             $this->em->flush();
             $this->em->commit();
 
-            /*** @var IssueStatus $statusOld */
-            if( $statusOld && $issue->getStatus()->getId() != $statusOld->getId()) {
+            // @var IssueStatus $statusOld
+            if ($statusOld && $issue->getStatus()->getId() != $statusOld->getId()) {
                 $eventDispatcher = $this->container->get('event_dispatcher');
                 $event = new GenericEvent($issue);
                 $eventDispatcher->dispatch(Events::ISSUE_STATUS_CHANGED, $event);
@@ -101,7 +104,6 @@ class IssueManager
             $this->container->get('logger')->info(sprintf('El issue fue guardado satisfactoriamente'));
 
             return true;
-
         } catch (\Exception $e) {
             $this->em->rollback();
             throw $e;
@@ -109,15 +111,17 @@ class IssueManager
     }
 
     /**
-     * @return bool
+     * @param Comment $comment
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function crearComment(Comment $comment)
     {
         $this->em->beginTransaction();
 
         try {
-
             $comment->setCreatedBy($this->container->get('util_manager')->getUsuarioLogeado());
             $comment->setCreatedAt(new \DateTime());
 
@@ -133,7 +137,6 @@ class IssueManager
             $eventDispatcher->dispatch(Events::COMMENT_CREATED, $event);
 
             return true;
-
         } catch (\Exception $e) {
             $this->em->rollback();
             throw $e;
@@ -141,26 +144,26 @@ class IssueManager
     }
 
     /**
-     * @return bool
+     * @param Comment $comment
+     *
      * @throws \Exception
+     *
+     * @return bool
      */
     public function editarComment(Comment $comment)
     {
         $this->em->beginTransaction();
 
         try {
-
             $this->em->persist($comment);
             $this->em->flush();
 
             $this->em->commit();
 
             return true;
-
         } catch (\Exception $e) {
             $this->em->rollback();
             throw $e;
         }
     }
-
 }

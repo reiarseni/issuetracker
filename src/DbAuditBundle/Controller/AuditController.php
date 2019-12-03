@@ -1,16 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use DbAuditBundle\Entity\AuditLog;
 use Doctrine\ORM\QueryBuilder;
 use PagerBundle\Pagination;
-use DbAuditBundle\Entity\AuditLog;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 
 class AuditController extends Controller
 {
@@ -26,7 +27,7 @@ class AuditController extends Controller
                 $orx->add('t.fk = :fk');
 
                 $qb->andWhere($orx);
-                $qb->setParameter('fk', intval($val));
+                $qb->setParameter('fk', (int) $val);
             }
             break;
         case 'class':
@@ -38,7 +39,7 @@ class AuditController extends Controller
             $qb->setParameter('class', $val);
             break;
         case 'blamed':
-            if ($val === 'null') {
+            if ('null' === $val) {
                 $qb->andWhere($qb->expr()->isNull('a.blame'));
             } else {
                 // this allows us to safely ignore empty values
@@ -49,7 +50,7 @@ class AuditController extends Controller
             break;
         default:
             // if user attemps to filter by other fields, we restrict it
-            throw new \Exception("filter not allowed");
+            throw new \Exception('filter not allowed');
         }
     }
 
@@ -62,7 +63,7 @@ class AuditController extends Controller
     {
         Pagination::$defaults = array_merge(Pagination::$defaults, ['limit' => 25]);
 
-        $qb = $this->repo("DbAuditBundle:AuditLog")
+        $qb = $this->repo('DbAuditBundle:AuditLog')
             ->createQueryBuilder('a')
             ->addSelect('s', 't', 'b')
             ->innerJoin('a.source', 's')
@@ -79,7 +80,7 @@ class AuditController extends Controller
         ];
 
         foreach ($this->getDoctrine()->getManager()->getMetadataFactory()->getAllMetadata() as $meta) {
-            if ($meta->isMappedSuperclass || strpos($meta->name, 'DbAuditBundle') === 0) {
+            if ($meta->isMappedSuperclass || 0 === strpos($meta->name, 'DbAuditBundle')) {
                 continue;
             }
             $parts = explode('\\', $meta->name);
@@ -95,6 +96,7 @@ class AuditController extends Controller
         }
 
         $logs = new Pagination($qb, $request, $options);
+
         return compact('logs', 'sourceClasses', 'users');
     }
 
@@ -102,10 +104,11 @@ class AuditController extends Controller
      * @Route("/databaseaudit/diff/{id}", name="databaseaudit_diff")
      * @Method("GET")
      * @Template
+     *
+     * @param AuditLog $log
      */
     public function diffAction(AuditLog $log)
     {
         return compact('log');
     }
-
 }

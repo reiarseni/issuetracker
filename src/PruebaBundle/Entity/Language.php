@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -27,6 +29,11 @@ class Language
      */
     private $name;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -35,6 +42,7 @@ class Language
     public function setCode($code)
     {
         $this->code = $code;
+
         return $this;
     }
 
@@ -46,16 +54,12 @@ class Language
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function getName()
     {
         return $this->name;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

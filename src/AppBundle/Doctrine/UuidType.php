@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Doctrine;
 
-use Doctrine\DBAL\Types\Type;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * Field type mapping for the Doctrine Database Abstraction Layer (DBAL).
@@ -16,7 +18,7 @@ class UuidType extends Type
     /**
      * @var string
      */
-    const NAME = 'uuid';
+    public const NAME = 'uuid';
 
     /**
      * {@inheritdoc}
@@ -32,7 +34,7 @@ class UuidType extends Type
     /**
      * {@inheritdoc}
      *
-     * @param string|null                 $value
+     * @param string|null                               $value
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
      */
     public function convertToPHPValue($value, AbstractPlatform $platform)
@@ -47,16 +49,16 @@ class UuidType extends Type
     /**
      * {@inheritdoc}
      *
-     * @param string|null                 $value
+     * @param string|null                               $value
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
         if (empty($value)) {
             return null;
-        } else {
-            return (string) $value;
         }
+
+        return (string) $value;
     }
 
     /**
@@ -73,7 +75,8 @@ class UuidType extends Type
      * {@inheritdoc}
      *
      * @param \Doctrine\DBAL\Platforms\AbstractPlatform $platform
-     * @return boolean
+     *
+     * @return bool
      */
     public function requiresSQLCommentHint(AbstractPlatform $platform)
     {

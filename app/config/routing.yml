@@ -26,6 +26,11 @@ changelog:
     type: annotation
     prefix: /
 
+push:
+    resource: "@AppBundle/Controller/PushController.php"
+    type: annotation
+    prefix: /
+
 config:
     resource: "@AppBundle/Controller/ConfigController.php"
     type: annotation

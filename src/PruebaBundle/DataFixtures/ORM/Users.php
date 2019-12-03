@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\DataFixtures\ORM;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use PruebaBundle\Entity\User;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Users implements ContainerAwareInterface, FixtureInterface, OrderedFixtureInterface
 {
     private $container;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setContainer(ContainerInterface $container = null)
     {
@@ -22,7 +24,7 @@ class Users implements ContainerAwareInterface, FixtureInterface, OrderedFixture
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOrder()
     {
@@ -32,7 +34,7 @@ class Users implements ContainerAwareInterface, FixtureInterface, OrderedFixture
     /**
      * @param ObjectManager $em
      */
-    function load(ObjectManager $em)
+    public function load(ObjectManager $em)
     {
         $users = ['yoda', 'luke'];
         foreach ($users as $username) {

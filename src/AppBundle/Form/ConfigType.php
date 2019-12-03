@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -18,31 +20,31 @@ class ConfigType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre', TextType::class, array(
+            ->add('nombre', TextType::class, [
                 'label' => 'Nombre del Sitio',
                 'required' => true,
-            ))->add('email', EmailType::class, array(
+            ])->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => false,
-            ))->add('version', TextType::class, array(
+            ])->add('version', TextType::class, [
                 'label' => 'Version',
                 'required' => false,
-            ))->add('facebookUrl', UrlType::class, array(
+            ])->add('facebookUrl', UrlType::class, [
                 'label' => 'Url de Facebook',
                 'required' => false,
-            ))->add('enMantenimiento', CheckboxType::class, array(
+            ])->add('enMantenimiento', CheckboxType::class, [
                 'label' => 'Tienda en Mantenimiento',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'minimal-red',
-                )
-            ))->add('mostrarContacto', CheckboxType::class, array(
+                ],
+            ])->add('mostrarContacto', CheckboxType::class, [
                 'label' => 'Mostrar Informacion de Contacto',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'minimal-red',
-                )
-            ));
+                ],
+            ]);
     }
 
     /**
@@ -50,10 +52,10 @@ class ConfigType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Form\Model\ConfigModel',
             'translation_domain' => 'messages',
-        ));
+        ]);
     }
 
     /**

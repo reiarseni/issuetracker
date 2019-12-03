@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotifyBundle\Entity;
 
 use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserLoginLog
+ * UserLoginLog.
  *
  * @ORM\Table(name="user_login_log")
  * @ORM\Entity
@@ -80,12 +82,11 @@ class UserLoginLog
     private $userAgent;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
     }
-
 
     /**
      * Get id.
@@ -224,7 +225,7 @@ class UserLoginLog
      *
      * @return UserLoginLog
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
@@ -242,7 +243,7 @@ class UserLoginLog
     }
 
     /**
-     * Set userAgent
+     * Set userAgent.
      *
      * @param string $userAgent
      *
@@ -256,7 +257,7 @@ class UserLoginLog
     }
 
     /**
-     * Get userAgent
+     * Get userAgent.
      *
      * @return string
      */
@@ -265,9 +266,8 @@ class UserLoginLog
         return $this->userAgent;
     }
 
-
     /**
-     * Set url
+     * Set url.
      *
      * @param array $url
      *
@@ -281,7 +281,7 @@ class UserLoginLog
     }
 
     /**
-     * Get url
+     * Get url.
      *
      * @return array
      */

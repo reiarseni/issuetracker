@@ -1,20 +1,18 @@
 <?php
 
+declare(strict_types=1);
 
 namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\IssueTag;
 use AppBundle\Form\DataTransformer\IssueTagArrayToStringTransformer;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
-
 
 class TagsInputType extends AbstractType
 {
@@ -39,8 +37,7 @@ class TagsInputType extends AbstractType
             // but here we're doing the transformation in two steps (Collection <-> array <-> string)
             // and reuse the existing CollectionToArrayTransformer.
             ->addModelTransformer(new CollectionToArrayTransformer(), true)
-            ->addModelTransformer(new IssueTagArrayToStringTransformer($this->manager), true)
-        ;
+            ->addModelTransformer(new IssueTagArrayToStringTransformer($this->manager), true);
     }
 
     /**

@@ -1,25 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LogAuditBundle\Controller;
 
 use LogAuditBundle\Audit\LogFile;
 use LogAuditBundle\Audit\LogViewer;
 use Monolog\Logger;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class LogAuditController extends Controller
 {
-
     /**
      * @Method("GET")
-     * @Route("/logs/{logSlug}", name="log", defaults={"logSlug":"NA"} ,  options={"expose": true})
+     * @Route("/logs/{logSlug}", name="log", defaults={"logSlug" = "NA"},  options={"expose" = true})
+     *
+     * @param Request $request
+     * @param mixed   $logSlug
      */
-    public function indexAction(Request $request,$logSlug)
+    public function indexAction(Request $request, $logSlug)
     {
-        $app = array();
+        $app = [];
         $app['debug'] = true;
         $app['config']['dateFormat'] = 'd.m.Y, H:i:s';
         $app['config']['display_logger'] = true;
@@ -39,7 +43,7 @@ class LogAuditController extends Controller
         $loger = new LogFile($args);
         $viewer->addLog($loger);
 
-        $args = array();
+        $args = [];
         $args['name'] = 'Apache-Error';
         $args['path'] = '/home/reinaldo/htdocs/logs/apache2/planillas.corpglez/error.log';
         $args['type'] = 'apache_error';
@@ -52,9 +56,7 @@ class LogAuditController extends Controller
         $loger = new LogFile($args);
         $viewer->addLog($loger);
 
-
-
-        $args = array();
+        $args = [];
         $args['name'] = 'Apache-Error-Global';
         $args['path'] = '/var/log/apache2/error.log';
         $args['type'] = 'apache_error';
@@ -73,13 +75,11 @@ class LogAuditController extends Controller
         $loger = new LogFile($args);
         $viewer->addLog($loger);
 
-
-
-        if($viewer === null || !$viewer->logExists($logSlug)) {
+        if (null === $viewer || !$viewer->logExists($logSlug)) {
         }
 
-        if ($logSlug=='NA') {
-           // $logSlug = $viewer->getFirstLog()->getSlug();
+        if ('NA' == $logSlug) {
+            // $logSlug = $viewer->getFirstLog()->getSlug();
             $logSlug = 'syslog';
         }
 
@@ -88,7 +88,7 @@ class LogAuditController extends Controller
         $limit = 200;
 
         //dump($logSlug); die;
-        $loger = $viewer->getLog($logSlug)->load( $page, $limit);
+        $loger = $viewer->getLog($logSlug)->load($page, $limit);
 
         $linesPaginated = $paginator->paginate(
             $loger->getLines(),
@@ -101,16 +101,15 @@ class LogAuditController extends Controller
         $minLogLevel = $request->query->get('m');
         $currentLogger = $request->query->get('l');
 
-        return $this->render( 'LogAuditBundle::log.html.twig', array(
+        return $this->render('LogAuditBundle::log.html.twig', [
             'current_log_slug' => $logSlug,
             'log' => $loger,
             'logLevels' => Logger::getLevels(),
-            'min_log_level' => (in_array($minLogLevel, Logger::getLevels()) ? $minLogLevel : 100),
+            'min_log_level' => (\in_array($minLogLevel, Logger::getLevels()) ? $minLogLevel : 100),
             'loggers' => $loger->getLoggers(),
             'current_logger' => $currentLogger,
             'app' => $app,
-            'logs' => $viewer->getLogs()
-        ));
+            'logs' => $viewer->getLogs(),
+        ]);
     }
-
 }

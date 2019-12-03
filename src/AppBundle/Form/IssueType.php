@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Form;
 
-use AppBundle\Form\Type\TagsInputType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,116 +21,115 @@ class IssueType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number', TextType::class, array(
+            ->add('number', TextType::class, [
                 'label' => 'Numero',
                 'required' => true,
-            ))->add('title', TextType::class, array(
+            ])->add('title', TextType::class, [
                 'label' => 'Titulo',
                 'required' => true,
-            ))->add('estimatedHours', NumberType::class, array(
+            ])->add('estimatedHours', NumberType::class, [
                 'label' => 'Horas Estimadas',
-                'required' => true
-            ))
-            ->add('actualHours', NumberType::class, array(
+                'required' => true,
+            ])
+            ->add('actualHours', NumberType::class, [
                 'label' => 'Horas Reales',
-                'required' => true
-            ))->add('content', TextareaType::class, array(
-                'attr' => array(
+                'required' => true,
+            ])->add('content', TextareaType::class, [
+                'attr' => [
                     'rows' => 20,
-                    'class' => 'tinymce'
-                ),
+                    'class' => 'tinymce',
+                ],
                 'label' => '',
-                'required' => false
-            ))
-            ->add('category', EntityType::class, array(
+                'required' => false,
+            ])
+            ->add('category', EntityType::class, [
                 'class' => 'AppBundle\Entity\Category',
                 'label' => 'Categoria',
-                'required' =>  true,
+                'required' => true,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                ),
-            ))->add('status', EntityType::class, array(
+                ],
+            ])->add('status', EntityType::class, [
                 'class' => 'AppBundle\Entity\IssueStatus',
                 'label' => 'Estado',
-                'required' =>  true,
+                'required' => true,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                ),
-            ))->add('priority', EntityType::class, array(
+                ],
+            ])->add('priority', EntityType::class, [
                 'class' => 'AppBundle\Entity\IssuePriority',
                 'label' => 'Prioridad',
-                'required' =>  true,
+                'required' => true,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                ),
-            ))->add('type', EntityType::class, array(
+                ],
+            ])->add('type', EntityType::class, [
                 'class' => 'AppBundle\Entity\IssueType',
                 'label' => 'Tipo',
-                'required' =>  true,
+                'required' => true,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                ),
-            ))->add('reportedBy', EntityType::class, array(
+                ],
+            ])->add('reportedBy', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'label' => 'Reportado por',
                 'required' => true,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                ),
-            ))->add('requirement', EntityType::class, array(
+                ],
+            ])->add('requirement', EntityType::class, [
                 'class' => 'AppBundle\Entity\Requirement',
                 'label' => 'Requirement',
                 'required' => false,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                ),
-            ))->add('assignedTo', EntityType::class, array(
+                ],
+            ])->add('assignedTo', EntityType::class, [
                 'class' => 'AppBundle\Entity\User',
                 'label' => 'Asignado a',
                 'required' => true,
                 'placeholder' => '---Seleccione---',
-                'attr' => array(
+                'attr' => [
                     'class' => 'select2personal',
-                ),
-            ))->add('tags', EntityType::class, [
+                ],
+            ])->add('tags', EntityType::class, [
                 'label' => 'Tags',
                 'required' => false,
                 'multiple' => true,
                 'class' => 'AppBundle\Entity\IssueTag',
-                'attr' => array(
+                'attr' => [
                     'size' => '4',
-                ),
-            ])->add('progress', NumberType::class, array(
+                ],
+            ])->add('progress', NumberType::class, [
                 'label' => 'Progreso',
                 'required' => false,
-                'attr' => array(
-                    'data-slider-value' => $options['data'] ? $options['data']->getProgress() : 0
-                ),
-            ));
+                'attr' => [
+                    'data-slider-value' => $options['data'] ? $options['data']->getProgress() : 0,
+                ],
+            ]);
 
-        $builder->add('receivedAt', DateTimeType::class, array(
+        $builder->add('receivedAt', DateTimeType::class, [
             'widget' => 'single_text',
             'label' => 'Fecha Recibido',
             'format' => 'dd/MM/yyyy',
-            'attr' => array(
+            'attr' => [
                 'class' => 'datetimepicker',
-            ),
-        ));
-        $builder->add('deadlineAt', DateTimeType::class, array(
+            ],
+        ]);
+        $builder->add('deadlineAt', DateTimeType::class, [
             'widget' => 'single_text',
             'label' => 'issue.form.deadlineAt',
             'format' => 'dd/MM/yyyy',
-            'attr' => array(
+            'attr' => [
                 'class' => 'datetimepicker',
-            ),
-        ));
-
+            ],
+        ]);
     }
 
     /**
@@ -138,10 +137,10 @@ class IssueType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Issue',
             'translation_domain' => 'messages',
-        ));
+        ]);
     }
 
     /**

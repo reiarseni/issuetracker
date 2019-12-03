@@ -1,35 +1,36 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\EventSubscriber;
 
 use DbAuditBundle\DBAL\AuditLogger;
-use DbAuditBundle\Entity\AuditLog;
 use DbAuditBundle\Entity\Association;
-
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\DBAL\Types\Type;
+use DbAuditBundle\Entity\AuditLog;
+use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Logging\LoggerChain;
 use Doctrine\DBAL\Logging\SQLLogger;
-use Doctrine\Common\EventSubscriber;
-use Doctrine\ORM\Events;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Event\OnFlushEventArgs;
+use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AuditSubscriber implements EventSubscriber
 {
     protected $labeler;
 
     /**
-     * @var SQLLogger
-     */
-    private $old;
-
-    /**
      * @var TokenStorage
      */
     protected $securityTokenStorage;
+
+    /**
+     * @var SQLLogger
+     */
+    private $old;
 
     private $auditedEntities = [];
     private $unauditedEntities = [];
@@ -54,6 +55,7 @@ class AuditSubscriber implements EventSubscriber
     public function setLabeler(callable $labeler = null)
     {
         $this->labeler = $labeler;
+
         return $this;
     }
 
@@ -83,30 +85,6 @@ class AuditSubscriber implements EventSubscriber
         return array_keys($this->unauditedEntities);
     }
 
-    private function isEntityUnaudited($entity)
-    {
-        if (!empty($this->auditedEntities)) {
-            // only selected entities are audited
-            $isEntityUnaudited = TRUE;
-            foreach (array_keys($this->auditedEntities) as $auditedEntity) {
-                if ($entity instanceof $auditedEntity) {
-                    $isEntityUnaudited = FALSE;
-                    break;
-                }
-            }
-        } else {
-            $isEntityUnaudited = FALSE;
-            foreach (array_keys($this->unauditedEntities) as $unauditedEntity) {
-                if ($entity instanceof $unauditedEntity) {
-                    $isEntityUnaudited = TRUE;
-                    break;
-                }
-            }
-        }
-
-        return $isEntityUnaudited;
-    }
-
     public function onFlush(OnFlushEventArgs $args)
     {
         $em = $args->getEntityManager();
@@ -115,7 +93,7 @@ class AuditSubscriber implements EventSubscriber
         // extend the sql logger
         $this->old = $em->getConnection()->getConfiguration()->getSQLLogger();
         $new = new LoggerChain();
-        $new->addLogger(new AuditLogger(function () use($em) {
+        $new->addLogger(new AuditLogger(function () use ($em) {
             $this->flush($em);
         }));
         if ($this->old instanceof SQLLogger) {
@@ -147,7 +125,7 @@ class AuditSubscriber implements EventSubscriber
                 continue;
             }
             $mapping = $collection->getMapping();
-            if (!$mapping['isOwningSide'] || $mapping['type'] !== ClassMetadataInfo::MANY_TO_MANY) {
+            if (!$mapping['isOwningSide'] || ClassMetadataInfo::MANY_TO_MANY !== $mapping['type']) {
                 continue; // ignore inverse side or one to many relations
             }
             foreach ($collection->getInsertDiff() as $entity) {
@@ -168,7 +146,7 @@ class AuditSubscriber implements EventSubscriber
                 continue;
             }
             $mapping = $collection->getMapping();
-            if (!$mapping['isOwningSide'] || $mapping['type'] !== ClassMetadataInfo::MANY_TO_MANY) {
+            if (!$mapping['isOwningSide'] || ClassMetadataInfo::MANY_TO_MANY !== $mapping['type']) {
                 continue; // ignore inverse side or one to many relations
             }
             foreach ($collection->toArray() as $entity) {
@@ -178,6 +156,53 @@ class AuditSubscriber implements EventSubscriber
                 $this->dissociated[] = [$collection->getOwner(), $entity, $this->id($em, $entity), $mapping];
             }
         }
+    }
+
+    public function getSubscribedEvents()
+    {
+        return [Events::onFlush];
+    }
+
+    public function setBlameUser(UserInterface $user)
+    {
+        $this->blameUser = $user;
+    }
+
+    protected function blame(EntityManager $em)
+    {
+        if ($this->blameUser instanceof UserInterface) {
+            return $this->assoc($em, $this->blameUser);
+        }
+        $token = $this->securityTokenStorage->getToken();
+        if ($token && $token->getUser() instanceof UserInterface) {
+            return $this->assoc($em, $token->getUser());
+        }
+
+        return null;
+    }
+
+    private function isEntityUnaudited($entity)
+    {
+        if (!empty($this->auditedEntities)) {
+            // only selected entities are audited
+            $isEntityUnaudited = true;
+            foreach (array_keys($this->auditedEntities) as $auditedEntity) {
+                if ($entity instanceof $auditedEntity) {
+                    $isEntityUnaudited = false;
+                    break;
+                }
+            }
+        } else {
+            $isEntityUnaudited = false;
+            foreach (array_keys($this->unauditedEntities) as $unauditedEntity) {
+                if ($entity instanceof $unauditedEntity) {
+                    $isEntityUnaudited = true;
+                    break;
+                }
+            }
+        }
+
+        return $isEntityUnaudited;
     }
 
     private function flush(EntityManager $em)
@@ -195,31 +220,31 @@ class AuditSubscriber implements EventSubscriber
         $this->assocInsertStmt = $em->getConnection()->prepare($rmAssocInsertSQL->invoke($assocPersister));
 
         foreach ($this->updated as $entry) {
-            list($entity, $ch) = $entry;
+            [$entity, $ch] = $entry;
             // the changeset might be updated from UOW extra updates
             $ch = array_merge($ch, $uow->getEntityChangeSet($entity));
             $this->update($em, $entity, $ch);
         }
 
         foreach ($this->inserted as $entry) {
-            list($entity, $ch) = $entry;
+            [$entity, $ch] = $entry;
             // the changeset might be updated from UOW extra updates
             $ch = array_merge($ch, $uow->getEntityChangeSet($entity));
             $this->insert($em, $entity, $ch);
         }
 
         foreach ($this->associated as $entry) {
-            list($source, $target, $mapping) = $entry;
+            [$source, $target, $mapping] = $entry;
             $this->associate($em, $source, $target, $mapping);
         }
 
         foreach ($this->dissociated as $entry) {
-            list($source, $target, $id, $mapping) = $entry;
+            [$source, $target, $id, $mapping] = $entry;
             $this->dissociate($em, $source, $target, $id, $mapping);
         }
 
         foreach ($this->removed as $entry) {
-            list($entity, $id) = $entry;
+            [$entity, $id] = $entry;
             $this->remove($em, $entity, $id);
         }
 
@@ -256,7 +281,7 @@ class AuditSubscriber implements EventSubscriber
 
     private function insert(EntityManager $em, $entity, array $ch)
     {
-        $meta = $em->getClassMetadata(get_class($entity));
+        $meta = $em->getClassMetadata(\get_class($entity));
         $this->audit($em, [
             'action' => 'insert',
             'source' => $this->assoc($em, $entity),
@@ -273,7 +298,7 @@ class AuditSubscriber implements EventSubscriber
         if (!$diff) {
             return; // if there is no entity diff, do not log it
         }
-        $meta = $em->getClassMetadata(get_class($entity));
+        $meta = $em->getClassMetadata(\get_class($entity));
         $this->audit($em, [
             'action' => 'update',
             'source' => $this->assoc($em, $entity),
@@ -286,7 +311,7 @@ class AuditSubscriber implements EventSubscriber
 
     private function remove(EntityManager $em, $entity, $id)
     {
-        $meta = $em->getClassMetadata(get_class($entity));
+        $meta = $em->getClassMetadata(\get_class($entity));
         $source = array_merge($this->assoc($em, $entity), ['fk' => $id]);
         $this->audit($em, [
             'action' => 'remove',
@@ -337,7 +362,7 @@ class AuditSubscriber implements EventSubscriber
                 $typ = Type::getType(Type::BIGINT); // relation
             }
             // @TODO: this check may not be necessary, simply it ensures that empty values are nulled
-            if (in_array($name, ['source', 'target', 'blame']) && $data[$name] === false) {
+            if (\in_array($name, ['source', 'target', 'blame']) && false === $data[$name]) {
                 $data[$name] = null;
             }
             $this->auditInsertStmt->bindValue($idx++, $data[$name], $typ);
@@ -347,22 +372,23 @@ class AuditSubscriber implements EventSubscriber
 
     private function id(EntityManager $em, $entity)
     {
-        $meta = $em->getClassMetadata(get_class($entity));
+        $meta = $em->getClassMetadata(\get_class($entity));
         $pk = $meta->getSingleIdentifierFieldName();
         $pk = $this->value(
             $em,
             Type::getType($meta->fieldMappings[$pk]['type']),
             $meta->getReflectionProperty($pk)->getValue($entity)
         );
+
         return $pk;
     }
 
     private function diff(EntityManager $em, $entity, array $ch)
     {
         $uow = $em->getUnitOfWork();
-        $meta = $em->getClassMetadata(get_class($entity));
+        $meta = $em->getClassMetadata(\get_class($entity));
         $diff = [];
-        foreach ($ch as $fieldName => list($old, $new)) {
+        foreach ($ch as $fieldName => [$old, $new]) {
             if ($meta->hasField($fieldName)) {
                 $mapping = $meta->fieldMappings[$fieldName];
                 $diff[$fieldName] = [
@@ -381,6 +407,7 @@ class AuditSubscriber implements EventSubscriber
                 ];
             }
         }
+
         return $diff;
     }
 
@@ -389,30 +416,31 @@ class AuditSubscriber implements EventSubscriber
         if (null === $association) {
             return null;
         }
-        $meta = $em->getClassMetadata(get_class($association));
+        $meta = $em->getClassMetadata(\get_class($association));
         $res = ['class' => $meta->name, 'typ' => $this->typ($meta->name), 'tbl' => $meta->table['name']];
         $em->getUnitOfWork()->initializeObject($association); // ensure that proxies are initialized
-        $res['fk'] = (string)$this->id($em, $association);
+        $res['fk'] = (string) $this->id($em, $association);
         $res['label'] = $this->label($em, $association);
+
         return $res;
     }
 
     private function typ($className)
     {
         // strip prefixes and repeating garbage from name
-        $className = preg_replace("/^(.+\\\)?(.+)(Bundle\\\Entity)/", "$2", $className);
+        $className = preg_replace("/^(.+\\\)?(.+)(Bundle\\\Entity)/", '$2', $className);
         // underscore and lowercase each subdirectory
-        return implode('.', array_map(function($name) {
+        return implode('.', array_map(function ($name) {
             return strtolower(preg_replace('/(?<=\\w)(?=[A-Z])/', '_$1', $name));
         }, explode('\\', $className)));
     }
 
     private function label(EntityManager $em, $entity)
     {
-        if (is_callable($this->labeler)) {
-            return call_user_func($this->labeler, $entity);
+        if (\is_callable($this->labeler)) {
+            return \call_user_func($this->labeler, $entity);
         }
-        $meta = $em->getClassMetadata(get_class($entity));
+        $meta = $em->getClassMetadata(\get_class($entity));
         switch (true) {
         case $meta->hasField('title'):
             return $meta->getReflectionProperty('title')->getValue($entity);
@@ -421,9 +449,9 @@ class AuditSubscriber implements EventSubscriber
         case $meta->hasField('label'):
             return $meta->getReflectionProperty('label')->getValue($entity);
         case $meta->getReflectionClass()->hasMethod('__toString'):
-            return (string)$entity;
+            return (string) $entity;
         default:
-            return "Unlabeled";
+            return 'Unlabeled';
         }
     }
 
@@ -436,27 +464,5 @@ class AuditSubscriber implements EventSubscriber
         default:
             return $type->convertToDatabaseValue($value, $platform);
         }
-    }
-
-    protected function blame(EntityManager $em)
-    {
-        if ($this->blameUser instanceof UserInterface) {
-            return $this->assoc($em, $this->blameUser);
-        }
-        $token = $this->securityTokenStorage->getToken();
-        if ($token && $token->getUser() instanceof UserInterface) {
-            return $this->assoc($em, $token->getUser());
-        }
-        return null;
-    }
-
-    public function getSubscribedEvents()
-    {
-        return [Events::onFlush];
-    }
-
-    public function setBlameUser(UserInterface $user)
-    {
-        $this->blameUser = $user;
     }
 }

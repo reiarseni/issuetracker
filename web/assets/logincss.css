@@ -10,9 +10,9 @@ body.light-background {
 .wrapper {
     position: relative;
     overflow: hidden;
-    padding-top: 54px;
+    /*padding-top: 54px;*/
     min-height: 100%;
-    padding-bottom: 45px
+    /*padding-bottom: 45px*/
 }
 
 .wrapper.no-navigation {
@@ -34,7 +34,7 @@ body.light-background {
 
 @media (max-width: 481px) {
     .sign-in-wrapper {
-        padding-top: 40px
+       /* padding-top: 40px*/
     }
 }
 

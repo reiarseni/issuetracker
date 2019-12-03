@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotifyBundle\EventListener;
 
 use AppBundle\Entity\Comment;
@@ -13,13 +15,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class NotifySubscriber implements EventSubscriberInterface
 {
-
-    /*** @var EntityManager */
+    // @var EntityManager
     private $em;
 
     private $urlGenerator;
 
-    public function __construct( EntityManager $em, UrlGeneratorInterface $urlGenerator)
+    public function __construct(EntityManager $em, UrlGeneratorInterface $urlGenerator)
     {
         $this->em = $em;
         $this->urlGenerator = $urlGenerator;
@@ -36,7 +37,7 @@ class NotifySubscriber implements EventSubscriberInterface
 
     public function onIssueCreated(GenericEvent $event)
     {
-        /*** @var Issue $issue */
+        // @var Issue $issue
         $issue = $event->getSubject();
         $userName = $issue->getCreatedBy()->getUsername();
         $log = new UserLoginLog();
@@ -53,23 +54,22 @@ class NotifySubscriber implements EventSubscriberInterface
             'id' => $issue->getId()
         ], UrlGeneratorInterface::RELATIVE_PATH);*/
 
-        $url =array('name'=>'issue_show','params'=>array('id'=>$issue->getId()));
-        $log->setUrl(  $url );
+        $url = ['name' => 'issue_show', 'params' => ['id' => $issue->getId()]];
+        $log->setUrl($url);
 
         $this->em->persist($log);
         $this->em->flush();
-
     }
 
     public function onCommentCreated(GenericEvent $event)
     {
-        /*** @var Comment $comment */
+        // @var Comment $comment
         $comment = $event->getSubject();
         $issue = $comment->getIssue();
         $userName = $issue->getCreatedBy()->getUsername();
         $log = new UserLoginLog();
 
-        $log->setShowText("Se Creo el Comentario");
+        $log->setShowText('Se Creo el Comentario');
         $log->setOperation('Nuevo Comentario');
 
         $log->setUser($issue->getCreatedBy());
@@ -77,8 +77,8 @@ class NotifySubscriber implements EventSubscriberInterface
 
         $log->setCreatedAt(new \DateTime());
 
-        $url =array('name'=>'issue_show','params'=>array('id'=>$issue->getId()));
-        $log->setUrl( $url );
+        $url = ['name' => 'issue_show', 'params' => ['id' => $issue->getId()]];
+        $log->setUrl($url);
 
         $this->em->persist($log);
         $this->em->flush();
@@ -86,12 +86,12 @@ class NotifySubscriber implements EventSubscriberInterface
 
     public function onStatusChanged(GenericEvent $event)
     {
-        /*** @var Issue $issue */
+        // @var Issue $issue
         $issue = $event->getSubject();
         $userName = $issue->getCreatedBy()->getUsername();
         $log = new UserLoginLog();
 
-        $log->setShowText(sprintf("Issue [%s] Cambio Estado [%s]", $issue->getTitle(),$issue->getStatus()));
+        $log->setShowText(sprintf('Issue [%s] Cambio Estado [%s]', $issue->getTitle(), $issue->getStatus()));
         $log->setOperation('Issue Cambio Estado');
 
         $log->setUser($issue->getCreatedBy());
@@ -99,11 +99,10 @@ class NotifySubscriber implements EventSubscriberInterface
 
         $log->setCreatedAt(new \DateTime());
 
-        $url =array('name'=>'issue_show','params'=>array('id'=>$issue->getId()));
-        $log->setUrl( $url );
+        $url = ['name' => 'issue_show', 'params' => ['id' => $issue->getId()]];
+        $log->setUrl($url);
 
         $this->em->persist($log);
         $this->em->flush();
-
     }
 }

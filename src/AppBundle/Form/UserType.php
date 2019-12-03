@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -21,63 +23,62 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, array(
+            ->add('email', EmailType::class, [
                 'translation_domain' => 'FOSUserBundle',
-                'attr' => array('class' => 'form-control')
-            ))
-            ->add('plainPassword', RepeatedType::class, array(
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array('attr' => array('class' => 'form-control')),
-                'second_options' => array('attr' => array('class' => 'form-control')),
+                'options' => ['translation_domain' => 'FOSUserBundle'],
+                'first_options' => ['attr' => ['class' => 'form-control']],
+                'second_options' => ['attr' => ['class' => 'form-control']],
                 'invalid_message' => 'fos_user.password.mismatch',
-            ))
+            ])
             //Esto se debe automanejar internamente
-            ->add('roles', ChoiceType::class, array(
-                'choices' => array(
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
                     'ROLE_SUPER_ADMIN' => 'ROLE_SUPER_ADMIN',
-                    'ROLE_ADMIN' => 'ROLE_ADMIN'
-                ),
+                    'ROLE_ADMIN' => 'ROLE_ADMIN',
+                ],
                 'multiple' => true,
                 'label' => 'Rol',
-                'attr' => array(
+                'attr' => [
                     'style' => 'width:100%',
-                ),
-            ))
-            ->add('enabled', CheckboxType::class, array(
+                ],
+            ])
+            ->add('enabled', CheckboxType::class, [
                 'label' => 'global.active',
                 'required' => false,
-                'attr' => array(
+                'attr' => [
                     'class' => 'minimal-red',
-                ),
-            ));
+                ],
+            ]);
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetDataUsername'));
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetDataUsername']);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-
             $data = $event->getData();
             $form = $event->getForm();
 
-            $options = array(
+            $options = [
                 'type' => PasswordType::class,
-                'options' => array('translation_domain' => 'FOSUserBundle'),
-                'first_options' => array(
+                'options' => ['translation_domain' => 'FOSUserBundle'],
+                'first_options' => [
                     'label' => 'form.password',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'form-control',
-                    )
-                ),
-                'second_options' => array(
+                    ],
+                ],
+                'second_options' => [
                     'label' => 'form.password_confirmation',
-                    'attr' => array(
+                    'attr' => [
                         'class' => 'form-control',
-                    )
-                ),
+                    ],
+                ],
                 'invalid_message' => 'fos_user.password.mismatch',
-            );
+            ];
 
-            if ($data->getId() !== null) {
+            if (null !== $data->getId()) {
                 $options['required'] = false;
             }
 
@@ -90,10 +91,10 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\User',
             'translation_domain' => 'messages',
-        ));
+        ]);
     }
 
     /**
@@ -113,19 +114,19 @@ class UserType extends AbstractType
         $form = $event->getForm();
 
         if (!$user || null === $user->getId()) {
-            $form->add('username', null, array(
+            $form->add('username', null, [
                 'translation_domain' => 'FOSUserBundle',
                 'label' => 'form.username',
-                'attr' => array('class' => 'form-control')
-            ));
+                'attr' => ['class' => 'form-control'],
+            ]);
         } else {
-            $form->add('username', null, array(
+            $form->add('username', null, [
                 'translation_domain' => 'FOSUserBundle',
                 'label' => 'form.username',
-                'attr' => array(
+                'attr' => [
                     'readonly' => true,
-                )
-            ));
+                ],
+            ]);
         }
     }
 }

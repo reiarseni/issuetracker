@@ -1,22 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\Twig;
 
 use Symfony\Component\Translation\TranslatorInterface;
 
-/**
- * @author Robin van der Vleuten <robinvdvleuten@gmail.com>
- */
 class UtilsExtension extends \Twig_Extension
 {
-    public static $units = array(
+    public static $units = [
         'y' => 'year',
         'm' => 'month',
         'd' => 'day',
         'h' => 'hour',
         'i' => 'minute',
         's' => 'second',
-    );
+    ];
 
     /**
      * @var TranslatorInterface
@@ -33,17 +32,17 @@ class UtilsExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('time_diff_personal', array($this, 'diff'), array('needs_environment' => true)),
-        );
+        return [
+            new \Twig_SimpleFilter('time_diff_personal', [$this, 'diff'], ['needs_environment' => true]),
+        ];
     }
 
     /**
      * Filter for converting dates to a time ago string like Facebook and Twitter has.
      *
      * @param \Twig_Environment $env  a Twig_Environment instance
-     * @param string|\DateTime  $date a string or DateTime object to convert
-     * @param string|\DateTime  $now  A string or DateTime object to compare with. If none given, the current time will be used.
+     * @param \DateTime|string  $date a string or DateTime object to convert
+     * @param \DateTime|string  $now  A string or DateTime object to compare with. If none given, the current time will be used.
      *
      * @return string the converted time
      */
@@ -68,13 +67,21 @@ class UtilsExtension extends \Twig_Extension
         return '';
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'date';
+    }
+
     protected function getPluralizedInterval($count, $invert, $unit)
     {
         if ($this->translator) {
             $id = sprintf('diff.%s.%s', $invert ? 'in' : 'ago', $unit);
 
-            /** @Ignore */
-            return $this->translator->transChoice($id, $count, array('%count%' => $count) );
+            // @Ignore
+            return $this->translator->transChoice($id, $count, ['%count%' => $count]);
         }
 
         if (1 !== $count) {
@@ -82,13 +89,5 @@ class UtilsExtension extends \Twig_Extension
         }
 
         return $invert ? "in $count $unit" : "$count $unit ago";
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'date';
     }
 }

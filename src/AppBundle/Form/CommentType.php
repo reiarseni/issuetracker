@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -16,17 +18,17 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('commentType', TextType::class, array(
+            ->add('commentType', TextType::class, [
                 'label' => 'Tipo',
                 'required' => true,
-            ))->add('content', TextareaType::class, array(
-                'attr' => array(
+            ])->add('content', TextareaType::class, [
+                'attr' => [
                     'rows' => 20,
-                    'class' => 'tinymce'
-                ),
+                    'class' => 'tinymce',
+                ],
                 'label' => 'Texto',
-                'required' => false
-            ));
+                'required' => false,
+            ]);
     }
 
     /**
@@ -34,10 +36,10 @@ class CommentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Comment',
             'translation_domain' => 'messages',
-        ));
+        ]);
     }
 
     /**

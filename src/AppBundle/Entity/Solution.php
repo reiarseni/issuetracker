@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -7,12 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="solution")
  */
 class Solution
 {
-
     /**
      * @var string
      *
@@ -57,24 +58,24 @@ class Solution
     private $createdBy;
 
     /**
-     * Los comentarios van a ser (Comentarios de Issues) o (Comentarios de Solutions)
+     * Los comentarios van a ser (Comentarios de Issues) o (Comentarios de Solutions).
      *
-     * @var Comment[]|ArrayCollection
+     * @var ArrayCollection|Comment[]
      *
      * @ORM\OneToMany(
-     *      targetEntity="Comment",
-     *      mappedBy="solution",
-     *      orphanRemoval=true,
-     *      cascade={"persist"}
+     *     targetEntity="Comment",
+     *     mappedBy="solution",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
      * )
-     * @ORM\OrderBy({"createdAt": "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
 
     /**
      * Si o No, el desarrollador ya lo reviso?
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -83,7 +84,7 @@ class Solution
     /**
      * Si o No, el cliente ya lo reviso?
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -93,7 +94,6 @@ class Solution
     {
         $this->createdAt = new \DateTime();
     }
-
 
     /**
      * Get id.
@@ -232,7 +232,7 @@ class Solution
      *
      * @return Solution
      */
-    public function setCreatedBy(\AppBundle\Entity\User $createdBy)
+    public function setCreatedBy(User $createdBy)
     {
         $this->createdBy = $createdBy;
 
@@ -256,7 +256,7 @@ class Solution
      *
      * @return Solution
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -268,9 +268,9 @@ class Solution
      *
      * @param \AppBundle\Entity\Comment $comment
      *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         return $this->comments->removeElement($comment);
     }
@@ -284,5 +284,4 @@ class Solution
     {
         return $this->comments;
     }
-
 }

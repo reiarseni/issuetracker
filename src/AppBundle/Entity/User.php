@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use AppBundle\Manager\UtilManager;
@@ -8,7 +10,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * User
+ * User.
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\UserRepository")
@@ -35,7 +37,7 @@ class User extends BaseUser
     private $expiresAt;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="expired", type="boolean", nullable=true)
      */
@@ -49,14 +51,14 @@ class User extends BaseUser
     private $credentialsExpireAt;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="credentials_expired", type="boolean", nullable=true)
      */
     private $credentialsExpired;
 
     /**
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="locked", type="boolean", nullable=true)
      */
@@ -84,7 +86,7 @@ class User extends BaseUser
     private $lastActivity;
 
     /**
-     * Apikey que se genera para el usuario, los administradores son los que generan/regeneran apikey para los demas usuarios
+     * Apikey que se genera para el usuario, los administradores son los que generan/regeneran apikey para los demas usuarios.
      *
      * @var string
      *
@@ -93,18 +95,22 @@ class User extends BaseUser
     private $apiKey;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
         parent::__construct();
     }
 
+    public function __toString()
+    {
+        return $this->getUsername();
+    }
 
     /**
-     * Set expired
+     * Set expired.
      *
-     * @param boolean $expired
+     * @param bool $expired
      *
      * @return User
      */
@@ -116,9 +122,9 @@ class User extends BaseUser
     }
 
     /**
-     * Get expired
+     * Get expired.
      *
-     * @return boolean
+     * @return bool
      */
     public function getExpired()
     {
@@ -126,9 +132,9 @@ class User extends BaseUser
     }
 
     /**
-     * Set credentialsExpired
+     * Set credentialsExpired.
      *
-     * @param boolean $credentialsExpired
+     * @param bool $credentialsExpired
      *
      * @return User
      */
@@ -140,9 +146,9 @@ class User extends BaseUser
     }
 
     /**
-     * Get credentialsExpired
+     * Get credentialsExpired.
      *
-     * @return boolean
+     * @return bool
      */
     public function getCredentialsExpired()
     {
@@ -150,7 +156,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -164,7 +170,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -174,7 +180,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -188,7 +194,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -198,7 +204,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set lastActivity
+     * Set lastActivity.
      *
      * @param \DateTime $lastActivity
      *
@@ -212,7 +218,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get lastActivity
+     * Get lastActivity.
      *
      * @return \DateTime
      */
@@ -222,7 +228,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set expiresAt
+     * Set expiresAt.
      *
      * @param \DateTime $expiresAt
      *
@@ -236,7 +242,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get expiresAt
+     * Get expiresAt.
      *
      * @return \DateTime
      */
@@ -246,7 +252,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set credentialsExpireAt
+     * Set credentialsExpireAt.
      *
      * @param \DateTime $credentialsExpireAt
      *
@@ -260,7 +266,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get credentialsExpireAt
+     * Get credentialsExpireAt.
      *
      * @return \DateTime
      */
@@ -270,9 +276,9 @@ class User extends BaseUser
     }
 
     /**
-     * Set locked
+     * Set locked.
      *
-     * @param boolean $locked
+     * @param bool $locked
      *
      * @return User
      */
@@ -284,9 +290,9 @@ class User extends BaseUser
     }
 
     /**
-     * Get locked
+     * Get locked.
      *
-     * @return boolean
+     * @return bool
      */
     public function getLocked()
     {
@@ -297,33 +303,24 @@ class User extends BaseUser
     {
         $roles = $this->roles;
         $roles_string = '';
-        if (count($roles) == 0) {
+        if (0 == \count($roles)) {
             return ' Ninguno asignado';
-        } else {
-            for ($i = 0; $i < count($roles); ++$i) {
-                if (count($roles) - $i == 1) {
-                    $roles_string .= $roles[$i];
+        }
+        for ($i = 0; $i < \count($roles); ++$i) {
+            if (1 == \count($roles) - $i) {
+                $roles_string .= $roles[$i];
 
-                    return $roles_string;
-                } else {
-                    $roles_string .= $roles[$i].' - ';
-                }
+                return $roles_string;
             }
+            $roles_string .= $roles[$i].' - ';
         }
     }
-
-
-    public function __toString()
-    {
-        return $this->getUsername();
-    }
-
 
     public function getRolTraducido()
     {
         $roles = $this->getRoles();
 
-        $rol= 'Rol Desconocido';
+        $rol = 'Rol Desconocido';
 
         foreach ($roles as $rolRaw) {
             $rol = UtilManager::getRolTraducido($rolRaw);
@@ -336,7 +333,7 @@ class User extends BaseUser
     }
 
     /**
-     * Set apiKey
+     * Set apiKey.
      *
      * @param string $apiKey
      *
@@ -350,7 +347,7 @@ class User extends BaseUser
     }
 
     /**
-     * Get apiKey
+     * Get apiKey.
      *
      * @return string
      */

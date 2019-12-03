@@ -69,13 +69,12 @@
 
 <p class="pagination-summary">
   {% if pager.total == 0 %}
-    {% trans %}no_records_found{% endtrans %}
+
   {% else %}
     {% set record_from = pager.itemsPerPage*(pager.currentPage-1) + 1 %}
     {% set record_to = min(pager.itemsPerPage + pager.itemsPerPage*(pager.currentPage-1), pager.total) %}
     {% set total_pages = pager.total %}
-
-    {% trans with {'FROM': record_from, 'TO': record_to, 'TOTAL_PAGES': total_pages} %}showing_records{% endtrans %}
+    Mostrando registros del {{ record_from  }} al {{ record_to }} de un total de {{ total_pages }} registros
   {% endif %}
 </p>
 <div class="clearfix"></div>

@@ -1,23 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotifyBundle\EventListener;
 
 use FOS\UserBundle\Event\UserEvent;
 use NotifyBundle\Entity\UserLoginLog;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Event\AuthenticationFailureEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Custom login listener.
  */
 class LoginListener
 {
-
     private $container;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ContainerInterface $container
      */
@@ -28,6 +29,7 @@ class LoginListener
 
     /**
      * Do the magic.
+     *
      * @param InteractiveLoginEvent $event
      */
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
@@ -56,7 +58,6 @@ class LoginListener
         $em->flush();
     }
 
-
     public function onAuthenticationFailure(AuthenticationFailureEvent $event)
     {
         $em = $this->container->get('doctrine')->getManager();
@@ -82,7 +83,7 @@ class LoginListener
         $em->flush();
     }
 
-    #estos dos no funcionan
+    //estos dos no funcionan
 
     public function onUserCreated(UserEvent $event)
     {
@@ -119,6 +120,4 @@ class LoginListener
         $em->persist($log);
         $em->flush();
     }
-
-
 }

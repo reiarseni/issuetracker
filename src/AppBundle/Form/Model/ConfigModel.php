@@ -1,13 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Form\Model;
 
-/**
- *
- */
 class ConfigModel
 {
-
     /**
      * @var string
      */
@@ -98,13 +96,13 @@ class ConfigModel
      */
     public function isMostrarContacto()
     {
-        return (bool)$this->mostrarContacto;
+        return (bool) $this->mostrarContacto;
     }
 
     /**
      * @param string $mostrarContacto
      */
-    public function setMostrarContacto( $mostrarContacto)
+    public function setMostrarContacto($mostrarContacto)
     {
         $this->mostrarContacto = $mostrarContacto;
     }
@@ -140,5 +138,4 @@ class ConfigModel
     {
         $this->version = $version;
     }
-
 }

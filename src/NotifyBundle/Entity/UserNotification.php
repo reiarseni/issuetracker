@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotifyBundle\Entity;
 
 use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UserNotification
+ * UserNotification.
  *
  * @ORM\Table(name="user_notification")
  * @ORM\Entity
@@ -14,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class UserNotification
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
@@ -55,11 +57,10 @@ class UserNotification
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="recipient_id", referencedColumnName="id")
+     *     @ORM\JoinColumn(name="recipient_id", referencedColumnName="id")
      * })
      */
     private $recipient;
-
 
     /**
      * Get id.
@@ -174,7 +175,7 @@ class UserNotification
      *
      * @return UserNotification
      */
-    public function setRecipient(\AppBundle\Entity\User $recipient = null)
+    public function setRecipient(User $recipient = null)
     {
         $this->recipient = $recipient;
 

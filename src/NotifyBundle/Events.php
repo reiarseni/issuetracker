@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NotifyBundle;
 
 final class Events
@@ -12,17 +14,17 @@ final class Events
      *
      * @var string
      */
-    const ISSUE_CREATED = 'issue.created';
+    public const ISSUE_CREATED = 'issue.created';
 
-    /*** @var string */
-    const COMMENT_CREATED = 'comment.created';
+    // @var string
+    public const COMMENT_CREATED = 'comment.created';
 
-    /*** @var string */
-    const ISSUE_STATUS_CHANGED = 'issue.status.changed';
+    // @var string
+    public const ISSUE_STATUS_CHANGED = 'issue.status.changed';
 
-    /*** @var string */
-    const REQUIREMENT_CREATED = 'requirement.created';
+    // @var string
+    public const REQUIREMENT_CREATED = 'requirement.created';
 
-    /*** @var string */
-    const CHANGELOG_CREATED = 'changelog.created';
+    // @var string
+    public const CHANGELOG_CREATED = 'changelog.created';
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -22,6 +24,11 @@ class Tag
      */
     private $name;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     public function getId()
     {
         return $this->id;
@@ -30,16 +37,12 @@ class Tag
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     public function getName()
     {
         return $this->name;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -7,14 +9,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Requirement
+ * Requirement.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="requirement")
  */
 class Requirement
 {
-
     /**
      * @var string
      *
@@ -26,7 +27,7 @@ class Requirement
     private $id;
 
     /**
-     * Numero consecutivo del requerimiento
+     * Numero consecutivo del requerimiento.
      *
      * @var string
      *
@@ -54,7 +55,7 @@ class Requirement
     //CAMOS DE REPORTADO POR USUARIO Y ASIGNADO A USUARIO
 
     /**
-     * Reportado por el usuario TAL
+     * Reportado por el usuario TAL.
      *
      * @var User
      *
@@ -105,9 +106,9 @@ class Requirement
     private $updatedBy;
 
     /**
-     * Progreso del requirement en por ciento aproximado de cumplimiento
+     * Progreso del requirement en por ciento aproximado de cumplimiento.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="progress", type="integer", nullable=true)
      */
@@ -116,17 +117,17 @@ class Requirement
     //ONE TO MANY FIELDS
 
     /**
-     * Los comentarios van a ser (Comentarios de Issues) o (Requirement's Comment)
+     * Los comentarios van a ser (Comentarios de Issues) o (Requirement's Comment).
      *
-     * @var Comment[]|ArrayCollection
+     * @var ArrayCollection|Comment[]
      *
      * @ORM\OneToMany(
-     *      targetEntity="Comment",
-     *      mappedBy="requirement",
-     *      orphanRemoval=true,
-     *      cascade={"persist"}
+     *     targetEntity="Comment",
+     *     mappedBy="requirement",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
      * )
-     * @ORM\OrderBy({"createdAt": "DESC"})
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      */
     private $comments;
 
@@ -135,6 +136,11 @@ class Requirement
         $this->createdAt = new \DateTime();
         $this->comments = new ArrayCollection();
         $this->progress = 0;
+    }
+
+    public function __toString()
+    {
+        return  $this->getNumber().' - '.$this->getTitle();
     }
 
     /**
@@ -148,7 +154,7 @@ class Requirement
     }
 
     /**
-     * Set number
+     * Set number.
      *
      * @param string $number
      *
@@ -162,7 +168,7 @@ class Requirement
     }
 
     /**
-     * Get number
+     * Get number.
      *
      * @return string
      */
@@ -172,7 +178,7 @@ class Requirement
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
      *
@@ -186,7 +192,7 @@ class Requirement
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -196,7 +202,7 @@ class Requirement
     }
 
     /**
-     * Set content
+     * Set content.
      *
      * @param string $content
      *
@@ -210,7 +216,7 @@ class Requirement
     }
 
     /**
-     * Get content
+     * Get content.
      *
      * @return string
      */
@@ -220,7 +226,7 @@ class Requirement
     }
 
     /**
-     * Set receivedAt
+     * Set receivedAt.
      *
      * @param \DateTime $receivedAt
      *
@@ -234,7 +240,7 @@ class Requirement
     }
 
     /**
-     * Get receivedAt
+     * Get receivedAt.
      *
      * @return \DateTime
      */
@@ -244,7 +250,7 @@ class Requirement
     }
 
     /**
-     * Set createdAt
+     * Set createdAt.
      *
      * @param \DateTime $createdAt
      *
@@ -258,7 +264,7 @@ class Requirement
     }
 
     /**
-     * Get createdAt
+     * Get createdAt.
      *
      * @return \DateTime
      */
@@ -268,7 +274,7 @@ class Requirement
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -282,7 +288,7 @@ class Requirement
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -292,9 +298,9 @@ class Requirement
     }
 
     /**
-     * Set progress
+     * Set progress.
      *
-     * @param integer $progress
+     * @param int $progress
      *
      * @return Requirement
      */
@@ -306,9 +312,9 @@ class Requirement
     }
 
     /**
-     * Get progress
+     * Get progress.
      *
-     * @return integer
+     * @return int
      */
     public function getProgress()
     {
@@ -316,13 +322,13 @@ class Requirement
     }
 
     /**
-     * Set reportedBy
+     * Set reportedBy.
      *
      * @param \AppBundle\Entity\User $reportedBy
      *
      * @return Requirement
      */
-    public function setReportedBy(\AppBundle\Entity\User $reportedBy)
+    public function setReportedBy(User $reportedBy)
     {
         $this->reportedBy = $reportedBy;
 
@@ -330,7 +336,7 @@ class Requirement
     }
 
     /**
-     * Get reportedBy
+     * Get reportedBy.
      *
      * @return \AppBundle\Entity\User
      */
@@ -340,13 +346,13 @@ class Requirement
     }
 
     /**
-     * Set createdBy
+     * Set createdBy.
      *
      * @param \AppBundle\Entity\User $createdBy
      *
      * @return Requirement
      */
-    public function setCreatedBy(\AppBundle\Entity\User $createdBy)
+    public function setCreatedBy(User $createdBy)
     {
         $this->createdBy = $createdBy;
 
@@ -354,7 +360,7 @@ class Requirement
     }
 
     /**
-     * Get createdBy
+     * Get createdBy.
      *
      * @return \AppBundle\Entity\User
      */
@@ -364,13 +370,13 @@ class Requirement
     }
 
     /**
-     * Set updatedBy
+     * Set updatedBy.
      *
      * @param \AppBundle\Entity\User $updatedBy
      *
      * @return Requirement
      */
-    public function setUpdatedBy(\AppBundle\Entity\User $updatedBy = null)
+    public function setUpdatedBy(User $updatedBy = null)
     {
         $this->updatedBy = $updatedBy;
 
@@ -378,7 +384,7 @@ class Requirement
     }
 
     /**
-     * Get updatedBy
+     * Get updatedBy.
      *
      * @return \AppBundle\Entity\User
      */
@@ -388,13 +394,13 @@ class Requirement
     }
 
     /**
-     * Add comment
+     * Add comment.
      *
      * @param \AppBundle\Entity\Comment $comment
      *
      * @return Requirement
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -402,17 +408,17 @@ class Requirement
     }
 
     /**
-     * Remove comment
+     * Remove comment.
      *
      * @param \AppBundle\Entity\Comment $comment
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
     }
 
     /**
-     * Get comments
+     * Get comments.
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -420,10 +426,4 @@ class Requirement
     {
         return $this->comments;
     }
-
-    public function __toString()
-    {
-        return  $this->getNumber() . ' - ' . $this->getTitle();
-    }
-
 }

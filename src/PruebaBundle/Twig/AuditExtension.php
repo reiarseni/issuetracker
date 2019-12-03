@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\Twig;
 
 use DbAuditBundle\Entity\AuditLog;
@@ -31,26 +33,26 @@ class AuditExtension extends \Twig_Extension
 
     public function assoc(\Twig_Environment $twig, $assoc)
     {
-        return $twig->render("PruebaBundle:Audit:assoc.html.twig", compact('assoc'));
+        return $twig->render('PruebaBundle:Audit:assoc.html.twig', compact('assoc'));
     }
 
     public function blame(\Twig_Environment $twig, $blame)
     {
-        return $twig->render("PruebaBundle:Audit:blame.html.twig", compact('blame'));
+        return $twig->render('PruebaBundle:Audit:blame.html.twig', compact('blame'));
     }
 
     public function value(\Twig_Environment $twig, $val)
     {
         switch (true) {
-        case is_bool($val):
+        case \is_bool($val):
             return $val ? 'true' : 'false';
-        case is_array($val) && isset($val['fk']):
+        case \is_array($val) && isset($val['fk']):
             return $this->assoc($twig, $val);
-        case is_array($val):
+        case \is_array($val):
             return json_encode($val);
-        case is_string($val):
-            return strlen($val) > 60 ? substr($val, 0, 60) . '...' : $val;
-        case is_null($val):
+        case \is_string($val):
+            return \strlen($val) > 60 ? substr($val, 0, 60).'...' : $val;
+        case null === $val:
             return 'NULL';
         default:
             return $val;

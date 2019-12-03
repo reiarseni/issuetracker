@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LogAuditBundle\Monolog\Reader;
 
 use LogAuditBundle\Monolog\Parser\LineLogParser;
 
 /**
- * Class AbstractReader
- * @package Dubture\Monolog\Reader
+ * Class AbstractReader.
  */
 class AbstractReader
 {
-
     /**
      * @param $days
      * @param $pattern

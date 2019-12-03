@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DbAuditBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration for DbAuditBundle
+ * Configuration for DbAuditBundle.
  */
 class Configuration implements ConfigurationInterface
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @see \Symfony\Component\Config\Definition\ConfigurationInterface::getConfigTreeBuilder()
      */
     public function getConfigTreeBuilder()
@@ -27,8 +29,7 @@ class Configuration implements ConfigurationInterface
                     ->performNoDeepMerging()
                     ->prototype('scalar')->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
 
         $rootNode
             ->children()
@@ -37,10 +38,8 @@ class Configuration implements ConfigurationInterface
                     ->performNoDeepMerging()
                     ->prototype('scalar')->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }
-
 }

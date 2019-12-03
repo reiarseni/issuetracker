@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,14 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * El Issue puede ser hecho a partir de un comment de una solution,
  * El issue es enriquecido en los comments,
- * en los comments del issue se pueden hacer preguntas
+ * en los comments del issue se pueden hacer preguntas.
  *
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="issue")
  */
 class Issue
 {
-
     /**
      * @var string
      *
@@ -28,7 +29,7 @@ class Issue
     private $id;
 
     /**
-     * Numero consecutivo del issue, se crea sin numero, lo debe asignar el sistema centralizado
+     * Numero consecutivo del issue, se crea sin numero, lo debe asignar el sistema centralizado.
      *
      * @var string
      *
@@ -56,28 +57,24 @@ class Issue
     //CAMPOS CLASIFICATORIOS
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\IssueStatus")
      * @ORM\JoinColumn(nullable=false)
      */
     private $status;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\IssuePriority")
      * @ORM\JoinColumn(nullable=true)
      */
     private $priority;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\IssueType")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -86,7 +83,7 @@ class Issue
     //CAMOS DE REPORTADO POR USUARIO Y ASIGNADO A USUARIO
 
     /**
-     * Reportado por el usuario TAL
+     * Reportado por el usuario TAL.
      *
      * @var User
      *
@@ -96,7 +93,7 @@ class Issue
     private $reportedBy;
 
     /**
-     * Asignado al desarrollador TAL
+     * Asignado al desarrollador TAL.
      *
      * @var User
      *
@@ -156,16 +153,16 @@ class Issue
     //CAMPOS DE ESTIMACION Y PROGRESO DE HORAS DE IMPLEMENTACION
 
     /**
-     * Progreso del issue en por ciento
+     * Progreso del issue en por ciento.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="progress", type="integer", nullable=true)
      */
     private $progress;
 
     /**
-     * Horas estimadas de duracion
+     * Horas estimadas de duracion.
      *
      * @var string
      *
@@ -174,7 +171,7 @@ class Issue
     private $estimatedHours;
 
     /**
-     * Horas reales de duracion
+     * Horas reales de duracion.
      *
      * @var string
      *
@@ -186,26 +183,26 @@ class Issue
     //ONE TO MANY FIELDS
 
     /**
-     * Los comentarios van a ser (Comentarios de Issues) o (Comentarios de Solutions)
+     * Los comentarios van a ser (Comentarios de Issues) o (Comentarios de Solutions).
      *
-     * @var Comment[]|ArrayCollection
+     * @var ArrayCollection|Comment[]
      *
      * @ORM\OneToMany(
-     *      targetEntity="Comment",
-     *      mappedBy="issue",
-     *      orphanRemoval=true,
-     *      cascade={"persist"}
+     *     targetEntity="Comment",
+     *     mappedBy="issue",
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
      * )
      * -----------------------------------------------@ORM\OrderBy({"createdAt": "DESC"})
      */
     private $comments;
 
     /**
-     * @var IssueTag[]|ArrayCollection
+     * @var ArrayCollection|IssueTag[]
      *
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\IssueTag", cascade={"persist"})
      * @ORM\JoinTable(name="issue_tag_issue_rel")
-     * @ORM\OrderBy({"name": "ASC"})
+     * @ORM\OrderBy({"name" = "ASC"})
      * @Assert\Count(max="5", maxMessage="post.too_many_tags")
      */
     private $tags;
@@ -222,6 +219,16 @@ class Issue
         $this->comments = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->progress = 0;
+
+        $this->setActualHours(1);
+        $this->setEstimatedHours(1);
+        $this->setDeadlineAt(new \DateTime());
+        $this->setReceivedAt(new \DateTime());
+    }
+
+    public function __toString()
+    {
+        return  $this->getNumber().' - '.$this->getTitle();
     }
 
     /**
@@ -390,7 +397,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setStatus(\AppBundle\Entity\IssueStatus $status)
+    public function setStatus(IssueStatus $status)
     {
         $this->status = $status;
 
@@ -414,7 +421,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setType(\AppBundle\Entity\IssueType $type)
+    public function setType(IssueType $type)
     {
         $this->type = $type;
 
@@ -438,7 +445,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setReportedBy(\AppBundle\Entity\User $reportedBy)
+    public function setReportedBy(User $reportedBy)
     {
         $this->reportedBy = $reportedBy;
 
@@ -462,7 +469,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setAssignedTo(\AppBundle\Entity\User $assignedTo)
+    public function setAssignedTo(User $assignedTo)
     {
         $this->assignedTo = $assignedTo;
 
@@ -486,7 +493,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setCreatedBy(\AppBundle\Entity\User $createdBy)
+    public function setCreatedBy(User $createdBy)
     {
         $this->createdBy = $createdBy;
 
@@ -510,7 +517,7 @@ class Issue
      *
      * @return Issue
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -522,9 +529,9 @@ class Issue
      *
      * @param \AppBundle\Entity\Comment $comment
      *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(Comment $comment)
     {
         return $this->comments->removeElement($comment);
     }
@@ -546,7 +553,7 @@ class Issue
      *
      * @return Issue
      */
-    public function addTag(\AppBundle\Entity\IssueTag $tag)
+    public function addTag(IssueTag $tag)
     {
         if (!$this->tags->contains($tag)) {
             $this->tags->add($tag);
@@ -560,9 +567,9 @@ class Issue
      *
      * @param \AppBundle\Entity\IssueTag $tag
      *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeTag(\AppBundle\Entity\IssueTag $tag)
+    public function removeTag(IssueTag $tag)
     {
         return $this->tags->removeElement($tag);
     }
@@ -584,7 +591,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setCategory(\AppBundle\Entity\Category $category)
+    public function setCategory(Category $category)
     {
         $this->category = $category;
 
@@ -601,11 +608,6 @@ class Issue
         return $this->category;
     }
 
-    public function __toString()
-    {
-        return  $this->getNumber() . ' - ' . $this->getTitle();
-    }
-
     /**
      * Set priority.
      *
@@ -613,7 +615,7 @@ class Issue
      *
      * @return Issue
      */
-    public function setPriority(\AppBundle\Entity\IssuePriority $priority= null)
+    public function setPriority(IssuePriority $priority = null)
     {
         $this->priority = $priority;
 
@@ -631,7 +633,7 @@ class Issue
     }
 
     /**
-     * Set receivedAt
+     * Set receivedAt.
      *
      * @param \DateTime $receivedAt
      *
@@ -645,7 +647,7 @@ class Issue
     }
 
     /**
-     * Get receivedAt
+     * Get receivedAt.
      *
      * @return \DateTime
      */
@@ -655,7 +657,7 @@ class Issue
     }
 
     /**
-     * Set deadlineAt
+     * Set deadlineAt.
      *
      * @param \DateTime $deadlineAt
      *
@@ -669,7 +671,7 @@ class Issue
     }
 
     /**
-     * Get deadlineAt
+     * Get deadlineAt.
      *
      * @return \DateTime
      */
@@ -679,7 +681,7 @@ class Issue
     }
 
     /**
-     * Set updatedAt
+     * Set updatedAt.
      *
      * @param \DateTime $updatedAt
      *
@@ -693,7 +695,7 @@ class Issue
     }
 
     /**
-     * Get updatedAt
+     * Get updatedAt.
      *
      * @return \DateTime
      */
@@ -703,13 +705,13 @@ class Issue
     }
 
     /**
-     * Set updatedBy
+     * Set updatedBy.
      *
      * @param \AppBundle\Entity\User $updatedBy
      *
      * @return Issue
      */
-    public function setUpdatedBy(\AppBundle\Entity\User $updatedBy=null)
+    public function setUpdatedBy(User $updatedBy = null)
     {
         $this->updatedBy = $updatedBy;
 
@@ -717,7 +719,7 @@ class Issue
     }
 
     /**
-     * Get updatedBy
+     * Get updatedBy.
      *
      * @return \AppBundle\Entity\User
      */
@@ -727,9 +729,9 @@ class Issue
     }
 
     /**
-     * Set progress
+     * Set progress.
      *
-     * @param integer $progress
+     * @param int $progress
      *
      * @return Issue
      */
@@ -741,9 +743,9 @@ class Issue
     }
 
     /**
-     * Get progress
+     * Get progress.
      *
-     * @return integer
+     * @return int
      */
     public function getProgress()
     {
@@ -751,13 +753,13 @@ class Issue
     }
 
     /**
-     * Set requirement
+     * Set requirement.
      *
      * @param \AppBundle\Entity\Requirement $requirement
      *
      * @return Issue
      */
-    public function setRequirement(\AppBundle\Entity\Requirement $requirement)
+    public function setRequirement(Requirement $requirement)
     {
         $this->requirement = $requirement;
 
@@ -765,7 +767,7 @@ class Issue
     }
 
     /**
-     * Get requirement
+     * Get requirement.
      *
      * @return \AppBundle\Entity\Requirement
      */
@@ -776,26 +778,26 @@ class Issue
 
     public function serialize()
     {
-        $issue = array();
+        $issue = [];
         $issue['id'] = $this->getId();
         $issue['number'] = $this->getNumber();
         $issue['title'] = $this->getTitle();
         $issue['content'] = $this->getContent();
 
-        $issue['category'] = $this->getCategory()? $this->getCategory()->getId():null;
-        $issue['status'] = $this->getStatus()? $this->getStatus()->getId():null;
-        $issue['priority'] = $this->getPriority()? $this->getPriority()->getId():null;
+        $issue['category'] = $this->getCategory() ? $this->getCategory()->getId() : null;
+        $issue['status'] = $this->getStatus() ? $this->getStatus()->getId() : null;
+        $issue['priority'] = $this->getPriority() ? $this->getPriority()->getId() : null;
 
-        $issue['type'] = $this->getType() ? $this->getType()->getId():null;
-        $issue['reportedBy'] = $this->getReportedBy()? $this->getReportedBy()->getId():null;
-        $issue['assignedTo'] = $this->getAssignedTo()? $this->getAssignedTo()->getId():null;
+        $issue['type'] = $this->getType() ? $this->getType()->getId() : null;
+        $issue['reportedBy'] = $this->getReportedBy() ? $this->getReportedBy()->getId() : null;
+        $issue['assignedTo'] = $this->getAssignedTo() ? $this->getAssignedTo()->getId() : null;
 
-        $issue['updatedAt'] = $this->getUpdatedAt()? $this->getUpdatedAt()->format('Y-m-d') : null ;
+        $issue['updatedAt'] = $this->getUpdatedAt() ? $this->getUpdatedAt()->format('Y-m-d') : null;
 
-        $issue['receivedAt'] = $this->getReceivedAt() ? $this->getReceivedAt()->format('Y-m-d') : null ;
-        $issue['deadlineAt'] = $this->getDeadlineAt()? $this->getDeadlineAt()->format('Y-m-d') : null ;
+        $issue['receivedAt'] = $this->getReceivedAt() ? $this->getReceivedAt()->format('Y-m-d') : null;
+        $issue['deadlineAt'] = $this->getDeadlineAt() ? $this->getDeadlineAt()->format('Y-m-d') : null;
 
-        $issue['createdAt'] = $this->getCreatedAt()? $this->getCreatedAt()->format('Y-m-d') : null ;
+        $issue['createdAt'] = $this->getCreatedAt() ? $this->getCreatedAt()->format('Y-m-d') : null;
         $issue['createdBy'] = $this->getCreatedBy() ? $this->getCreatedBy()->getId() : null;
 
         $issue['updatedBy'] = $this->getUpdatedBy() ? $this->getUpdatedBy()->getId() : null;
@@ -807,6 +809,4 @@ class Issue
 
         return $issue;
     }
-
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -17,48 +19,47 @@ class ChangelogType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('number', TextType::class, array(
+            ->add('number', TextType::class, [
                 'label' => 'Numero',
                 'required' => true,
-            ))->add('title', TextType::class, array(
+            ])->add('title', TextType::class, [
                 'label' => 'Titulo',
                 'required' => true,
-            ))->add('content', TextareaType::class, array(
-                'attr' => array(
+            ])->add('content', TextareaType::class, [
+                'attr' => [
                     'rows' => 20,
-                    'class' => 'tinymce'
-                ),
+                    'class' => 'tinymce',
+                ],
                 'label' => '',
-                'required' => false
-            ));
+                'required' => false,
+            ]);
 
-        $builder->add('dateStart', DateTimeType::class, array(
+        $builder->add('dateStart', DateTimeType::class, [
             'widget' => 'single_text',
             'label' => 'Fecha Inicio',
             'format' => 'dd/MM/yyyy',
-            'attr' => array(
+            'attr' => [
                 'class' => 'datetimepicker',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('dateEnd', DateTimeType::class, array(
+        $builder->add('dateEnd', DateTimeType::class, [
             'widget' => 'single_text',
             'label' => 'Fecha Fin',
             'format' => 'dd/MM/yyyy',
-            'attr' => array(
+            'attr' => [
                 'class' => 'datetimepicker',
-            ),
-        ));
+            ],
+        ]);
 
-        $builder->add('dateDeployed', DateTimeType::class, array(
+        $builder->add('dateDeployed', DateTimeType::class, [
             'widget' => 'single_text',
             'label' => 'Fecha Despliegue',
             'format' => 'dd/MM/yyyy',
-            'attr' => array(
+            'attr' => [
                 'class' => 'datetimepicker',
-            ),
-        ));
-
+            ],
+        ]);
     }
 
     /**
@@ -66,10 +67,10 @@ class ChangelogType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\Changelog',
             'translation_domain' => 'messages',
-        ));
+        ]);
     }
 
     /**

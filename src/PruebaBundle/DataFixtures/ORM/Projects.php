@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PruebaBundle\DataFixtures\ORM;
 
-use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use PruebaBundle\Entity\Project;
 
@@ -23,12 +25,12 @@ class Projects implements OrderedFixtureInterface, FixtureInterface
             ->getQuery()
             ->getResult();
 
-        list($featured, $important, $new, $openSource) = $tags;
-        list($go, $haskell, $php) = $langs;
+        [$featured, $important, $new, $openSource] = $tags;
+        [$go, $haskell, $php] = $langs;
 
         $pager = new Project();
-        $pager->setCode("pg")
-            ->setName("Pager for Symfony2")
+        $pager->setCode('pg')
+            ->setName('Pager for Symfony2')
             ->setLanguage($php)
             ->setDeadline(8)
             ->setHoursSpent(6)
@@ -38,8 +40,8 @@ class Projects implements OrderedFixtureInterface, FixtureInterface
         $manager->persist($pager);
 
         $godog = new Project();
-        $godog->setCode("godog")
-            ->setName("Godog cucumber and behat like BDD framework for GO")
+        $godog->setCode('godog')
+            ->setName('Godog cucumber and behat like BDD framework for GO')
             ->setLanguage($go)
             ->setDeadline(60)
             ->setHoursSpent(80)
@@ -47,8 +49,8 @@ class Projects implements OrderedFixtureInterface, FixtureInterface
         $manager->persist($godog);
 
         $sqlmock = new Project();
-        $sqlmock->setCode("sqlmock")
-            ->setName("Sql driver mock for GO")
+        $sqlmock->setCode('sqlmock')
+            ->setName('Sql driver mock for GO')
             ->setLanguage($go)
             ->setDeadline(60)
             ->setHoursSpent(40)
@@ -57,7 +59,7 @@ class Projects implements OrderedFixtureInterface, FixtureInterface
 
         $xmonad = new Project();
         $xmonad->setCode('xmonad')
-            ->setName("Tiling window manager")
+            ->setName('Tiling window manager')
             ->setLanguage($haskell)
             ->setDeadline(1500)
             ->setHoursSpent(9999)
